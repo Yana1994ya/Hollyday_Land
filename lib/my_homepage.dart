@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import './explore.dart';
 import './profile.dart';
 import './map.dart';
 import './favorites.dart';
@@ -52,12 +53,8 @@ class _MyHomepageWidgetState extends State<MyHomepageWidget> {
   }
 
   Widget get _bodyWidget {
-    if (_selectedIndex == 4) {
-      return ProfilePage(
-        currentUser: _currentUser,
-        loginFunction: _handleSignIn,
-        logoutFunction: _handleSignOut,
-      );
+    if (_selectedIndex == 0) {
+      return Explore();
     } else if (_selectedIndex == 1) {
       return FavoritesWidget(
         currentUser: _currentUser,
@@ -65,13 +62,21 @@ class _MyHomepageWidgetState extends State<MyHomepageWidget> {
       );
     } else if (_selectedIndex == 2) {
       return MapWidget();
-    } else {
+    } else if (_selectedIndex == 3) {
       return const Center(
         child: Text(
           'Some other page',
           style: TextStyle(fontSize: 24),
         ),
       );
+    } else if (_selectedIndex == 4) {
+      return ProfilePage(
+        currentUser: _currentUser,
+        loginFunction: _handleSignIn,
+        logoutFunction: _handleSignOut,
+      );
+    } else {
+      return Text('');
     }
   }
 
@@ -120,7 +125,7 @@ class _MyHomepageWidgetState extends State<MyHomepageWidget> {
                 onTap: () {},
               ),
               ListTile(
-                title: const Text('Zoos'),
+                title: const Text('Zoo'),
                 onTap: () {},
               ),
               ListTile(
