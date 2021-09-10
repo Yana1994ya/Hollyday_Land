@@ -1,4 +1,4 @@
-name: test_map
+name: "hollyday_land"
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -25,7 +25,7 @@ dependencies:
     sdk: flutter
   google_maps_flutter: ^2.0.6
   location: ^4.3.0
-  google_sign_in: ^5.0.7
+  google_sign_in: ^5.1.0
   http: ^0.13.3
   material_floating_search_bar: ^0.3.4
 
@@ -37,9 +37,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/graphics/icon.png"
+  adaptive_icon_background: "#4CAF50"
 
 # The following section is specific to Flutter.
 flutter:
@@ -48,7 +54,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - assets/graphics/
+  
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

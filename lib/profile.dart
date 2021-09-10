@@ -30,7 +30,7 @@ class ProfilePage extends StatelessWidget {
         Text("Hello ${user.displayName}"),
         Text(user.id),
         ElevatedButton(
-          child: const Text('SIGN OUT'),
+          child: const Text('Log out'),
           onPressed: logoutFunction,
         ),
       ],
@@ -38,15 +38,18 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget buildGuest() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        const Text("You are not currently signed in."),
-        ElevatedButton(
-          child: const Text('SIGN IN'),
-          onPressed: loginFunction,
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          const Image(image: AssetImage('assets/graphics/logo.png')),
+          const Text("You are not currently signed in."),
+          ElevatedButton(
+            child: const Text('Log in with Google'),
+            onPressed: loginFunction,
+          ),
+        ],
+      ),
     );
   }
 
