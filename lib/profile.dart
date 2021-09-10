@@ -37,7 +37,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildGuest() {
+  static Widget buildGuest(LoginFunction loginFunction) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,6 +55,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return currentUser == null ? buildGuest() : buildLoggedIn(currentUser!);
+    return currentUser == null
+        ? buildGuest(loginFunction)
+        : buildLoggedIn(currentUser!);
   }
 }

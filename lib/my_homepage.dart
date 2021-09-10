@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import './profile.dart';
 import './map.dart';
+import './favorites.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId
@@ -56,6 +57,11 @@ class _MyHomepageWidgetState extends State<MyHomepageWidget> {
         currentUser: _currentUser,
         loginFunction: _handleSignIn,
         logoutFunction: _handleSignOut,
+      );
+    } else if (_selectedIndex == 1) {
+      return FavoritesWidget(
+        currentUser: _currentUser,
+        loginFunction: _handleSignIn,
       );
     } else if (_selectedIndex == 2) {
       return MapWidget();
