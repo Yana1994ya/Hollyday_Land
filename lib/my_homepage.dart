@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hollyday_land/models/category.dart';
 import './explore.dart';
 import './profile.dart';
 import './map.dart';
@@ -22,6 +23,7 @@ class MyHomepageWidget extends StatefulWidget {
 class _MyHomepageWidgetState extends State<MyHomepageWidget> {
   int _selectedIndex = 0;
   GoogleSignInAccount? _currentUser;
+  late Future<List<RootCategory>> rootCategories;
 
   @override
   void initState() {
@@ -32,6 +34,8 @@ class _MyHomepageWidgetState extends State<MyHomepageWidget> {
         _currentUser = account;
       });
     });
+
+    rootCategories = Category.fetchRootCategories();
 
     _googleSignIn.signInSilently();
   }
@@ -54,7 +58,9 @@ class _MyHomepageWidgetState extends State<MyHomepageWidget> {
 
   Widget get _bodyWidget {
     if (_selectedIndex == 0) {
-      return Explore();
+      return Explore(
+        rootCategories: rootCategories,
+      );
     } else if (_selectedIndex == 1) {
       return FavoritesWidget(
         currentUser: _currentUser,

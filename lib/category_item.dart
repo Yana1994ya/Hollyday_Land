@@ -7,6 +7,10 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = category.image == null
+        ? Image.asset("assets/graphics/icon.png")
+        : Image.network(category.image!);
+
     return InkWell(
       onTap: () => {},
       splashColor: Theme.of(context).primaryColor,
@@ -31,7 +35,7 @@ class CategoryItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6)),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(category.image),
+            image: image.image,
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(15),
