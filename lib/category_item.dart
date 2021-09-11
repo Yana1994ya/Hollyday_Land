@@ -3,7 +3,8 @@ import '../models/category.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category category;
-  const CategoryItem(this.category);
+  final VoidCallback onTap;
+  const CategoryItem(this.category, this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class CategoryItem extends StatelessWidget {
         : Image.network(category.image!);
 
     return InkWell(
-      onTap: () => {},
+      onTap: onTap,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(15),
       child: Container(

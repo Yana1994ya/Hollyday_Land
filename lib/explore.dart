@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import './models/category.dart';
 import './category_item.dart';
 
+typedef void SelectCategory(Category category);
+
 class Explore extends StatelessWidget {
   final Future<List<RootCategory>> rootCategories;
+  final SelectCategory selectCategory;
 
-  const Explore({Key? key, required this.rootCategories}) : super(key: key);
+  const Explore(
+      {Key? key, required this.rootCategories, required this.selectCategory})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,26 +26,13 @@ class Explore extends StatelessWidget {
           final List<RootCategory> categories =
               snapshot.data as List<RootCategory>;
 
-          return ListView(
-            children: categories.map((r) => rootCategory(r)).toList(),
-          );
-        }
-      },
-    );
-  }
+          List<Widget> categoryWidget = categories
+              .expand((r) => r.subCategories
+                  .map((s) => CategoryItem(s, () => selectCategory(s)))
+                  .toList())
+              .toList();
 
-  Widget rootCategory(RootCategory rootCategory) {
-    // Calculation of the GridView size
-    final int rows = (rootCategory.subCategories.length / 2).ceil();
-    double height = rows * 122 + (rows - 1) * 20 + 30;
-
-    return Column(
-      children: [
-        Text(rootCategory.category.title),
-        Container(
-          height: height,
-          //decoration: BoxDecoration(color: Colors.green),
-          child: GridView(
+          return GridView(
             padding: const EdgeInsets.all(15),
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
@@ -48,12 +40,10 @@ class Explore extends StatelessWidget {
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
             ),
-            children: rootCategory.subCategories
-                .map((category) => CategoryItem(category))
-                .toList(),
-          ),
-        )
-      ],
+            children: categoryWidget,
+          );
+        }
+      },
     );
   }
 }
