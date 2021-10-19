@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: MyHomepageWidget(),
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        accentColor: Colors.green.shade200,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
+            .copyWith(secondary: Colors.green.shade200),
       ),
     );
   }

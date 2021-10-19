@@ -193,7 +193,7 @@ class _MyHomepageWidgetState extends State<MyHomepageWidget> {
       body: _bodyWidget,
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Theme.of(context).primaryColor,
-        selectedItemColor: Theme.of(context).accentColor,
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
