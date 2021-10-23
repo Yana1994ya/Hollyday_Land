@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../models/category.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category category;
   final VoidCallback onTap;
+
   const CategoryItem(this.category, this.onTap);
 
   @override

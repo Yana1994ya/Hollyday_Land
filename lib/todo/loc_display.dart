@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 class LocationWidget extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -10,11 +9,7 @@ class LocationWidget extends StatefulWidget {
   }
 }
 
-enum LocationStatus {
-  ServiceDisabled,
-  PermissionDenied,
-  TrackingStarted
-}
+enum LocationStatus { ServiceDisabled, PermissionDenied, TrackingStarted }
 
 class Datum {
   final int time;
@@ -52,7 +47,7 @@ class _LocationWidgetState extends State<LocationWidget> {
 
     location.enableBackgroundMode(enable: true);
     location.onLocationChanged.listen((LocationData currentLocation) {
-      if(recording) {
+      if (recording) {
         // Use current location
         //print(
         //    "location ${currentLocation.latitude}, ${currentLocation.longitude}");
@@ -60,13 +55,10 @@ class _LocationWidgetState extends State<LocationWidget> {
           if (currentLocation.longitude != null &&
               currentLocation.latitude != null) {
             recordedData.add(Datum(
-                DateTime
-                    .now()
-                    .millisecondsSinceEpoch,
+                DateTime.now().millisecondsSinceEpoch,
                 currentLocation.longitude!,
                 currentLocation.latitude!,
-                currentLocation.accuracy!
-            ));
+                currentLocation.accuracy!));
           }
         });
       }
@@ -75,24 +67,21 @@ class _LocationWidgetState extends State<LocationWidget> {
     return LocationStatus.TrackingStarted;
   }
 
-  void _startRecording(){
+  void _startRecording() {
     setState(() {
       recording = true;
     });
   }
 
-  void _uploadRecorded(){
+  void _uploadRecorded() {
     setState(() {
       recording = false;
       writing = true;
     });
   }
 
-
-
-  Widget status(){
-
-    if(!writing) {
+  Widget status() {
+    if (!writing) {
       if (!recording) {
         return Column(
           children: [
@@ -121,8 +110,8 @@ class _LocationWidgetState extends State<LocationWidget> {
       appBar: AppBar(title: Text("tracking")),
       body: FutureBuilder<LocationStatus>(
         future: getLocation(),
-        builder: (BuildContext context,
-            AsyncSnapshot<LocationStatus> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<LocationStatus> snapshot) {
           if (snapshot.hasError) {
             return Text("has error");
           } else if (snapshot.hasData) {
@@ -140,5 +129,4 @@ class _LocationWidgetState extends State<LocationWidget> {
       ),
     );
   }
-
 }

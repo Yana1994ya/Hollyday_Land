@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+
 import '../models/attraction.dart';
 import '../models/category.dart';
 
-class CategoryPage extends StatefulWidget {
+class CategoryScreen extends StatefulWidget {
   final Category category;
   final VoidCallback unselectCategory;
 
-  const CategoryPage(
+  const CategoryScreen(
       {Key? key, required this.category, required this.unselectCategory})
       : super(key: key);
 
   @override
-  _CategoryPageState createState() => _CategoryPageState();
+  _CategoryScreenState createState() => _CategoryScreenState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryScreenState extends State<CategoryScreen> {
   late Future<List<Attraction>> attractions;
 
   @override

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-import './my_homepage.dart';
+import 'providers/login.dart';
+import 'providers/root_categories.dart';
+import 'screens/homepage.dart';
 
 void main() {
   WidgetsFlutterBinding();
@@ -19,12 +22,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: MyHomepageWidget(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
-            .copyWith(secondary: Colors.green.shade200),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => RootCategoriesProvider())
+      ],
+      child: MaterialApp(
+        title: _title,
+        home: HomepageScreen(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
+              .copyWith(secondary: Colors.green.shade200),
+        ),
       ),
     );
   }
