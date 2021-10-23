@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:hollyday_land/models/category.dart';
+import '../models/category.dart';
 
 class Attraction {
   final int id;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/attraction.dart';
-import 'package:hollyday_land/models/category.dart';
+import '../models/attraction.dart';
+import '../models/category.dart';
 
 class CategoryPage extends StatefulWidget {
   final Category category;
@@ -70,7 +70,7 @@ class _CategoryPageState extends State<CategoryPage> {
       future: attractions,
       builder: (ctx, snapshot) {
         if (snapshot.hasError) {
-          return Text("error encountered when retriving data");
+          return Text("error encountered when retrieving data");
         } else if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else {

@@ -19,7 +19,7 @@ class Explore extends StatelessWidget {
       future: rootCategories,
       builder: (ctx, snapshot) {
         if (snapshot.hasError) {
-          return Text("error encountered when retriving data");
+          return Text("error encountered when retrieving data");
         } else if (!snapshot.hasData) {
           return CircularProgressIndicator();
         } else {

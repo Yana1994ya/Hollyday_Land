@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hollyday_land/category_page.dart';
-import 'package:hollyday_land/models/category.dart';
+import './category_page.dart';
+import '../models/category.dart';
 import './explore.dart';
 import './profile.dart';
 import './map.dart';
