@@ -78,7 +78,9 @@ class _HomepageScreenState extends State<HomepageScreen> {
         selectCategory: _selectCategory,
       ),
       appBar: AppBar(
-        title: const Text('Hollyday Land'),
+        title: const Text(
+          'Hollyday Land',
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
@@ -87,9 +89,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
           ),
         ],
       ),
-      body: BackgroundWidget(
-        child: _bodyWidget,
-      ),
+      body: _bodyWidget,
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Theme.of(context).colorScheme.primary,
         selectedItemColor: Theme.of(context).colorScheme.secondary,

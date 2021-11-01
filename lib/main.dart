@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
         home: HomepageScreen(),
         theme: ThemeData(
           colorScheme:
-              ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
-            secondary: Color.fromARGB(255, 141, 207, 206),
+              ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
+            secondary: Colors.indigo[200],
           ),
         ),
       ),
