@@ -31,8 +31,10 @@ class MyApp extends StatelessWidget {
         title: _title,
         home: HomepageScreen(),
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
-              .copyWith(secondary: Colors.green.shade200),
+          colorScheme:
+              ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
+            secondary: Color.fromARGB(255, 141, 207, 206),
+          ),
         ),
       ),
     );

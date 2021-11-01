@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hollyday_land/widgets/background.dart';
 
 import '../models/category.dart';
 import '../widgets/side_drawer.dart';
@@ -35,6 +36,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
   void _selectCategory(Category category) {
     setState(() {
       this.category = category;
+      this._selectedIndex = 0;
     });
   }
 
@@ -85,9 +87,11 @@ class _HomepageScreenState extends State<HomepageScreen> {
           ),
         ],
       ),
-      body: _bodyWidget,
+      body: BackgroundWidget(
+        child: _bodyWidget,
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Theme.of(context).colorScheme.primary,
         selectedItemColor: Theme.of(context).colorScheme.secondary,
         showUnselectedLabels: true,
         items: const [

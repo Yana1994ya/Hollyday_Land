@@ -25,8 +25,11 @@ class SideDrawer extends StatelessWidget {
 
       categories.forEach((rootCategory) {
         listWidgets.add(Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(rootCategory.category.title),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Text(
+            rootCategory.category.title + ":",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
         ));
 
         rootCategory.subCategories.forEach((subCategory) {
@@ -35,6 +38,7 @@ class SideDrawer extends StatelessWidget {
               title: Text(subCategory.title),
               onTap: () {
                 selectCategory(subCategory);
+                Navigator.of(context).pop();
               },
             ),
           );
@@ -42,9 +46,19 @@ class SideDrawer extends StatelessWidget {
       });
 
       return Drawer(
-          child: SafeArea(
-              child:
-                  ListView(padding: EdgeInsets.zero, children: listWidgets)));
+          child: Column(
+        children: [
+          AppBar(
+            title: const Text('Categories:'),
+            automaticallyImplyLeading: false,
+          ),
+          Expanded(
+            child: ListView(
+              children: listWidgets,
+            ),
+          ),
+        ],
+      ));
     }
   }
 }

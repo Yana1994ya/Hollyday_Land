@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hollyday_land/widgets/attraction.dart';
 
 import '../models/attraction.dart';
 import '../models/category.dart';
@@ -25,10 +26,28 @@ class _CategoryScreenState extends State<CategoryScreen> {
     attractions = Attraction.fetchAttractions(widget.category);
   }
 
-  Widget attractionCard(Attraction attraction) {
+  /*Widget attractionCard(Attraction attraction) {
     final image = attraction.image == null
         ? Image.asset("assets/graphics/icon.png")
         : Image.network(attraction.image!);
+
+    return Card(
+      child: Container(
+        padding: EdgeInsets.all(5),
+        height: 100,
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: image,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+      ),
+    );
 
     return Card(
       child: Container(
@@ -63,7 +82,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ),
       ),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +105,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     icon: const Icon(Icons.keyboard_return))
               ],
             ),
-            ...attractions.map((attr) => attractionCard(attr)).toList(),
+            ...attractions
+                .map((attr) => AttractionCard(attraction: attr))
+                .toList(),
           ]);
         }
       },
