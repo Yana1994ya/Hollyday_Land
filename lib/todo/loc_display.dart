@@ -4,7 +4,6 @@ import 'package:location/location.dart';
 class LocationWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _LocationWidgetState();
   }
 }
@@ -105,7 +104,6 @@ class _LocationWidgetState extends State<LocationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(title: Text("tracking")),
       body: FutureBuilder<LocationStatus>(
