@@ -71,6 +71,28 @@ class _HomepageScreenState extends State<HomepageScreen> {
     }
   }
 
+  String get pageTitle {
+    if (_selectedIndex == 0 && category != null) {
+      return category!.title;
+    } else {
+      return "Hollyday Land";
+    }
+  }
+
+  Widget? get leadingButton {
+    if (_selectedIndex == 0 && category != null) {
+      return BackButton(
+        onPressed: () {
+          setState(() {
+            category = null;
+          });
+        },
+      );
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,9 +100,10 @@ class _HomepageScreenState extends State<HomepageScreen> {
         selectCategory: _selectCategory,
       ),
       appBar: AppBar(
-        title: const Text(
-          'Hollyday Land',
+        title: Text(
+          pageTitle,
         ),
+        leading: leadingButton,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
