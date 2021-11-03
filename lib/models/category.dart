@@ -50,13 +50,13 @@ class Category {
   }
 
   static Future<List<Category>> fetchCategoriesFor(
-    List<Category> selectedCategories,
+    List<int> selectedCategories,
     List<int> parentIds,
   ) async {
     final int firstParent = parentIds[0];
 
     final Map<String, dynamic> params = {
-      "category_id": selectedCategories.map((cat) => cat.id.toString()).toList()
+      "category_id": selectedCategories.map((cat) => cat.toString()).toList()
     };
 
     final uri = Uri.https(

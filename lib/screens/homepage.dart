@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../models/category.dart';
+import 'package:provider/provider.dart';
+
 import '../widgets/side_drawer.dart';
-import 'category.dart';
+import '../providers/selected_categories.dart';
 import 'explore.dart';
 import 'favorites.dart';
 import 'history.dart';
@@ -19,7 +20,6 @@ class HomepageScreen extends StatefulWidget {
 
 class _HomepageScreenState extends State<HomepageScreen> {
   int _selectedIndex = 0;
-  List<Category> categories = List.empty(growable: true);
 
   @override
   void initState() {
@@ -32,31 +32,9 @@ class _HomepageScreenState extends State<HomepageScreen> {
     });
   }
 
-  void _selectCategory(Category category) {
-    setState(() {
-      this.categories.add(category);
-      this._selectedIndex = 0;
-    });
-  }
-
-  void _unselectCategory() {
-    setState(() {
-      this.categories.removeLast();
-    });
-  }
-
   Widget get _bodyWidget {
     if (_selectedIndex == 0) {
-      if (categories.isEmpty) {
-        return ExploreScreen(
-          selectCategory: _selectCategory,
-        );
-      } else {
-        return CategoryScreen(
-          selectedCategories: categories,
-          selectCategory: _selectCategory,
-        );
-      }
+      return ExploreScreen();
     } else if (_selectedIndex == 1) {
       return const FavoritesScreen();
     } else if (_selectedIndex == 2) {
@@ -70,34 +48,40 @@ class _HomepageScreenState extends State<HomepageScreen> {
     }
   }
 
-  String get pageTitle {
-    if (_selectedIndex == 0 && categories.isNotEmpty) {
-      return categories.last.title;
-    } else {
-      return "Hollyday Land";
-    }
+  Widget get pageTitle {
+    return Consumer<SelectedCategoriesProvider>(
+      builder: (_, selected, _child) {
+        if (_selectedIndex == 0 && selected.categorySelected) {
+          return Text(selected.lastCategoryName);
+        } else {
+          return Text("Hollyday Land");
+        }
+      },
+    );
   }
 
-  Widget? get leadingButton {
-    if (_selectedIndex == 0 && categories.isNotEmpty) {
-      return BackButton(
-        onPressed: _unselectCategory,
-      );
-    } else {
-      return null;
-    }
+  Widget get leadingButton {
+    return Consumer<SelectedCategoriesProvider>(
+      builder: (_, selected, _child) {
+        if (_selectedIndex == 0 && selected.categorySelected) {
+          return BackButton(
+            onPressed: selected.unSelectCategory,
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
+
+  /*import '../providers/selected_categories.dart';*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SideDrawer(
-        selectCategory: _selectCategory,
-      ),
+      drawer: SideDrawer(),
       appBar: AppBar(
-        title: Text(
-          pageTitle,
-        ),
+        title: pageTitle,
         leading: leadingButton,
         actions: <Widget>[
           IconButton(

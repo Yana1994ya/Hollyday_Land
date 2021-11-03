@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../models/category.dart';
 import 'image_asset.dart';
 
 class Attraction {
@@ -31,9 +30,9 @@ class Attraction {
   }
 
   static Future<List<Attraction>> fetchAttractions(
-      List<Category> category) async {
+      List<int> categoryIds) async {
     final Map<String, dynamic> params = {
-      "category_id": category.map((cat) => cat.id.toString()).toList()
+      "category_id": categoryIds.map((cat) => cat.toString()).toList()
     };
 
     final uri = Uri.https(

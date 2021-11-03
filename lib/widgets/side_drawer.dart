@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hollyday_land/providers/selected_categories.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/root_categories.dart';
-import '../screens/explore.dart';
 
 class SideDrawer extends StatelessWidget {
-  final SelectCategory selectCategory;
-
-  const SideDrawer({Key? key, required this.selectCategory}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final categoriesProvider = Provider.of<RootCategoriesProvider>(context);
@@ -37,7 +33,8 @@ class SideDrawer extends StatelessWidget {
             ListTile(
               title: Text(subCategory.title),
               onTap: () {
-                selectCategory(subCategory);
+                Provider.of<SelectedCategoriesProvider>(context, listen: false)
+                    .selectCategory(subCategory);
                 Navigator.of(context).pop();
               },
             ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hollyday_land/screens/explore.dart';
+import 'package:hollyday_land/providers/selected_categories.dart';
+import 'package:provider/provider.dart';
 
 import '../models/category.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category category;
-  final SelectCategory selectCategory;
 
-  const CategoryItem(this.category, this.selectCategory);
+  const CategoryItem(this.category);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,8 @@ class CategoryItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        this.selectCategory(category);
+        Provider.of<SelectedCategoriesProvider>(context, listen: false)
+            .selectCategory(category);
       },
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(15),

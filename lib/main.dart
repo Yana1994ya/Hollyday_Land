@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:provider/provider.dart';
 
 import 'providers/login.dart';
 import 'providers/root_categories.dart';
+import 'providers/selected_categories.dart';
 import 'screens/homepage.dart';
 
 void main() {
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => RootCategoriesProvider())
+        ChangeNotifierProvider(create: (_) => RootCategoriesProvider()),
+        ChangeNotifierProvider(create: (_) => SelectedCategoriesProvider())
       ],
       child: MaterialApp(
         title: _title,
