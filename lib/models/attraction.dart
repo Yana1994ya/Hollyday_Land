@@ -3,27 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/category.dart';
-
-class ImageAsset {
-  final String url;
-  final int width;
-  final int height;
-  final int size;
-
-  const ImageAsset(
-      {required this.url,
-      required this.width,
-      required this.height,
-      required this.size});
-
-  factory ImageAsset.fromJson(Map<String, dynamic> json) {
-    return ImageAsset(
-        url: json["url"],
-        width: json["width"],
-        height: json["height"],
-        size: json["size"]);
-  }
-}
+import 'image_asset.dart';
 
 class Attraction {
   final int id;
@@ -50,12 +30,18 @@ class Attraction {
     );
   }
 
-  static Future<List<Attraction>> fetchAttractions(Category category) async {
-    final url =
-        "https://hollyland.iywebs.cloudns.ph/attractions/category/${category.id}.attractions.json";
-    print("fetching: $url");
+  static Future<List<Attraction>> fetchAttractions(
+      List<Category> category) async {
+    final Map<String, dynamic> params = {
+      "category_id": category.map((cat) => cat.id.toString()).toList()
+    };
 
-    final response = await http.get(Uri.parse(url));
+    final uri = Uri.https(
+        "hollyland.iywebs.cloudns.ph", "/attractions/attractions.json", params);
+
+    print("fetching: $uri");
+
+    final response = await http.get(uri);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);

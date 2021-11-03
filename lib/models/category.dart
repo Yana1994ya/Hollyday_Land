@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import 'image_asset.dart';
+
 class RootCategory {
   final Category category;
   final List<Category> subCategories;
@@ -12,16 +14,23 @@ class RootCategory {
 class Category {
   final int id;
   final String title;
-  final String? image;
+  final ImageAsset? image;
+  final int? parentId;
 
   const Category({
     required this.id,
     required this.title,
     required this.image,
+    required this.parentId,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(id: json['id'], title: json['name'], image: json['image']);
+  factory Category.fromJson(int? parentId, Map<String, dynamic> json) {
+    return Category(
+      id: json['id'],
+      title: json['name'],
+      image: json['image'] == null ? null : ImageAsset.fromJson(json['image']),
+      parentId: parentId,
+    );
   }
 
   static Future<List<Category>> _fetchCategories(int? categoryId) async {
@@ -34,7 +43,43 @@ class Category {
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
-      return data.map((m) => Category.fromJson(m)).toList();
+      return data.map((m) => Category.fromJson(categoryId, m)).toList();
+    } else {
+      throw Exception("failed to load data, status: ${response.statusCode}");
+    }
+  }
+
+  static Future<List<Category>> fetchCategoriesFor(
+    List<Category> selectedCategories,
+    List<int> parentIds,
+  ) async {
+    final int firstParent = parentIds[0];
+
+    final Map<String, dynamic> params = {
+      "category_id": selectedCategories.map((cat) => cat.id.toString()).toList()
+    };
+
+    final uri = Uri.https(
+      "hollyland.iywebs.cloudns.ph",
+      "/attractions/category/$firstParent.json",
+      params,
+    );
+
+    print("fetching: $uri");
+
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      final List<Category> results =
+          data.map((m) => Category.fromJson(firstParent, m)).toList();
+
+      if (parentIds.length == 1) {
+        return results;
+      } else {
+        return results +
+            await fetchCategoriesFor(selectedCategories, parentIds.sublist(1));
+      }
     } else {
       throw Exception("failed to load data, status: ${response.statusCode}");
     }

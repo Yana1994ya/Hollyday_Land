@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hollyday_land/providers/root_categories.dart';
+import 'package:hollyday_land/widgets/categories_grid.dart';
 import 'package:provider/provider.dart';
 
 import '../models/category.dart';
-import '../providers/root_categories.dart';
-import '../widgets/category_item.dart';
 
 typedef void SelectCategory(Category category);
 
@@ -15,30 +15,23 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categoriesProvider = Provider.of<RootCategoriesProvider>(context);
+    final RootCategoriesProvider rootCategoriesProvider =
+        Provider.of<RootCategoriesProvider>(context);
 
-    if (categoriesProvider.isLoading) {
+    if (rootCategoriesProvider.isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     } else {
-      final categories = categoriesProvider.categories!;
+      List<Category> allCategories = List.empty(growable: true);
 
-      List<Widget> categoryWidget = categories
-          .expand((r) => r.subCategories
-              .map((s) => CategoryItem(s, () => selectCategory(s)))
-              .toList())
-          .toList();
+      for (var root in rootCategoriesProvider.categories!) {
+        allCategories.addAll(root.subCategories);
+      }
 
-      return GridView(
-        padding: const EdgeInsets.all(15),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        children: categoryWidget,
+      return CategoriesGrid(
+        categories: allCategories,
+        selectCategory: selectCategory,
       );
     }
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hollyday_land/widgets/background.dart';
 
 import '../models/category.dart';
 import '../widgets/side_drawer.dart';
@@ -20,7 +19,7 @@ class HomepageScreen extends StatefulWidget {
 
 class _HomepageScreenState extends State<HomepageScreen> {
   int _selectedIndex = 0;
-  Category? category;
+  List<Category> categories = List.empty(growable: true);
 
   @override
   void initState() {
@@ -35,27 +34,27 @@ class _HomepageScreenState extends State<HomepageScreen> {
 
   void _selectCategory(Category category) {
     setState(() {
-      this.category = category;
+      this.categories.add(category);
       this._selectedIndex = 0;
     });
   }
 
   void _unselectCategory() {
     setState(() {
-      this.category = null;
+      this.categories.removeLast();
     });
   }
 
   Widget get _bodyWidget {
     if (_selectedIndex == 0) {
-      if (category == null) {
+      if (categories.isEmpty) {
         return ExploreScreen(
           selectCategory: _selectCategory,
         );
       } else {
         return CategoryScreen(
-          category: category!,
-          unselectCategory: _unselectCategory,
+          selectedCategories: categories,
+          selectCategory: _selectCategory,
         );
       }
     } else if (_selectedIndex == 1) {
@@ -72,21 +71,17 @@ class _HomepageScreenState extends State<HomepageScreen> {
   }
 
   String get pageTitle {
-    if (_selectedIndex == 0 && category != null) {
-      return category!.title;
+    if (_selectedIndex == 0 && categories.isNotEmpty) {
+      return categories.last.title;
     } else {
       return "Hollyday Land";
     }
   }
 
   Widget? get leadingButton {
-    if (_selectedIndex == 0 && category != null) {
+    if (_selectedIndex == 0 && categories.isNotEmpty) {
       return BackButton(
-        onPressed: () {
-          setState(() {
-            category = null;
-          });
-        },
+        onPressed: _unselectCategory,
       );
     } else {
       return null;

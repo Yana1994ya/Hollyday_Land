@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:hollyday_land/screens/explore.dart';
 
 import '../models/category.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category category;
-  final VoidCallback onTap;
+  final SelectCategory selectCategory;
 
-  const CategoryItem(this.category, this.onTap);
+  const CategoryItem(this.category, this.selectCategory);
 
   @override
   Widget build(BuildContext context) {
     final image = category.image == null
         ? Image.asset("assets/graphics/icon.png")
-        : Image.network(category.image!);
+        : Image.network(category.image!.url);
 
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        this.selectCategory(category);
+      },
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(15),
       child: Container(
