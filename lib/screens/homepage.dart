@@ -91,7 +91,14 @@ class _HomepageScreenState extends State<HomepageScreen> {
           ),
         ],
       ),
-      body: _bodyWidget,
+      body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/graphics/background.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: _bodyWidget),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Theme.of(context).colorScheme.primary,
         selectedItemColor: Theme.of(context).colorScheme.secondary,
