@@ -30,13 +30,16 @@ class SideDrawer extends StatelessWidget {
 
         rootCategory.subCategories.forEach((subCategory) {
           listWidgets.add(
-            ListTile(
-              title: Text(subCategory.title),
+            InkWell(
+              child: ListTile(
+                title: Text(subCategory.title),
+              ),
               onTap: () {
                 Provider.of<SelectedCategoriesProvider>(context, listen: false)
                     .selectCategory(subCategory);
                 Navigator.of(context).pop();
               },
+              highlightColor: Theme.of(context).colorScheme.secondary,
             ),
           );
         });
