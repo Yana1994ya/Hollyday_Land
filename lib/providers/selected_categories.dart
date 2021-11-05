@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hollyday_land/models/category.dart';
 
 class SelectedCategoriesProvider with ChangeNotifier {
-  static const List<int> ROOT_CATEGORY_IDS = [1, 6];
+  // Ids assigned by the database that unfortunatly need to be hard-coded for performance
+  static const int CATEGORY_REGION = 1;
+  static const int CATEGORY_ATTRACTION_TYPE = 6;
+
+  static const List<int> ROOT_CATEGORY_IDS = [
+    CATEGORY_REGION,
+    CATEGORY_ATTRACTION_TYPE,
+  ];
   final List<Category> _selectedCategories = List.empty(growable: true);
 
   SelectedCategoriesProvider();
