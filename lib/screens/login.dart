@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Image(image: AssetImage('assets/graphics/logo5.png')),
+          const Image(image: AssetImage('assets/graphics/logo.png')),
           const Text("You are not currently signed in."),
           Text(reason),
           ElevatedButton(

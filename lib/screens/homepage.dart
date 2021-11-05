@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hollyday_land/widgets/custom_appbar.dart';
 
 import 'package:provider/provider.dart';
 
@@ -10,21 +11,13 @@ import 'history.dart';
 import 'map.dart';
 import 'profile.dart';
 
-/// This is the stateless widget that the main application instantiates.
 class HomepageScreen extends StatefulWidget {
-  const HomepageScreen({Key? key}) : super(key: key);
-
   @override
   _HomepageScreenState createState() => _HomepageScreenState();
 }
 
 class _HomepageScreenState extends State<HomepageScreen> {
   int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void _navBarSelect(int newIndex) {
     setState(() {
@@ -48,48 +41,14 @@ class _HomepageScreenState extends State<HomepageScreen> {
     }
   }
 
-  Widget get pageTitle {
-    return Consumer<SelectedCategoriesProvider>(
-      builder: (_, selected, _child) {
-        if (_selectedIndex == 0 && selected.categorySelected) {
-          return Text(selected.lastCategoryName);
-        } else {
-          return Text("Hollyday Land");
-        }
-      },
-    );
-  }
-
-  Widget get leadingButton {
-    return Consumer<SelectedCategoriesProvider>(
-      builder: (_, selected, _child) {
-        if (_selectedIndex == 0 && selected.categorySelected) {
-          return BackButton(
-            onPressed: selected.unSelectCategory,
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
-  }
-
   /*import '../providers/selected_categories.dart';*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideDrawer(),
-      appBar: AppBar(
-        title: pageTitle,
-        leading: leadingButton,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: 'Search',
-            onPressed: () {},
-          ),
-        ],
+      appBar: CustomAppBar(
+        isExplore: _selectedIndex == 0,
       ),
       body: Container(
           decoration: BoxDecoration(

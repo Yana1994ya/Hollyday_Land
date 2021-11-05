@@ -9,7 +9,9 @@ import 'providers/selected_categories.dart';
 import 'screens/homepage.dart';
 
 void main() {
+  // Required for login
   WidgetsFlutterBinding();
+  // Prevent landscape mode, not supported for this app.
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
