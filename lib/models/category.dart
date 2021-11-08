@@ -96,8 +96,11 @@ class Category {
   }
 
   static Future<List<RootCategory>> fetchRootCategories() async {
+    // Fetch root categories
     List<Category> rootCategories = await _fetchCategories(null);
 
+    // Fetch sub-categories for those root categories, and return everything under
+    // a single future.
     return await Future.wait(rootCategories.map(_resolveRoot));
   }
 }

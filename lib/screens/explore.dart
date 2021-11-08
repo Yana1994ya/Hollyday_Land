@@ -21,11 +21,12 @@ class ExploreScreen extends StatelessWidget {
         child: CircularProgressIndicator(),
       );
     } else {
+      // Case #1, no categories are selected yet, show ALL sub-categories for root categories.
       if (!selectedCategoriesProvider.categorySelected) {
         List<Category> allCategories = List.empty(growable: true);
 
-        for (var root in rootCategoriesProvider.categories!) {
-          allCategories.addAll(root.subCategories);
+        for (var rootCategory in rootCategoriesProvider.categories!) {
+          allCategories.addAll(rootCategory.subCategories);
         }
 
         return CategoriesGrid(categories: allCategories);

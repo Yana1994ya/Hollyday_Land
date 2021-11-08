@@ -51,13 +51,14 @@ class _HomepageScreenState extends State<HomepageScreen> {
         isExplore: _selectedIndex == 0,
       ),
       body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/graphics/background.jpg"),
-              fit: BoxFit.cover,
-            ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/graphics/background.jpg"),
+            fit: BoxFit.cover,
           ),
-          child: _bodyWidget),
+        ),
+        child: _bodyWidget,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Theme.of(context).colorScheme.primary,
         selectedItemColor: Theme.of(context).colorScheme.secondary,

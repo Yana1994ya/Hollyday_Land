@@ -17,4 +17,8 @@ class ImageAsset {
         height: json["height"],
         size: json["size"]);
   }
+
+  String toString() {
+    return "{ImageAsset url:$url width:$width height:$height size:$size}";
+  }
 }

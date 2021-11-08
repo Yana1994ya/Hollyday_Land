@@ -20,6 +20,7 @@ class SideDrawer extends StatelessWidget {
       final List<Widget> listWidgets = List.empty(growable: true);
 
       categories.forEach((rootCategory) {
+        // Add title for root category
         listWidgets.add(Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Text(
@@ -28,6 +29,7 @@ class SideDrawer extends StatelessWidget {
           ),
         ));
 
+        // Add all the sub category buttons
         rootCategory.subCategories.forEach((subCategory) {
           listWidgets.add(
             InkWell(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hollyday_land/models/region.dart';
+import 'package:hollyday_land/providers/regions.dart';
 
 import 'package:provider/provider.dart';
 
@@ -16,6 +18,7 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   runApp(const MyApp());
 }
 
@@ -29,8 +32,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => RootCategoriesProvider()),
-        ChangeNotifierProvider(create: (_) => SelectedCategoriesProvider())
+        ChangeNotifierProvider(create: (_) => RegionsProvider())
       ],
       child: MaterialApp(
         title: _title,
