@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/models/museum/museum_filter.dart';
 import 'package:hollyday_land/models/museum/museum_short.dart';
-import 'package:hollyday_land/screens/museums_filter.dart';
+import 'package:hollyday_land/screens/museum/museums_filter.dart';
 import 'package:hollyday_land/widgets/museum/list_item.dart';
 
 class MuseumsScreen extends StatefulWidget {
@@ -60,7 +60,10 @@ class _MuseumsScreenState extends State<MuseumsScreen> {
 
             return ListView.builder(
               itemBuilder: (_, index) => index == 0
-                  ? Text("found ${museums.length} museums")
+                  ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("found ${museums.length} museums"),
+                  )
                   : MuseumListItem(museum: museums[index - 1]),
               itemCount: museums.length + 1,
             );

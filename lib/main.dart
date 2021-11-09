@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hollyday_land/providers/regions.dart';
-import 'package:hollyday_land/screens/museums.dart';
+import 'package:hollyday_land/screens/museum/museums.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/login.dart';
