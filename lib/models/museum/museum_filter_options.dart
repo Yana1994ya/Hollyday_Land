@@ -1,0 +1,19 @@
+import '../region.dart';
+import 'museum_domain.dart';
+
+class MuseumFilterOptions {
+  final List<MuseumDomain> domains;
+  final List<Region> regions;
+
+  const MuseumFilterOptions({
+    required this.domains,
+    required this.regions,
+  });
+
+  static Future<MuseumFilterOptions> fetch() async {
+    final domains = await MuseumDomain.readMuseumDomains();
+    final regions = await Region.readRegions();
+
+    return MuseumFilterOptions(domains: domains, regions: regions);
+  }
+}

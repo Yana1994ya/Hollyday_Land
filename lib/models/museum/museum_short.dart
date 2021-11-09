@@ -1,8 +1,12 @@
 import 'package:hollyday_land/models/image_asset.dart';
 import 'package:hollyday_land/models/museum/museum_domain.dart';
+import 'package:hollyday_land/models/museum/museum_filter.dart';
 import 'package:hollyday_land/models/region_short.dart';
 
-import '../region.dart';
+import '../../config.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class MuseumShort {
   final int id;
@@ -46,5 +50,40 @@ class MuseumShort {
   String toString() {
     return 'MuseumShort{id: $id, name: $name, address: $address, lat: $lat, '
         'long: $long, mainImage: $mainImage, region: $region, domain: $domain}';
+  }
+
+  static Future<List<MuseumShort>> readMuseums(MuseumFilter museumFilter) async {
+    final Map<String,String> parameters = {};
+
+    if(museumFilter.region != null){
+      parameters["region_id"] = museumFilter.region!.id.toString();
+    }
+
+    if(museumFilter.domain != null){
+      parameters["domain_id"] = museumFilter.domain!.id.toString();
+    }
+
+    final uri = Uri.https(
+      API_SERVER,
+      "/attractions/api/museums",
+      parameters
+    );
+
+    print("fetching: $uri");
+
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+
+      if (data["status"] == "ok") {
+        final List<dynamic> museums = data["museums"];
+        return museums.map((e) => MuseumShort.fromJson(e)).toList();
+      } else {
+        throw Exception("error was returned:${data["error"]}");
+      }
+    } else {
+      throw Exception("failed to load data, status: ${response.statusCode}");
+    }
   }
 }

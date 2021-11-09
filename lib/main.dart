@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hollyday_land/models/region.dart';
 import 'package:hollyday_land/providers/regions.dart';
-
+import 'package:hollyday_land/screens/museums.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/login.dart';
-import 'providers/root_categories.dart';
-import 'providers/selected_categories.dart';
-import 'screens/homepage.dart';
 
 void main() {
   // Required for login
@@ -36,7 +32,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: _title,
-        home: HomepageScreen(),
+        home: MuseumsScreen(),
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(

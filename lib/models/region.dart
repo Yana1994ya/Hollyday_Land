@@ -50,4 +50,16 @@ class Region {
   String toString() {
     return 'Region{id: $id, name: $name, image: $image}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Region &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          image == other.image;
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ image.hashCode;
 }
