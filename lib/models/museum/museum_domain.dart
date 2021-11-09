@@ -10,4 +10,9 @@ class MuseumDomain {
       name: json['name'],
     );
   }
+
+  @override
+  String toString() {
+    return 'MuseumDomain{id: $id, name: $name}';
+  }
 }

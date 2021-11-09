@@ -3,26 +3,23 @@ import 'package:hollyday_land/models/image_asset.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class Region {
+class RegionShort {
   final int id;
   final String name;
-  final ImageAsset? image;
 
-  Region({
+  RegionShort({
     required this.id,
     required this.name,
-    required this.image,
   });
 
-  factory Region.fromJson(Map<String, dynamic> json) {
-    return Region(
+  factory RegionShort.fromJson(Map<String, dynamic> json) {
+    return RegionShort(
       id: json['id'],
       name: json['name'],
-      image: json['image'] == null ? null : ImageAsset.fromJson(json['image']),
     );
   }
 
-  static Future<List<Region>> readRegions() async {
+  static Future<List<RegionShort>> readRegions() async {
     final uri = Uri.https(
       API_SERVER,
       "/attractions/api/regions",
@@ -37,7 +34,7 @@ class Region {
 
       if (data["status"] == "ok") {
         final List<dynamic> regions = data["regions"];
-        return regions.map((e) => Region.fromJson(e)).toList();
+        return regions.map((e) => RegionShort.fromJson(e)).toList();
       } else {
         throw Exception("error was returned:${data["error"]}");
       }
@@ -48,6 +45,6 @@ class Region {
 
   @override
   String toString() {
-    return 'Region{id: $id, name: $name, image: $image}';
+    return 'RegionShort{id: $id, name: $name}';
   }
 }
