@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hollyday_land/providers/regions.dart';
+import 'package:hollyday_land/screens/explore.dart';
 import 'package:hollyday_land/screens/museum/museums.dart';
 import 'package:provider/provider.dart';
 
@@ -32,13 +33,16 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: _title,
-        home: MuseumsScreen(),
+        home: ExploreScreen(),
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
             secondary: Colors.indigo[200],
           ),
         ),
+        routes: {
+          MuseumsScreen.routePath: (_) => MuseumsScreen()
+        },
       ),
     );
   }

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hollyday_land/widgets/custom_appbar.dart';
-
-import 'package:provider/provider.dart';
 
 import '../widgets/side_drawer.dart';
-import '../providers/selected_categories.dart';
 import 'explore.dart';
 import 'favorites.dart';
 import 'history.dart';
@@ -47,9 +43,9 @@ class _HomepageScreenState extends State<HomepageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideDrawer(),
-      appBar: CustomAppBar(
+      appBar: AppBar(title: Text("text"),)/*CustomAppBar(
         isExplore: _selectedIndex == 0,
-      ),
+      )*/,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

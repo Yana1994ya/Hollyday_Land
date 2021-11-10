@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/category.dart';
+import 'package:hollyday_land/screens/museum/museums.dart';
 import 'package:hollyday_land/widgets/category_item.dart';
 
 class CategoriesGrid extends StatelessWidget {
-  final List<Category> categories;
-
-  const CategoriesGrid({Key? key, required this.categories}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final List<CategoryItem> items = [CategoryItem(
+        image: "assets/graphics/museums.jpg",
+        title: "Museums",
+        path: MuseumsScreen.routePath,
+    ),];
+
     return GridView.builder(
       padding: const EdgeInsets.all(15),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -17,8 +19,8 @@ class CategoriesGrid extends StatelessWidget {
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
       ),
-      itemBuilder: (_, index) => CategoryItem(categories[index]),
-      itemCount: categories.length,
+      itemBuilder: (_, index) => items[index],
+      itemCount: items.length,
     );
   }
 }

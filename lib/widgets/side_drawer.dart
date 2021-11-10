@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hollyday_land/providers/selected_categories.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/root_categories.dart';
 
 class SideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final categoriesProvider = Provider.of<RootCategoriesProvider>(context);
+    return Container();
+    /*final categoriesProvider = Provider.of<RootCategoriesProvider>(context);
 
     if (categoriesProvider.isLoading) {
       return const Drawer(
@@ -61,6 +60,6 @@ class SideDrawer extends StatelessWidget {
           ),
         ],
       ));
-    }
+    }*/
   }
 }
