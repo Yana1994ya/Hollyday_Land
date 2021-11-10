@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/models/museum/museum.dart';
 import 'package:hollyday_land/models/museum/museum_short.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MuseumScreen extends StatefulWidget {
   final MuseumShort museum;
@@ -74,6 +75,28 @@ class _MuseumScreenState extends State<MuseumScreen> {
           .map((image) => Image.network(image.url, fit: BoxFit.cover))
     ];
 
+    // Trim details from url that aren't needed to
+    // identify the site to a human, such as the protocol
+    // used to access it.
+    String prettyUrl(String original){
+      if(original.startsWith("http://"))
+        original = original.substring(7);
+      else if(original.startsWith("https://"))
+        original = original.substring(8);
+
+      // trim www. from begging as well
+      if(original.startsWith("www."))
+        original = original.substring(4);
+
+      while(original.endsWith("/"))
+        original = original.substring(0, original.length - 1);
+
+      return original;
+    }
+
+    void launchWebsite() async =>
+        await canLaunch(museum.website!) ? await launch(museum.website!) : throw 'Could not launch ${museum.website}';
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -82,6 +105,9 @@ class _MuseumScreenState extends State<MuseumScreen> {
             child: displayImages(images, context)
           ),
           Text(museum.name, style: Theme.of(context).textTheme.headline6,),
+          if(museum.website != null) TextButton(
+              onPressed: launchWebsite,
+              child: Text(prettyUrl(museum.website!)),),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(museum.description),

@@ -12,7 +12,7 @@ class Museum {
   final String name;
   final String description;
   final String address;
-  final String website;
+  final String? website;
   final double lat;
   final double long;
   final ImageAsset? mainImage;

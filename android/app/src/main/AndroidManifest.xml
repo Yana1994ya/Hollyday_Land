@@ -45,4 +45,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDSAf-LqnIg7ad6hPrKM8pXpPSwmwORB7A" />
     </application>
+
+    <queries>
+        <!-- If your app opens https URLs -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
 </manifest>

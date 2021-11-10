@@ -22,6 +22,13 @@ class _MuseumsScreenState extends State<MuseumsScreen> {
     }
   }
 
+  Widget pageTitle(BuildContext context, List<MuseumShort> museums){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text("found ${museums.length} museums"),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,10 +67,7 @@ class _MuseumsScreenState extends State<MuseumsScreen> {
 
             return ListView.builder(
               itemBuilder: (_, index) => index == 0
-                  ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("found ${museums.length} museums"),
-                  )
+                  ? pageTitle(context, museums)
                   : MuseumListItem(museum: museums[index - 1]),
               itemCount: museums.length + 1,
             );
