@@ -53,14 +53,14 @@ class MuseumShort {
   }
 
   static Future<List<MuseumShort>> readMuseums(MuseumFilter museumFilter) async {
-    final Map<String,String> parameters = {};
+    final Map<String,Iterable<String>> parameters = {};
 
-    if(museumFilter.region != null){
-      parameters["region_id"] = museumFilter.region!.id.toString();
+    if(museumFilter.regions.isNotEmpty){
+      parameters["region_id"] = museumFilter.regions.map((id) => id.toString());
     }
 
-    if(museumFilter.domain != null){
-      parameters["domain_id"] = museumFilter.domain!.id.toString();
+    if(museumFilter.domains.isNotEmpty){
+      parameters["domain_id"] = museumFilter.domains.map((id) => id.toString());
     }
 
     final uri = Uri.https(

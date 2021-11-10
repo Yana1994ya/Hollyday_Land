@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/login.dart';
-import 'login.dart';
+import 'profile.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -12,7 +12,8 @@ class HistoryScreen extends StatelessWidget {
     final loginProvider = Provider.of<LoginProvider>(context);
 
     if (loginProvider.currentUser == null) {
-      return const LoginScreen(reason: "Please login to see your history");
+      //reason: "Please login to see your history"
+      return const ProfileScreen();
     } else {
       return Center(
         child: Text("Welcome ${loginProvider.currentUser!.email}, " +

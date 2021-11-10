@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hollyday_land/providers/regions.dart';
 import 'package:hollyday_land/screens/explore.dart';
+import 'package:hollyday_land/screens/profile.dart';
 import 'package:hollyday_land/screens/museum/museums.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: {
-          MuseumsScreen.routePath: (_) => MuseumsScreen()
+          MuseumsScreen.routePath: (_) => MuseumsScreen(),
+          ProfileScreen.routePath: (_) => ProfileScreen(),
         },
       ),
     );

@@ -11,67 +11,88 @@ class FilterSelectionWidget extends StatelessWidget {
   const FilterSelectionWidget({Key? key, required this.options})
       : super(key: key);
 
-  Widget regionDropdown(MuseumFilterProvider filterProvider) {
-    return DropdownButton<Region?>(
-      items: [
-        DropdownMenuItem<Region?>(
-          child: Text("Any"),
-          value: null,
-        ),
-        ...options.regions.map((region) => DropdownMenuItem<Region?>(
-              child: Text(region.name),
-              value: region,
-            ))
-      ],
-      onChanged: filterProvider.setRegion,
-      value: filterProvider.region == null
-          ? null
-          : options.regions
-              .firstWhere((element) => element.id == filterProvider.region!.id),
-    );
-  }
+  List<Widget> choiceChips<T>({
+    required List<T> items,
+    required bool Function(T) isSelected,
+    required void Function(T) toggle,
+    required String Function(T) title,
+    required ColorScheme colorScheme,
+  }) {
+    return items.map((item) {
+      final selected = isSelected(item);
 
-  Widget domainDropdown(MuseumFilterProvider filterProvider) {
-    return DropdownButton<MuseumDomain?>(
-      items: [
-        DropdownMenuItem<MuseumDomain?>(
-          child: Text("Any"),
-          value: null,
+      return ChoiceChip(
+        backgroundColor: Colors.transparent,
+        shape: StadiumBorder(
+            side: BorderSide(
+              color: colorScheme.primary,
+            )),
+        selectedColor: colorScheme.primary,
+        label: Text(
+          title(item),
+          style: TextStyle(
+            color: selected ? Colors.white : colorScheme.primary,
+          ),
         ),
-        ...options.domains.map((domain) => DropdownMenuItem<MuseumDomain?>(
-              child: Text(domain.name),
-              value: domain,
-            ))
-      ],
-      onChanged: filterProvider.setDomain,
-      value: filterProvider.domain == null
-          ? null
-          : options.domains
-              .firstWhere((element) => element.id == filterProvider.domain!.id),
-    );
+        selected: selected,
+        onSelected: (_) {
+          toggle(item);
+        },
+      );
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MuseumFilterProvider>(context);
+    final filterProvider = Provider.of<MuseumFilterProvider>(context);
+    final colorScheme = Theme
+        .of(context)
+        .colorScheme;
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Column(
+      child: ListView(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Region:"),
-              regionDropdown(provider),
-            ],
+          Text(
+            "Region:",
+            style: Theme
+                .of(context)
+                .textTheme
+                .headline6,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Domain:"),
-              domainDropdown(provider),
-            ],
+          Container(
+            height: 5,
+          ),
+          Wrap(
+            children: choiceChips<Region>(
+                items: options.regions,
+                isSelected: filterProvider.regionSelected,
+                toggle: filterProvider.toggleRegion,
+                title: (region) => region.name,
+                colorScheme: colorScheme
+            ),
+            spacing: 8.0,
+          ),
+          Divider(),
+          Text(
+            "Domain:",
+            style: Theme
+                .of(context)
+                .textTheme
+                .headline6,
+          ),
+          Container(
+            height: 5,
+          ),
+          Wrap(
+            children: choiceChips<MuseumDomain>(
+                items: options.domains,
+                isSelected: filterProvider.domainSelected,
+                toggle: filterProvider.toggleDomain,
+                title: (domain) => domain.name,
+                colorScheme: colorScheme
+            ),
+            spacing: 8.0,
           ),
         ],
       ),

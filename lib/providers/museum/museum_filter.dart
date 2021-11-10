@@ -4,44 +4,51 @@ import 'package:hollyday_land/models/museum/museum_filter.dart';
 import 'package:hollyday_land/models/region.dart';
 
 class MuseumFilterProvider with ChangeNotifier {
-  Region? _region;
-  MuseumDomain? _domain;
-
-  MuseumFilterProvider(
-      {required Region? region, required MuseumDomain? domain}) {
-    _region = region;
-    _domain = domain;
-  }
+  final Set<int> _regions;
+  final Set<int> _domains;
 
   factory MuseumFilterProvider.fromFilter(MuseumFilter filter) {
     return MuseumFilterProvider(
-      region: filter.region,
-      domain: filter.domain,
+      regions: filter.regions,
+      domains: filter.domains,
     );
   }
 
-  setRegion(Region? region) {
-    _region = region;
+  MuseumFilterProvider({required Set<int> regions, required Set<int> domains})
+      : _domains = domains,
+        _regions = regions;
+
+  toggleRegion(Region region) {
+    if(_regions.contains(region.id)){
+      _regions.remove(region.id);
+    } else {
+      _regions.add(region.id);
+    }
+
     notifyListeners();
   }
 
-  setDomain(MuseumDomain? domain) {
-    _domain = domain;
+  toggleDomain(MuseumDomain domain) {
+    if(_domains.contains(domain.id)){
+      _domains.remove(domain.id);
+    } else {
+      _domains.add(domain.id);
+    }
     notifyListeners();
   }
 
-  Region? get region {
-    return _region;
+  bool regionSelected(Region region){
+    return _regions.contains(region.id);
   }
 
-  MuseumDomain? get domain {
-    return _domain;
+  bool domainSelected(MuseumDomain domain){
+    return _domains.contains(domain.id);
   }
 
   MuseumFilter get filter {
     return MuseumFilter(
-      region: _region,
-      domain: _domain,
+      regions: _regions,
+      domains: _domains,
     );
   }
 }

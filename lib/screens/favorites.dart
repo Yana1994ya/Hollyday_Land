@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/login.dart';
-import 'login.dart';
+import 'profile.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
@@ -12,7 +12,8 @@ class FavoritesScreen extends StatelessWidget {
     final loginProvider = Provider.of<LoginProvider>(context);
 
     if (loginProvider.currentUser == null) {
-      return LoginScreen(reason: "Please login to see your favorites");
+      //reason: "Please login to see your favorites"
+      return ProfileScreen();
     } else {
       return Center(
         child: Text("Welcome ${loginProvider.currentUser!.email}, " +
