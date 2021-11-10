@@ -24,7 +24,7 @@ class _MuseumsScreenState extends State<MuseumsScreen> {
 
   Widget pageTitle(BuildContext context, List<MuseumShort> museums){
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8,),
       child: Text("found ${museums.length} museums"),
     );
   }
