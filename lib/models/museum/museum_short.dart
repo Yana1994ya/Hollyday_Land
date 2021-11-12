@@ -86,4 +86,36 @@ class MuseumShort {
       throw Exception("failed to load data, status: ${response.statusCode}");
     }
   }
+
+  static Future<List<MuseumShort>> readHistory(String token) async {
+    final uri = Uri.https(API_SERVER, "/attractions/api/history/museums");
+    //final uri = Uri.http("10.0.0.7:8000", "/attractions/api/history/museums");
+
+    print("fetching: $uri");
+
+    final response = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, String>{
+          'token': token
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+
+      if (data["status"] == "ok") {
+        final List<dynamic> museums = data["museums"];
+        return museums.map((e) => MuseumShort.fromJson(e)).toList();
+      } else {
+        throw Exception("error was returned:${data["error"]}");
+      }
+    } else {
+      throw Exception("failed to load data, status: ${response.statusCode}");
+    }
+  }
 }

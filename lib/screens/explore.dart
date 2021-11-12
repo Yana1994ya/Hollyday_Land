@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/providers/login.dart';
+import 'package:hollyday_land/screens/history.dart';
 import 'package:hollyday_land/screens/profile.dart';
 import 'package:hollyday_land/widgets/categories_grid.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +76,9 @@ class ExploreScreen extends StatelessWidget {
                 ),
                 title: Text("History"),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(HistoryScreen.routePath);
+              },
             ),
             InkWell(
               highlightColor: colorScheme.secondary,

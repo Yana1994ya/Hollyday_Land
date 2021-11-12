@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/models/museum/museum.dart';
 import 'package:hollyday_land/models/museum/museum_short.dart';
+import 'package:hollyday_land/providers/login.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MuseumScreen extends StatefulWidget {
@@ -119,6 +121,8 @@ class _MuseumScreenState extends State<MuseumScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final login = Provider.of<LoginProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.museum.name),
@@ -140,6 +144,7 @@ class _MuseumScreenState extends State<MuseumScreen> {
               child: CircularProgressIndicator(),
             );
           } else {
+            login.visit(snapshot.data!.id);
             return buildMuseum(snapshot.data!, context);
           }
         },
