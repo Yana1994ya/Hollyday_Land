@@ -76,7 +76,10 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  Future<void> signOut() => _googleSignIn.disconnect();
+  Future<void> signOut() => _googleSignIn.disconnect().then((_){
+    _currentUser = null;
+    _hdToken = null;
+  });
 
   String? get hdToken {
     return _hdToken;
