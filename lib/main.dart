@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hollyday_land/providers/regions.dart';
 import 'package:hollyday_land/screens/explore.dart';
+import 'package:hollyday_land/screens/favorites.dart';
 import 'package:hollyday_land/screens/history.dart';
+import 'package:hollyday_land/screens/museum/favorites_museums.dart';
 import 'package:hollyday_land/screens/museum/history_museums.dart';
 import 'package:hollyday_land/screens/profile.dart';
 import 'package:hollyday_land/screens/museum/museums.dart';
@@ -47,7 +49,9 @@ class MyApp extends StatelessWidget {
           MuseumsScreen.routePath: (_) => MuseumsScreen(),
           ProfileScreen.routePath: (_) => ProfileScreen(),
           HistoryScreen.routePath: (_) => HistoryScreen(),
+          FavoritesScreen.routePath: (_) => FavoritesScreen(),
           HistoryMuseumsScreen.routePath: (_) => HistoryMuseumsScreen(),
+          FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen()
         },
       ),
     );

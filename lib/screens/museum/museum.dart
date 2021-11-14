@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hollyday_land/models/favorites.dart';
 import 'package:hollyday_land/models/museum/museum.dart';
 import 'package:hollyday_land/models/museum/museum_short.dart';
 import 'package:hollyday_land/providers/login.dart';
+import 'package:hollyday_land/widgets/favorite_button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -118,6 +120,31 @@ class _MuseumScreenState extends State<MuseumScreen> {
       ),
     );
   }
+  
+
+  
+  Widget favoriteIcon(LoginProvider loginProvider){
+    //final scaffoldMessanger = ScaffoldMessenger.of(context);
+    if(loginProvider.currentUser == null){
+      return IconButton(onPressed: (){
+        loginProvider.signIn();
+      }, icon: Icon(Icons.login));
+    } else {
+      return FutureBuilder(
+        future: Favorites.readFavorite(loginProvider.hdToken!, widget.museum.id),
+        builder: (_, AsyncSnapshot<bool> snapshot){
+          if(snapshot.hasError){
+            //scaffoldMessanger.showSnackBar(SnackBar(content: Text('Failed to read favorite status')));
+            print(snapshot.error);
+            return Icon(Icons.error);
+          } else if(!snapshot.hasData) {
+            return CircularProgressIndicator();
+          } else {
+            return FavoriteButton(attractionId:widget.museum.id, initalState: snapshot.data!, token: loginProvider.hdToken!);
+          }
+      },);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +153,9 @@ class _MuseumScreenState extends State<MuseumScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.museum.name),
+        actions: [
+          favoriteIcon(login),
+        ],
       ),
       body: FutureBuilder(
         future: loadingMuseum,

@@ -39,13 +39,12 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
             IconButton(
               onPressed: () {
                 loading = true;
-                History.deleteHistory(widget.loginProvider.hdToken!)
-                    .then((_){
-                      setState(() {
-                        loading = false;
-                        history = History(museums: 0);
-                      });
-                    });
+                History.deleteHistory(widget.loginProvider.hdToken!).then((_) {
+                  setState(() {
+                    loading = false;
+                    history = History(museums: 0);
+                  });
+                });
               },
               icon: Icon(Icons.delete),
             ),
@@ -64,6 +63,8 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
         loading = false;
       });
     });
+
+    super.initState();
   }
 }
 
@@ -80,7 +81,13 @@ class HistoryScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("History"),
         ),
-        body: Center(child: Text("login to view history")),
+        body: Center(
+            child: TextButton(
+          child: Text("login"),
+          onPressed: () {
+            loginProvider.signIn();
+          },
+        )),
       );
     } else {
       return _LoggedInHistoryScreen(
