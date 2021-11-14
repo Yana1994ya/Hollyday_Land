@@ -24,10 +24,11 @@ class _MuseumScreenState extends State<MuseumScreen> {
   @override
   void initState() {
     loadingMuseum = Museum.readMuseum(widget.museum.id);
+    super.initState();
   }
 
-  Widget displayImages(final List<Image> images, BuildContext context){
-    if(images.length == 1){
+  Widget displayImages(final List<Image> images, BuildContext context) {
+    if (images.length == 1) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Container(
@@ -55,8 +56,7 @@ class _MuseumScreenState extends State<MuseumScreen> {
                       image: i.image,
                       fit: BoxFit.cover,
                     ),
-                  )
-              );
+                  ));
             },
           );
         }).toList(),
@@ -82,36 +82,40 @@ class _MuseumScreenState extends State<MuseumScreen> {
     // Trim details from url that aren't needed to
     // identify the site to a human, such as the protocol
     // used to access it.
-    String prettyUrl(String original){
-      if(original.startsWith("http://"))
+    String prettyUrl(String original) {
+      if (original.startsWith("http://"))
         original = original.substring(7);
-      else if(original.startsWith("https://"))
+      else if (original.startsWith("https://"))
         original = original.substring(8);
 
       // trim www. from begging as well
-      if(original.startsWith("www."))
-        original = original.substring(4);
+      if (original.startsWith("www.")) original = original.substring(4);
 
-      while(original.endsWith("/"))
+      while (original.endsWith("/"))
         original = original.substring(0, original.length - 1);
 
       return original;
     }
 
-    void launchWebsite() async =>
-        await canLaunch(museum.website!) ? await launch(museum.website!) : throw 'Could not launch ${museum.website}';
+    void launchWebsite() async => await canLaunch(museum.website!)
+        ? await launch(museum.website!)
+        : throw 'Could not launch ${museum.website}';
 
     return SingleChildScrollView(
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: displayImages(images, context)
+              padding: EdgeInsets.all(8.0),
+              child: displayImages(images, context)),
+          Text(
+            museum.name,
+            style: Theme.of(context).textTheme.headline6,
           ),
-          Text(museum.name, style: Theme.of(context).textTheme.headline6,),
-          if(museum.website != null) TextButton(
+          if (museum.website != null)
+            TextButton(
               onPressed: launchWebsite,
-              child: Text(prettyUrl(museum.website!)),),
+              child: Text(prettyUrl(museum.website!)),
+            ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(museum.description),
@@ -120,29 +124,48 @@ class _MuseumScreenState extends State<MuseumScreen> {
       ),
     );
   }
-  
 
-  
-  Widget favoriteIcon(LoginProvider loginProvider){
+  Widget favoriteIcon(BuildContext context, LoginProvider loginProvider) {
     //final scaffoldMessanger = ScaffoldMessenger.of(context);
-    if(loginProvider.currentUser == null){
-      return IconButton(onPressed: (){
-        loginProvider.signIn();
-      }, icon: Icon(Icons.login));
+    if (loginProvider.currentUser == null) {
+      return IconButton(
+          onPressed: () {
+            //loginProvider.signIn();
+            showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                      title: const Text("You are currently not logged in"),
+                      content: const Text(
+                          "Do you wish to login to mark this museum as favorite?"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              loginProvider.signIn();
+                            },
+                            child: const Text("Yes"))
+                      ],
+                    ));
+          },
+          icon: Icon(Icons.favorite_outline));
     } else {
       return FutureBuilder(
-        future: Favorites.readFavorite(loginProvider.hdToken!, widget.museum.id),
-        builder: (_, AsyncSnapshot<bool> snapshot){
-          if(snapshot.hasError){
+        future:
+            Favorites.readFavorite(loginProvider.hdToken!, widget.museum.id),
+        builder: (_, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasError) {
             //scaffoldMessanger.showSnackBar(SnackBar(content: Text('Failed to read favorite status')));
             print(snapshot.error);
             return Icon(Icons.error);
-          } else if(!snapshot.hasData) {
+          } else if (!snapshot.hasData) {
             return CircularProgressIndicator();
           } else {
-            return FavoriteButton(attractionId:widget.museum.id, initalState: snapshot.data!, token: loginProvider.hdToken!);
+            return FavoriteButton(
+                attractionId: widget.museum.id,
+                initalState: snapshot.data!,
+                token: loginProvider.hdToken!);
           }
-      },);
+        },
+      );
     }
   }
 
@@ -154,7 +177,7 @@ class _MuseumScreenState extends State<MuseumScreen> {
       appBar: AppBar(
         title: Text(widget.museum.name),
         actions: [
-          favoriteIcon(login),
+          favoriteIcon(context, login),
         ],
       ),
       body: FutureBuilder(
