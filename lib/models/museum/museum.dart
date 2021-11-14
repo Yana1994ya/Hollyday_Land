@@ -2,6 +2,7 @@ import 'package:hollyday_land/models/image_asset.dart';
 import 'package:hollyday_land/models/museum/museum_domain.dart';
 
 import '../../config.dart';
+import '../http_exception.dart';
 import '../region.dart';
 
 import 'package:http/http.dart' as http;
@@ -56,10 +57,7 @@ class Museum {
   }
 
   static Future<Museum> readMuseum(int museumId) async {
-    final uri = Uri.https(
-        API_SERVER,
-        "/attractions/api/museums/$museumId"
-    );
+    final uri = Uri.https(API_SERVER, "/attractions/api/museums/$museumId");
 
     print("fetching: $uri");
 
@@ -71,10 +69,11 @@ class Museum {
       if (data["status"] == "ok") {
         return Museum.fromJson(data["museum"]);
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 

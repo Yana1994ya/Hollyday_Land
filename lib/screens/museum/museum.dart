@@ -9,23 +9,10 @@ import 'package:hollyday_land/widgets/favorite_button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MuseumScreen extends StatefulWidget {
+class MuseumScreen extends StatelessWidget {
   final MuseumShort museum;
 
   const MuseumScreen({Key? key, required this.museum}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _MuseumScreenState();
-}
-
-class _MuseumScreenState extends State<MuseumScreen> {
-  late final Future<Museum> loadingMuseum;
-
-  @override
-  void initState() {
-    loadingMuseum = Museum.readMuseum(widget.museum.id);
-    super.initState();
-  }
 
   Widget displayImages(final List<Image> images, BuildContext context) {
     if (images.length == 1) {
@@ -64,6 +51,26 @@ class _MuseumScreenState extends State<MuseumScreen> {
     }
   }
 
+  // Trim details from url that aren't needed to
+  // identify the site to a human, such as the protocol
+  // used to access it.
+  static String prettyUrl(String original) {
+    if (original.startsWith("http://"))
+      original = original.substring(7);
+    else if (original.startsWith("https://")) original = original.substring(8);
+
+    // trim www. from begging as well
+    if (original.startsWith("www.")) original = original.substring(4);
+
+    while (original.endsWith("/"))
+      original = original.substring(0, original.length - 1);
+
+    return original;
+  }
+
+  static void launchWebsite(String url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+
   Widget buildMuseum(final Museum museum, BuildContext context) {
     final List<Image> images = [
       museum.mainImage == null
@@ -79,28 +86,6 @@ class _MuseumScreenState extends State<MuseumScreen> {
           .map((image) => Image.network(image.url, fit: BoxFit.cover))
     ];
 
-    // Trim details from url that aren't needed to
-    // identify the site to a human, such as the protocol
-    // used to access it.
-    String prettyUrl(String original) {
-      if (original.startsWith("http://"))
-        original = original.substring(7);
-      else if (original.startsWith("https://"))
-        original = original.substring(8);
-
-      // trim www. from begging as well
-      if (original.startsWith("www.")) original = original.substring(4);
-
-      while (original.endsWith("/"))
-        original = original.substring(0, original.length - 1);
-
-      return original;
-    }
-
-    void launchWebsite() async => await canLaunch(museum.website!)
-        ? await launch(museum.website!)
-        : throw 'Could not launch ${museum.website}';
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -113,7 +98,9 @@ class _MuseumScreenState extends State<MuseumScreen> {
           ),
           if (museum.website != null)
             TextButton(
-              onPressed: launchWebsite,
+              onPressed: () {
+                launchWebsite(museum.website!);
+              },
               child: Text(prettyUrl(museum.website!)),
             ),
           Padding(
@@ -132,25 +119,27 @@ class _MuseumScreenState extends State<MuseumScreen> {
           onPressed: () {
             //loginProvider.signIn();
             showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                      title: const Text("You are currently not logged in"),
-                      content: const Text(
-                          "Do you wish to login to mark this museum as favorite?"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              loginProvider.signIn();
-                            },
-                            child: const Text("Yes"))
-                      ],
-                    ));
+              context: context,
+              builder: (_) => AlertDialog(
+                title: const Text("You are currently not logged in"),
+                content: const Text(
+                    "Do you wish to login to mark this museum as favorite?"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        loginProvider.signIn().then((_) {
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      child: const Text("Yes"))
+                ],
+              ),
+            );
           },
           icon: Icon(Icons.favorite_outline));
     } else {
       return FutureBuilder(
-        future:
-            Favorites.readFavorite(loginProvider.hdToken!, widget.museum.id),
+        future: Favorites.readFavorite(loginProvider.hdToken!, museum.id),
         builder: (_, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasError) {
             //scaffoldMessanger.showSnackBar(SnackBar(content: Text('Failed to read favorite status')));
@@ -160,9 +149,10 @@ class _MuseumScreenState extends State<MuseumScreen> {
             return CircularProgressIndicator();
           } else {
             return FavoriteButton(
-                attractionId: widget.museum.id,
-                initalState: snapshot.data!,
-                token: loginProvider.hdToken!);
+              attractionId: museum.id,
+              initalState: snapshot.data!,
+              token: loginProvider.hdToken!,
+            );
           }
         },
       );
@@ -175,13 +165,13 @@ class _MuseumScreenState extends State<MuseumScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.museum.name),
+        title: Text(museum.name),
         actions: [
           favoriteIcon(context, login),
         ],
       ),
       body: FutureBuilder(
-        future: loadingMuseum,
+        future: Museum.readMuseum(museum.id),
         builder: (_, AsyncSnapshot<Museum> snapshot) {
           if (snapshot.hasError) {
             return Center(

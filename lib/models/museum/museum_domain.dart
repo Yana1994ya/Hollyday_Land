@@ -1,3 +1,5 @@
+import 'package:hollyday_land/models/http_exception.dart';
+
 import '../../config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -37,10 +39,11 @@ class MuseumDomain {
         final List<dynamic> domains = data["domains"];
         return domains.map((e) => MuseumDomain.fromJson(e)).toList();
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 }

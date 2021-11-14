@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/models/favorites.dart';
-import 'package:hollyday_land/models/history.dart';
 import 'package:hollyday_land/screens/museum/favorites_museums.dart';
-import 'package:hollyday_land/screens/museum/history_museums.dart';
-import 'package:hollyday_land/screens/museum/museums.dart';
 import 'package:hollyday_land/widgets/category_item.dart';
 
 class FavoritesCategoriesGrid extends StatelessWidget {
   final Favorites favorites;
 
-  const FavoritesCategoriesGrid({Key? key, required this.favorites}) : super(key: key);
+  const FavoritesCategoriesGrid({Key? key, required this.favorites})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

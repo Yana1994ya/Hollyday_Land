@@ -3,6 +3,8 @@ import 'package:hollyday_land/models/image_asset.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'http_exception.dart';
+
 class Region {
   final int id;
   final String name;
@@ -39,10 +41,11 @@ class Region {
         final List<dynamic> regions = data["regions"];
         return regions.map((e) => Region.fromJson(e)).toList();
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 

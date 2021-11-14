@@ -8,6 +8,8 @@ import '../../config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../http_exception.dart';
+
 class MuseumShort {
   final int id;
   final String name;
@@ -42,8 +44,6 @@ class MuseumShort {
       long: json["long"],
       lat: json["lat"],
     );
-
-
   }
 
   @override
@@ -52,22 +52,19 @@ class MuseumShort {
         'long: $long, mainImage: $mainImage, region: $region, domain: $domain}';
   }
 
-  static Future<List<MuseumShort>> readMuseums(MuseumFilter museumFilter) async {
-    final Map<String,Iterable<String>> parameters = {};
+  static Future<List<MuseumShort>> readMuseums(
+      MuseumFilter museumFilter) async {
+    final Map<String, Iterable<String>> parameters = {};
 
-    if(museumFilter.regions.isNotEmpty){
+    if (museumFilter.regions.isNotEmpty) {
       parameters["region_id"] = museumFilter.regions.map((id) => id.toString());
     }
 
-    if(museumFilter.domains.isNotEmpty){
+    if (museumFilter.domains.isNotEmpty) {
       parameters["domain_id"] = museumFilter.domains.map((id) => id.toString());
     }
 
-    final uri = Uri.https(
-      API_SERVER,
-      "/attractions/api/museums",
-      parameters
-    );
+    final uri = Uri.https(API_SERVER, "/attractions/api/museums", parameters);
 
     print("fetching: $uri");
 
@@ -80,10 +77,11 @@ class MuseumShort {
         final List<dynamic> museums = data["museums"];
         return museums.map((e) => MuseumShort.fromJson(e)).toList();
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 
@@ -99,9 +97,7 @@ class MuseumShort {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-        <String, String>{
-          'token': token
-        },
+        <String, String>{'token': token},
       ),
     );
 
@@ -112,10 +108,11 @@ class MuseumShort {
         final List<dynamic> museums = data["museums"];
         return museums.map((e) => MuseumShort.fromJson(e)).toList();
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 
@@ -131,9 +128,7 @@ class MuseumShort {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-        <String, String>{
-          'token': token
-        },
+        <String, String>{'token': token},
       ),
     );
 
@@ -144,10 +139,11 @@ class MuseumShort {
         final List<dynamic> museums = data["museums"];
         return museums.map((e) => MuseumShort.fromJson(e)).toList();
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 }

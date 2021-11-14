@@ -2,14 +2,14 @@ import '../config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class Favorites{
+import 'http_exception.dart';
+
+class Favorites {
   final int museums;
 
-  Favorites({ required this.museums });
+  Favorites({required this.museums});
   factory Favorites.fromJson(Map<String, dynamic> json) {
-    return Favorites(
-        museums: json['museums']
-    );
+    return Favorites(museums: json['museums']);
   }
 
   static Future<Favorites> readFavorites(String token) async {
@@ -23,9 +23,7 @@ class Favorites{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-        <String, String>{
-          'token': token
-        },
+        <String, String>{'token': token},
       ),
     );
 
@@ -35,14 +33,15 @@ class Favorites{
       if (data["status"] == "ok") {
         return Favorites.fromJson(data["favorites"]);
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 
-  static Future<bool> readFavorite(String token, int attractionId) async{
+  static Future<bool> readFavorite(String token, int attractionId) async {
     final uri = Uri.https(API_SERVER, "/attractions/api/favorite");
 
     print("fetching: $uri");
@@ -64,16 +63,18 @@ class Favorites{
       final Map<String, dynamic> data = jsonDecode(response.body);
 
       if (data["status"] != "ok") {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
 
       return data["value"];
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 
-  static Future<void> setFavorite(String token, int attractionId, bool value) async{
+  static Future<void> setFavorite(
+      String token, int attractionId, bool value) async {
     final uri = Uri.https(API_SERVER, "/attractions/api/favorite");
 
     print("fetching: $uri");
@@ -96,12 +97,13 @@ class Favorites{
       final Map<String, dynamic> data = jsonDecode(response.body);
 
       if (data["status"] != "ok") {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
 
       return data["value"];
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 }

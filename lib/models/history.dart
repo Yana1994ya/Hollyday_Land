@@ -4,20 +4,19 @@ import 'package:http/http.dart' as http;
 import '../config.dart';
 import 'dart:convert';
 
+import 'http_exception.dart';
+
 class History {
   final int museums;
 
-  History({ required this.museums });
+  History({required this.museums});
   factory History.fromJson(Map<String, dynamic> json) {
-    return History(
-      museums: json['museums']
-    );
+    return History(museums: json['museums']);
   }
 
   static Future<void> deleteHistory(String token) async {
     final uri = Uri.https(API_SERVER, "/attractions/api/history/delete");
     // final uri = Uri.http(API_SERVER, "/attractions/api/history/delete");
-
 
     print("fetching: $uri");
 
@@ -27,9 +26,7 @@ class History {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-        <String, String>{
-          'token': token
-        },
+        <String, String>{'token': token},
       ),
     );
 
@@ -37,13 +34,13 @@ class History {
       final Map<String, dynamic> data = jsonDecode(response.body);
 
       if (data["status"] != "ok") {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
-
 
   static Future<History> readHistory(String token) async {
     final uri = Uri.https(API_SERVER, "/attractions/api/history");
@@ -56,9 +53,7 @@ class History {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-        <String, String>{
-          'token': token
-        },
+        <String, String>{'token': token},
       ),
     );
 
@@ -68,10 +63,11 @@ class History {
       if (data["status"] == "ok") {
         return History.fromJson(data["visited"]);
       } else {
-        throw Exception("error was returned:${data["error"]}");
+        throw HttpException("error was returned:${data["error"]}");
       }
     } else {
-      throw Exception("failed to load data, status: ${response.statusCode}");
+      throw HttpException(
+          "failed to load data, status: ${response.statusCode}");
     }
   }
 }
