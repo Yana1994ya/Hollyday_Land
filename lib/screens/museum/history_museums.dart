@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/models/museum/museum_short.dart';
 import 'package:hollyday_land/providers/login.dart';
+import 'package:hollyday_land/screens/profile.dart';
 import 'package:hollyday_land/widgets/museum/list_item.dart';
 import 'package:provider/provider.dart';
 
@@ -21,9 +22,7 @@ class HistoryMuseumsScreen extends StatelessWidget {
     final loginProvider = Provider.of<LoginProvider>(context);
 
     if (loginProvider.currentUser == null) {
-      return Center(
-        child: Text("please login to view history"),
-      );
+      return ProfileScreen.loginBody(loginProvider);
     } else {
       return FutureBuilder(
           future: MuseumShort.readHistory(loginProvider.hdToken!),

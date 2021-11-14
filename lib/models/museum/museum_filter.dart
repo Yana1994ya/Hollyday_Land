@@ -1,10 +1,10 @@
 class MuseumFilter {
-  final Set<int> regions;
-  final Set<int> domains;
+  final Set<int> regionIds;
+  final Set<int> domainIds;
 
-  const MuseumFilter({required this.regions, required this.domains});
+  const MuseumFilter({required this.regionIds, required this.domainIds});
 
   factory MuseumFilter.empty() {
-    return MuseumFilter(regions: Set(), domains: Set());
+    return MuseumFilter(regionIds: Set(), domainIds: Set());
   }
 }

@@ -4,51 +4,52 @@ import 'package:hollyday_land/models/museum/museum_filter.dart';
 import 'package:hollyday_land/models/region.dart';
 
 class MuseumFilterProvider with ChangeNotifier {
-  final Set<int> _regions;
-  final Set<int> _domains;
+  final Set<int> _regionIds;
+  final Set<int> _domainIds;
 
   factory MuseumFilterProvider.fromFilter(MuseumFilter filter) {
     return MuseumFilterProvider(
-      regions: filter.regions,
-      domains: filter.domains,
+      regionIds: filter.regionIds,
+      domainIds: filter.domainIds,
     );
   }
 
-  MuseumFilterProvider({required Set<int> regions, required Set<int> domains})
-      : _domains = domains,
-        _regions = regions;
+  MuseumFilterProvider(
+      {required Set<int> regionIds, required Set<int> domainIds})
+      : _domainIds = domainIds,
+        _regionIds = regionIds;
 
   toggleRegion(Region region) {
-    if(_regions.contains(region.id)){
-      _regions.remove(region.id);
+    if (_regionIds.contains(region.id)) {
+      _regionIds.remove(region.id);
     } else {
-      _regions.add(region.id);
+      _regionIds.add(region.id);
     }
 
     notifyListeners();
   }
 
   toggleDomain(MuseumDomain domain) {
-    if(_domains.contains(domain.id)){
-      _domains.remove(domain.id);
+    if (_domainIds.contains(domain.id)) {
+      _domainIds.remove(domain.id);
     } else {
-      _domains.add(domain.id);
+      _domainIds.add(domain.id);
     }
     notifyListeners();
   }
 
-  bool regionSelected(Region region){
-    return _regions.contains(region.id);
+  bool regionSelected(Region region) {
+    return _regionIds.contains(region.id);
   }
 
-  bool domainSelected(MuseumDomain domain){
-    return _domains.contains(domain.id);
+  bool domainSelected(MuseumDomain domain) {
+    return _domainIds.contains(domain.id);
   }
 
   MuseumFilter get filter {
     return MuseumFilter(
-      regions: _regions,
-      domains: _domains,
+      regionIds: _regionIds,
+      domainIds: _domainIds,
     );
   }
 }

@@ -56,12 +56,14 @@ class MuseumShort {
       MuseumFilter museumFilter) async {
     final Map<String, Iterable<String>> parameters = {};
 
-    if (museumFilter.regions.isNotEmpty) {
-      parameters["region_id"] = museumFilter.regions.map((id) => id.toString());
+    if (museumFilter.regionIds.isNotEmpty) {
+      parameters["region_id"] =
+          museumFilter.regionIds.map((id) => id.toString());
     }
 
-    if (museumFilter.domains.isNotEmpty) {
-      parameters["domain_id"] = museumFilter.domains.map((id) => id.toString());
+    if (museumFilter.domainIds.isNotEmpty) {
+      parameters["domain_id"] =
+          museumFilter.domainIds.map((id) => id.toString());
     }
 
     final uri = Uri.https(API_SERVER, "/attractions/api/museums", parameters);

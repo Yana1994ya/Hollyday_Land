@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
       // if logged in
       return Scaffold(
         appBar: AppBar(
-          title: Text("Login"),
+          title: Text("Profile"),
         ),
         body: Center(
           child: Column(
