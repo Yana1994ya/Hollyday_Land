@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/museum/museum_domain.dart';
 import 'package:hollyday_land/models/museum/museum_filter.dart';
 import 'package:hollyday_land/models/museum/museum_filter_options.dart';
-import 'package:hollyday_land/models/region.dart';
 import 'package:hollyday_land/providers/museum/museum_filter.dart';
 import 'package:hollyday_land/widgets/museum/filter_selection.dart';
 import 'package:provider/provider.dart';
@@ -34,11 +32,11 @@ class MuseumsFilterScreen extends StatelessWidget {
           if (snapshot.hasError) {
             return Center(
                 child: Text(
-                  snapshot.error.toString(),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ));
+              snapshot.error.toString(),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ));
           } else if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
@@ -52,8 +50,5 @@ class MuseumsFilterScreen extends StatelessWidget {
         },
       ),
     );
-    throw UnimplementedError();
   }
 }
-
-

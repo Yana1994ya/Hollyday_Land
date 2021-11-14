@@ -13,7 +13,8 @@ class _LoggedInFavoritesScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<_LoggedInFavoritesScreen> createState() => _LoggedInFavoritesScreenState();
+  State<_LoggedInFavoritesScreen> createState() =>
+      _LoggedInFavoritesScreenState();
 }
 
 class _LoggedInFavoritesScreenState extends State<_LoggedInFavoritesScreen> {
@@ -70,13 +71,7 @@ class FavoritesScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Favorites"),
         ),
-        body: Center(
-            child: TextButton(
-              child: Text("login"),
-              onPressed: () {
-                loginProvider.signIn();
-              },
-            )),
+        body: ProfileScreen.loginBody(loginProvider),
       );
     } else {
       return _LoggedInFavoritesScreen(

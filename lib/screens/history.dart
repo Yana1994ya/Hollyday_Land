@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/models/history.dart';
+import 'package:hollyday_land/screens/profile.dart';
 import 'package:hollyday_land/widgets/history_categories_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -81,13 +82,7 @@ class HistoryScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("History"),
         ),
-        body: Center(
-            child: TextButton(
-          child: Text("login"),
-          onPressed: () {
-            loginProvider.signIn();
-          },
-        )),
+        body: ProfileScreen.loginBody(loginProvider),
       );
     } else {
       return _LoggedInHistoryScreen(

@@ -1,5 +1,4 @@
 import 'package:hollyday_land/config.dart';
-import 'package:hollyday_land/models/image_asset.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
