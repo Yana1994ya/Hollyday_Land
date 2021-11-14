@@ -33,6 +33,28 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
     return false;
   }
 
+  Future<bool?> confirmClear(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Delete history"),
+        content: const Text("Are you sure you want to delete all history"),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("No")),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Yes")),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (loading == true) {
@@ -52,41 +74,21 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
             if (canClear)
               IconButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                      title: const Text("Delete history"),
-                      content: const Text(
-                          "Are you sure you want to delete all history"),
-                      actions: loading
-                          ? [CircularProgressIndicator()]
-                          : [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("No")),
-                              TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      loading = true;
-                                    });
+                  confirmClear(context).then((value) {
+                    if (value != null && value) {
+                      setState(() {
+                        loading = true;
+                      });
 
-                                    History.deleteHistory(
-                                            widget.loginProvider.hdToken!)
-                                        .then((_) {
-                                      setState(() {
-                                        loading = false;
-                                        history = History(museums: 0);
-                                      });
-
-                                      Navigator.of(context).pop();
-                                    });
-                                  },
-                                  child: const Text("Yes")),
-                            ],
-                    ),
-                  );
+                      History.deleteHistory(widget.loginProvider.hdToken!)
+                          .then((_) {
+                        setState(() {
+                          loading = false;
+                          history = History(museums: 0);
+                        });
+                      });
+                    }
+                  });
                 },
                 icon: Icon(Icons.delete),
               ),
