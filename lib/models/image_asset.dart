@@ -20,6 +20,6 @@ class ImageAsset {
 
   @override
   String toString() {
-    return 'ImageAsset{url: $url, width: $width, height: $height, size: $size}';
+    return "ImageAsset{url: $url, width: $width, height: $height, size: $size}";
   }
 }

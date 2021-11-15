@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:location/location.dart';
+import "package:flutter/material.dart";
+import "package:location/location.dart";
 
 class LocationWidget extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class LocationWidget extends StatefulWidget {
   }
 }
 
-enum LocationStatus { ServiceDisabled, PermissionDenied, TrackingStarted }
+enum LocationStatus { serviceDisabled, permissionDenied, trackingStarted }
 
 class Datum {
   final int time;
@@ -23,7 +23,7 @@ class _LocationWidgetState extends State<LocationWidget> {
   List<Datum> recordedData = List.empty(growable: true);
 
   Future<LocationStatus> getLocation() async {
-    Location location = new Location();
+    Location location = Location();
 
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -32,7 +32,7 @@ class _LocationWidgetState extends State<LocationWidget> {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        return LocationStatus.ServiceDisabled;
+        return LocationStatus.serviceDisabled;
       }
     }
 
@@ -40,7 +40,7 @@ class _LocationWidgetState extends State<LocationWidget> {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        return LocationStatus.PermissionDenied;
+        return LocationStatus.permissionDenied;
       }
     }
 
@@ -63,7 +63,7 @@ class _LocationWidgetState extends State<LocationWidget> {
       }
     });
 
-    return LocationStatus.TrackingStarted;
+    return LocationStatus.trackingStarted;
   }
 
   void _startRecording() {
@@ -113,11 +113,11 @@ class _LocationWidgetState extends State<LocationWidget> {
           if (snapshot.hasError) {
             return Text("has error");
           } else if (snapshot.hasData) {
-            if (snapshot.data == LocationStatus.ServiceDisabled) {
+            if (snapshot.data == LocationStatus.serviceDisabled) {
               return Text("service disabled");
-            } else if (snapshot.data == LocationStatus.PermissionDenied) {
+            } else if (snapshot.data == LocationStatus.permissionDenied) {
               return Text("permission denied");
-            } else if (snapshot.data == LocationStatus.TrackingStarted) {
+            } else if (snapshot.data == LocationStatus.trackingStarted) {
               return status();
             }
           }

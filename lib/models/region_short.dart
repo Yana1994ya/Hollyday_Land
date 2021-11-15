@@ -1,8 +1,4 @@
-import 'package:hollyday_land/config.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'http_exception.dart';
+import "package:hollyday_land/api_server.dart";
 
 class RegionShort {
   final int id;
@@ -15,38 +11,22 @@ class RegionShort {
 
   factory RegionShort.fromJson(Map<String, dynamic> json) {
     return RegionShort(
-      id: json['id'],
-      name: json['name'],
+      id: json["id"],
+      name: json["name"],
     );
   }
 
   static Future<List<RegionShort>> readRegions() async {
-    final uri = Uri.https(
-      API_SERVER,
+    return ApiServer.get(
       "/attractions/api/regions",
-    );
-
-    print("fetching: $uri");
-
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] == "ok") {
-        final List<dynamic> regions = data["regions"];
-        return regions.map((e) => RegionShort.fromJson(e)).toList();
-      } else {
-        throw HttpException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw HttpException(
-          "failed to load data, status: ${response.statusCode}");
-    }
+      "regions",
+    ).then((data) => (data as List<dynamic>)
+        .map((region) => RegionShort.fromJson(region))
+        .toList());
   }
 
   @override
   String toString() {
-    return 'RegionShort{id: $id, name: $name}';
+    return "RegionShort{id: $id, name: $name}";
   }
 }

@@ -1,5 +1,5 @@
-import '../region.dart';
-import 'museum_domain.dart';
+import "package:hollyday_land/models/museum/museum_domain.dart";
+import "package:hollyday_land/models/region.dart";
 
 class MuseumFilterOptions {
   final List<MuseumDomain> domains;

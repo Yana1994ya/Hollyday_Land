@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/museum/museum_domain.dart';
-import 'package:hollyday_land/models/museum/museum_filter_options.dart';
-import 'package:hollyday_land/models/region.dart';
-import 'package:hollyday_land/providers/museum/museum_filter.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/museum/museum_domain.dart";
+import "package:hollyday_land/models/museum/museum_filter_options.dart";
+import "package:hollyday_land/models/region.dart";
+import "package:hollyday_land/providers/museum/museum_filter.dart";
+import "package:provider/provider.dart";
 
 class FilterSelectionWidget extends StatelessWidget {
   final MuseumFilterOptions options;
@@ -25,8 +25,8 @@ class FilterSelectionWidget extends StatelessWidget {
         backgroundColor: Colors.transparent,
         shape: StadiumBorder(
             side: BorderSide(
-              color: colorScheme.primary,
-            )),
+          color: colorScheme.primary,
+        )),
         selectedColor: colorScheme.primary,
         label: Text(
           title(item),
@@ -45,9 +45,7 @@ class FilterSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filterProvider = Provider.of<MuseumFilterProvider>(context);
-    final colorScheme = Theme
-        .of(context)
-        .colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -55,10 +53,7 @@ class FilterSelectionWidget extends StatelessWidget {
         children: [
           Text(
             "Region:",
-            style: Theme
-                .of(context)
-                .textTheme
-                .headline6,
+            style: Theme.of(context).textTheme.headline6,
           ),
           Container(
             height: 5,
@@ -69,17 +64,13 @@ class FilterSelectionWidget extends StatelessWidget {
                 isSelected: filterProvider.regionSelected,
                 toggle: filterProvider.toggleRegion,
                 title: (region) => region.name,
-                colorScheme: colorScheme
-            ),
+                colorScheme: colorScheme),
             spacing: 8.0,
           ),
           Divider(),
           Text(
             "Domain:",
-            style: Theme
-                .of(context)
-                .textTheme
-                .headline6,
+            style: Theme.of(context).textTheme.headline6,
           ),
           Container(
             height: 5,
@@ -90,8 +81,7 @@ class FilterSelectionWidget extends StatelessWidget {
                 isSelected: filterProvider.domainSelected,
                 toggle: filterProvider.toggleDomain,
                 title: (domain) => domain.name,
-                colorScheme: colorScheme
-            ),
+                colorScheme: colorScheme),
             spacing: 8.0,
           ),
         ],

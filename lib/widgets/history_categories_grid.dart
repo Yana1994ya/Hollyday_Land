@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/history.dart';
-import 'package:hollyday_land/screens/museum/history_museums.dart';
-import 'package:hollyday_land/screens/museum/museums.dart';
-import 'package:hollyday_land/widgets/category_item.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/history.dart";
+import "package:hollyday_land/screens/museum/history_museums.dart";
+import "package:hollyday_land/widgets/category_item.dart";
 
 class HistoryCategoriesGrid extends StatelessWidget {
   final History history;
 
-  const HistoryCategoriesGrid({Key? key, required this.history}) : super(key: key);
+  const HistoryCategoriesGrid({Key? key, required this.history})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

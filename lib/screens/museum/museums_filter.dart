@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/museum/museum_filter.dart';
-import 'package:hollyday_land/models/museum/museum_filter_options.dart';
-import 'package:hollyday_land/providers/museum/museum_filter.dart';
-import 'package:hollyday_land/widgets/museum/filter_selection.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/museum/museum_filter.dart";
+import "package:hollyday_land/models/museum/museum_filter_options.dart";
+import "package:hollyday_land/providers/museum/museum_filter.dart";
+import "package:hollyday_land/widgets/museum/filter_selection.dart";
+import "package:provider/provider.dart";
 
 class MuseumsFilterScreen extends StatelessWidget {
   final MuseumFilter currentFilter;

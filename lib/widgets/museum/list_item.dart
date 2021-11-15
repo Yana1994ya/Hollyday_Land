@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/museum/museum_short.dart';
-import 'package:hollyday_land/screens/museum/museum.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/museum/museum_short.dart";
+import "package:hollyday_land/screens/museum/museum.dart";
 
 class MuseumListItem extends StatelessWidget {
-  static const double BORDER_RADIUS = 10.0;
+  static const double borderRadius = 10.0;
   final MuseumShort museum;
 
   const MuseumListItem({Key? key, required this.museum}) : super(key: key);
@@ -24,7 +24,7 @@ class MuseumListItem extends StatelessWidget {
     return InkWell(
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(MuseumListItem.BORDER_RADIUS),
+          borderRadius: BorderRadius.circular(MuseumListItem.borderRadius),
         ),
         child: Container(
           height: 280,
@@ -39,8 +39,8 @@ class MuseumListItem extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(MuseumListItem.BORDER_RADIUS+3),
-                    topRight: Radius.circular(MuseumListItem.BORDER_RADIUS+3),
+                    topLeft: Radius.circular(MuseumListItem.borderRadius + 3),
+                    topRight: Radius.circular(MuseumListItem.borderRadius + 3),
                   ),
                 ),
                 child: Container(
@@ -98,8 +98,9 @@ class MuseumListItem extends StatelessWidget {
           ),
         ),
       ),
-      onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => MuseumScreen(museum: museum)));
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => MuseumScreen(museum: museum)));
       },
     );
   }

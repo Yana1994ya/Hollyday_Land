@@ -1,13 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/favorites.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/favorites.dart";
 
 class FavoriteButton extends StatefulWidget {
   final int attractionId;
   final bool initalState;
   final String token;
 
-  const FavoriteButton({Key? key, required this.attractionId, required this.initalState, required this.token}) : super(key: key);
+  const FavoriteButton(
+      {Key? key,
+      required this.attractionId,
+      required this.initalState,
+      required this.token})
+      : super(key: key);
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();
@@ -23,13 +28,13 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     super.initState();
   }
 
-  void setFavorite(bool newValue){
+  void setFavorite(bool newValue) {
     setState(() {
       working = true;
     });
 
     Favorites.setFavorite(widget.token, widget.attractionId, newValue)
-        .then((_){
+        .then((_) {
       setState(() {
         working = false;
         favorite = newValue;
@@ -39,15 +44,24 @@ class _FavoriteButtonState extends State<FavoriteButton> {
 
   @override
   Widget build(BuildContext context) {
-    if(working){
+    if (working) {
       return CircularProgressIndicator();
     } else {
-      if(favorite){
-        return IconButton(onPressed: (){ setFavorite(false); }, icon: Icon(Icons.favorite),);
+      if (favorite) {
+        return IconButton(
+          onPressed: () {
+            setFavorite(false);
+          },
+          icon: Icon(Icons.favorite),
+        );
       } else {
-        return IconButton(onPressed: (){ setFavorite(true); }, icon: Icon(Icons.favorite_outline),);
+        return IconButton(
+          onPressed: () {
+            setFavorite(true);
+          },
+          icon: Icon(Icons.favorite_outline),
+        );
       }
     }
-
   }
 }

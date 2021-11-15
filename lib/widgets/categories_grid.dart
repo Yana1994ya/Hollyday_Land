@@ -1,15 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/screens/museum/museums.dart';
-import 'package:hollyday_land/widgets/category_item.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/screens/museum/museums.dart";
+import "package:hollyday_land/widgets/category_item.dart";
 
 class CategoriesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final List<CategoryItem> items = [CategoryItem(
+    final List<CategoryItem> items = [
+      CategoryItem(
         image: "assets/graphics/museums.jpg",
         title: "Museums",
         path: MuseumsScreen.routePath,
-    ),];
+      ),
+    ];
 
     return GridView.builder(
       padding: const EdgeInsets.all(15),

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/region.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/region.dart";
 
 class RegionsProvider extends ChangeNotifier {
   bool _isLoading = true;

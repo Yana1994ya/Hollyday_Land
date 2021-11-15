@@ -1,12 +1,7 @@
-import 'package:hollyday_land/models/image_asset.dart';
-import 'package:hollyday_land/models/museum/museum_domain.dart';
-
-import '../../config.dart';
-import '../http_exception.dart';
-import '../region.dart';
-
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/image_asset.dart";
+import "package:hollyday_land/models/museum/museum_domain.dart";
+import "package:hollyday_land/models/region.dart";
 
 class Museum {
   final int id;
@@ -39,9 +34,9 @@ class Museum {
     final List<dynamic> additionalImagesJson = json["additional_images"];
 
     return Museum(
-      id: json['id'],
-      name: json['name'],
-      mainImage: json['main_image'] == null
+      id: json["id"],
+      name: json["name"],
+      mainImage: json["main_image"] == null
           ? null
           : ImageAsset.fromJson(json["main_image"]),
       additionalImages:
@@ -57,31 +52,17 @@ class Museum {
   }
 
   static Future<Museum> readMuseum(int museumId) async {
-    final uri = Uri.https(API_SERVER, "/attractions/api/museums/$museumId");
-
-    print("fetching: $uri");
-
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] == "ok") {
-        return Museum.fromJson(data["museum"]);
-      } else {
-        throw HttpException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw HttpException(
-          "failed to load data, status: ${response.statusCode}");
-    }
+    return ApiServer.get(
+      "/attractions/api/museums/$museumId",
+      "museum",
+    ).then((data) => Museum.fromJson(data));
   }
 
   @override
   String toString() {
-    return 'Museum{id: $id, name: $name, description: $description, '
-        'address: $address, website: $website, lat: $lat, long: $long, '
-        'mainImage: $mainImage, additionalImages: $additionalImages, '
-        'region: $region, domain: $domain}';
+    return "Museum{id: $id, name: $name, description: $description, "
+        "address: $address, website: $website, lat: $lat, long: $long, "
+        "mainImage: $mainImage, additionalImages: $additionalImages, "
+        "region: $region, domain: $domain}";
   }
 }

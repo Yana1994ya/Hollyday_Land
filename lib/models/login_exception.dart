@@ -5,6 +5,6 @@ class LoginException implements Exception {
 
   @override
   String toString() {
-    return "LoginException:" + this.message;
+    return "LoginException: $message";
   }
 }

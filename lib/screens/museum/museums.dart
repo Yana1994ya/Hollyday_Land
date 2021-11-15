@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/museum/museum_filter.dart';
-import 'package:hollyday_land/models/museum/museum_short.dart';
-import 'package:hollyday_land/screens/museum/museums_filter.dart';
-import 'package:hollyday_land/widgets/museum/list_item.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/museum/museum_filter.dart";
+import "package:hollyday_land/models/museum/museum_short.dart";
+import "package:hollyday_land/screens/museum/museums_filter.dart";
+import "package:hollyday_land/widgets/museum/list_item.dart";
 
 class MuseumsScreen extends StatefulWidget {
   static const routePath = "/museums";
@@ -22,9 +22,12 @@ class _MuseumsScreenState extends State<MuseumsScreen> {
     }
   }
 
-  Widget pageTitle(BuildContext context, List<MuseumShort> museums){
+  Widget pageTitle(BuildContext context, List<MuseumShort> museums) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8,),
+      padding: const EdgeInsets.symmetric(
+        vertical: 3,
+        horizontal: 8,
+      ),
       child: Text("found ${museums.length} museums"),
     );
   }

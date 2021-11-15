@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/login.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/providers/login.dart";
+import "package:provider/provider.dart";
 
 class ProfileScreen extends StatelessWidget {
   static const routePath = "/profile";
@@ -13,10 +12,10 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Image(image: AssetImage('assets/graphics/logo.png')),
+          const Image(image: AssetImage("assets/graphics/logo.png")),
           const Text("You are not currently signed in."),
           ElevatedButton(
-            child: const Text('Log in with Google'),
+            child: const Text("Log in with Google"),
             onPressed: () {
               loginProvider.signIn();
             },

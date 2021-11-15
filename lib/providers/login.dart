@@ -1,16 +1,10 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hollyday_land/models/http_exception.dart';
-import 'package:hollyday_land/models/login_exception.dart';
-import 'package:http/http.dart' as http;
-
-import '../config.dart';
+import "package:flutter/material.dart";
+import "package:google_sign_in/google_sign_in.dart";
+import "package:hollyday_land/api_server.dart";
 
 class LoginProvider with ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ['email'],
+    scopes: ["email"],
   );
 
   GoogleSignInAccount? _currentUser;
@@ -34,35 +28,15 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future<String> _hdLogin(GoogleSignInAccount account) async {
-    final uri = Uri.https(API_SERVER, "/attractions/api/login");
     final auth = await account.authentication;
 
-    print("fetching: $uri");
-
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+    return ApiServer.post(
+      "/attractions/api/login",
+      "token",
+      {
+        "token": auth.idToken!,
       },
-      body: jsonEncode(
-        <String, String>{
-          'token': auth.idToken!,
-        },
-      ),
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] == "ok") {
-        return data["token"];
-      } else {
-        throw LoginException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw LoginException(
-          "failed to load data, status: ${response.statusCode}");
-    }
+    ).then((value) => (value as String));
   }
 
   GoogleSignInAccount? get currentUser {
@@ -92,29 +66,12 @@ class LoginProvider with ChangeNotifier {
       return;
     }
 
-    final uri = Uri.https(API_SERVER, "/attractions/api/visit");
-
-    print("fetching: $uri");
-
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+    return ApiServer.voidPost(
+      "/attractions/api/visit",
+      {
+        "token": _hdToken!,
+        "id": attractonId,
       },
-      body: jsonEncode(
-        <String, dynamic>{'token': _hdToken!, 'id': attractonId},
-      ),
     );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] != "ok") {
-        throw HttpException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw HttpException(
-          "failed to load data, status: ${response.statusCode}");
-    }
   }
 }

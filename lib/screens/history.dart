@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/history.dart';
-import 'package:hollyday_land/screens/profile.dart';
-import 'package:hollyday_land/widgets/history_categories_grid.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/login.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/history.dart";
+import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/screens/profile.dart";
+import "package:hollyday_land/widgets/history_categories_grid.dart";
+import "package:provider/provider.dart";
 
 class _LoggedInHistoryScreen extends StatefulWidget {
   final LoginProvider loginProvider;

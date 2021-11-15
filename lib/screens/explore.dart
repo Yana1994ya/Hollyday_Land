@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/providers/login.dart';
-import 'package:hollyday_land/screens/favorites.dart';
-import 'package:hollyday_land/screens/history.dart';
-import 'package:hollyday_land/screens/profile.dart';
-import 'package:hollyday_land/widgets/categories_grid.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/screens/favorites.dart";
+import "package:hollyday_land/screens/history.dart";
+import "package:hollyday_land/screens/profile.dart";
+import "package:hollyday_land/widgets/categories_grid.dart";
+import "package:provider/provider.dart";
 
 class ExploreScreen extends StatelessWidget {
   Widget drawer(BuildContext context) {
@@ -107,6 +107,9 @@ class ExploreScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Explore"),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+        ],
       ),
       body: CategoriesGrid(),
       drawer: drawer(context),

@@ -1,14 +1,8 @@
-import 'package:hollyday_land/models/image_asset.dart';
-import 'package:hollyday_land/models/museum/museum_domain.dart';
-import 'package:hollyday_land/models/museum/museum_filter.dart';
-import 'package:hollyday_land/models/region_short.dart';
-
-import '../../config.dart';
-
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import '../http_exception.dart';
+import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/image_asset.dart";
+import "package:hollyday_land/models/museum/museum_domain.dart";
+import "package:hollyday_land/models/museum/museum_filter.dart";
+import "package:hollyday_land/models/region_short.dart";
 
 class MuseumShort {
   final int id;
@@ -33,9 +27,9 @@ class MuseumShort {
 
   factory MuseumShort.fromJson(Map<String, dynamic> json) {
     return MuseumShort(
-      id: json['id'],
-      name: json['name'],
-      mainImage: json['main_image'] == null
+      id: json["id"],
+      name: json["name"],
+      mainImage: json["main_image"] == null
           ? null
           : ImageAsset.fromJson(json["main_image"]),
       domain: MuseumDomain.fromJson(json["domain"]),
@@ -48,8 +42,14 @@ class MuseumShort {
 
   @override
   String toString() {
-    return 'MuseumShort{id: $id, name: $name, address: $address, lat: $lat, '
-        'long: $long, mainImage: $mainImage, region: $region, domain: $domain}';
+    return "MuseumShort{id: $id, name: $name, address: $address, lat: $lat, "
+        "long: $long, mainImage: $mainImage, region: $region, domain: $domain}";
+  }
+
+  static List<MuseumShort> _mapMuseums(dynamic apiResult) {
+    return (apiResult as List<dynamic>)
+        .map((museum) => MuseumShort.fromJson(museum))
+        .toList();
   }
 
   static Future<List<MuseumShort>> readMuseums(
@@ -66,86 +66,23 @@ class MuseumShort {
           museumFilter.domainIds.map((id) => id.toString());
     }
 
-    final uri = Uri.https(API_SERVER, "/attractions/api/museums", parameters);
-
-    print("fetching: $uri");
-
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] == "ok") {
-        final List<dynamic> museums = data["museums"];
-        return museums.map((e) => MuseumShort.fromJson(e)).toList();
-      } else {
-        throw HttpException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw HttpException(
-          "failed to load data, status: ${response.statusCode}");
-    }
+    return ApiServer.get("/attractions/api/museums", "museums", parameters)
+        .then(_mapMuseums);
   }
 
   static Future<List<MuseumShort>> readHistory(String token) async {
-    final uri = Uri.https(API_SERVER, "/attractions/api/history/museums");
-    //final uri = Uri.http("10.0.0.7:8000", "/attractions/api/history/museums");
-
-    print("fetching: $uri");
-
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-        <String, String>{'token': token},
-      ),
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] == "ok") {
-        final List<dynamic> museums = data["museums"];
-        return museums.map((e) => MuseumShort.fromJson(e)).toList();
-      } else {
-        throw HttpException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw HttpException(
-          "failed to load data, status: ${response.statusCode}");
-    }
+    return ApiServer.post(
+      "/attractions/api/history/museums",
+      "museums",
+      {"token": token},
+    ).then(_mapMuseums);
   }
 
   static Future<List<MuseumShort>> readFavorites(String token) async {
-    final uri = Uri.https(API_SERVER, "/attractions/api/favorites/museums");
-    //final uri = Uri.http("10.0.0.7:8000", "/attractions/api/history/museums");
-
-    print("fetching: $uri");
-
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-        <String, String>{'token': token},
-      ),
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] == "ok") {
-        final List<dynamic> museums = data["museums"];
-        return museums.map((e) => MuseumShort.fromJson(e)).toList();
-      } else {
-        throw HttpException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw HttpException(
-          "failed to load data, status: ${response.statusCode}");
-    }
+    return ApiServer.post(
+      "/attractions/api/favorites/museums",
+      "museums",
+      {"token": token},
+    ).then(_mapMuseums);
   }
 }

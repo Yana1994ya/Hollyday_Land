@@ -1,8 +1,4 @@
-import 'package:hollyday_land/models/http_exception.dart';
-
-import '../../config.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import "package:hollyday_land/api_server.dart";
 
 class MuseumDomain {
   final int id;
@@ -12,38 +8,26 @@ class MuseumDomain {
 
   factory MuseumDomain.fromJson(Map<String, dynamic> json) {
     return MuseumDomain(
-      id: json['id'],
-      name: json['name'],
+      id: json["id"],
+      name: json["name"],
     );
   }
 
   @override
   String toString() {
-    return 'MuseumDomain{id: $id, name: $name}';
+    return "MuseumDomain{id: $id, name: $name}";
+  }
+
+  static List<MuseumDomain> _mapDomains(dynamic apiResult) {
+    return (apiResult as List<dynamic>)
+        .map((domain) => MuseumDomain.fromJson(domain))
+        .toList();
   }
 
   static Future<List<MuseumDomain>> readMuseumDomains() async {
-    final uri = Uri.https(
-      API_SERVER,
+    return ApiServer.get(
       "/attractions/api/museum_domains",
-    );
-
-    print("fetching: $uri");
-
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (data["status"] == "ok") {
-        final List<dynamic> domains = data["domains"];
-        return domains.map((e) => MuseumDomain.fromJson(e)).toList();
-      } else {
-        throw HttpException("error was returned:${data["error"]}");
-      }
-    } else {
-      throw HttpException(
-          "failed to load data, status: ${response.statusCode}");
-    }
+      "domains",
+    ).then(_mapDomains);
   }
 }

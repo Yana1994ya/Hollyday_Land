@@ -5,6 +5,6 @@ class MuseumFilter {
   const MuseumFilter({required this.regionIds, required this.domainIds});
 
   factory MuseumFilter.empty() {
-    return MuseumFilter(regionIds: Set(), domainIds: Set());
+    return MuseumFilter(regionIds: {}, domainIds: {});
   }
 }

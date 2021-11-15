@@ -1,13 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/favorites.dart';
-import 'package:hollyday_land/models/museum/museum.dart';
-import 'package:hollyday_land/models/museum/museum_short.dart';
-import 'package:hollyday_land/providers/login.dart';
-import 'package:hollyday_land/widgets/favorite_button.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import "package:carousel_slider/carousel_slider.dart";
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/favorites.dart";
+import "package:hollyday_land/models/museum/museum.dart";
+import "package:hollyday_land/models/museum/museum_short.dart";
+import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/widgets/favorite_button.dart";
+import "package:provider/provider.dart";
+import "package:url_launcher/url_launcher.dart";
 
 class MuseumScreen extends StatelessWidget {
   final MuseumShort museum;
@@ -55,21 +54,24 @@ class MuseumScreen extends StatelessWidget {
   // identify the site to a human, such as the protocol
   // used to access it.
   static String prettyUrl(String original) {
-    if (original.startsWith("http://"))
+    if (original.startsWith("http://")) {
       original = original.substring(7);
-    else if (original.startsWith("https://")) original = original.substring(8);
+    } else if (original.startsWith("https://")) {
+      original = original.substring(8);
+    }
 
     // trim www. from begging as well
     if (original.startsWith("www.")) original = original.substring(4);
 
-    while (original.endsWith("/"))
+    while (original.endsWith("/")) {
       original = original.substring(0, original.length - 1);
+    }
 
     return original;
   }
 
   static void launchWebsite(String url) async =>
-      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+      await canLaunch(url) ? await launch(url) : throw "Could not launch $url";
 
   Widget buildMuseum(final Museum museum, BuildContext context) {
     final List<Image> images = [
@@ -168,6 +170,10 @@ class MuseumScreen extends StatelessWidget {
         title: Text(museum.name),
         actions: [
           favoriteIcon(context, login),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.share),
+          )
         ],
       ),
       body: FutureBuilder(
