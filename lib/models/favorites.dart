@@ -2,11 +2,15 @@ import "package:hollyday_land/api_server.dart";
 
 class Favorites {
   final int museums;
+  final int wineries;
 
-  Favorites({required this.museums});
+  Favorites({required this.museums, required this.wineries});
 
   factory Favorites.fromJson(Map<String, dynamic> json) {
-    return Favorites(museums: json["museums"]);
+    return Favorites(
+      museums: json["museums"],
+      wineries: json["wineries"],
+    );
   }
 
   static Future<Favorites> readFavorites(String token) async {

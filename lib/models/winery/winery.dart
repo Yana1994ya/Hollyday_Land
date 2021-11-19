@@ -1,10 +1,9 @@
 import "package:hollyday_land/api_server.dart";
-import "package:hollyday_land/models/attraction.dart";
+import 'package:hollyday_land/models/attraction.dart';
 import "package:hollyday_land/models/image_asset.dart";
-import "package:hollyday_land/models/museum/museum_domain.dart";
 import "package:hollyday_land/models/region.dart";
 
-class Museum extends Attraction {
+class Winery extends Attraction {
   @override
   final int id;
   @override
@@ -23,9 +22,8 @@ class Museum extends Attraction {
   final List<ImageAsset> additionalImages;
   @override
   final Region region;
-  final MuseumDomain domain;
 
-  Museum({
+  Winery({
     required this.id,
     required this.name,
     required this.description,
@@ -36,13 +34,12 @@ class Museum extends Attraction {
     required this.mainImage,
     required this.additionalImages,
     required this.region,
-    required this.domain,
   });
 
-  factory Museum.fromJson(Map<String, dynamic> json) {
+  factory Winery.fromJson(Map<String, dynamic> json) {
     final List<dynamic> additionalImagesJson = json["additional_images"];
 
-    return Museum(
+    return Winery(
       id: json["id"],
       name: json["name"],
       mainImage: json["main_image"] == null
@@ -51,7 +48,6 @@ class Museum extends Attraction {
       additionalImages:
           additionalImagesJson.map((m) => ImageAsset.fromJson(m)).toList(),
       description: json["description"],
-      domain: MuseumDomain.fromJson(json["domain"]),
       region: Region.fromJson(json["region"]),
       address: json["address"],
       website: json["website"],
@@ -60,18 +56,18 @@ class Museum extends Attraction {
     );
   }
 
-  static Future<Museum> readMuseum(int museumId) async {
+  static Future<Winery> readWinery(int museumId) async {
     return ApiServer.get(
-      "/attractions/api/museums/$museumId",
-      "museum",
-    ).then((data) => Museum.fromJson(data));
+      "/attractions/api/wineries/$museumId",
+      "winery",
+    ).then((data) => Winery.fromJson(data));
   }
 
   @override
   String toString() {
-    return "Museum{id: $id, name: $name, description: $description, "
+    return "Winery{id: $id, name: $name, description: $description, "
         "address: $address, website: $website, lat: $lat, long: $long, "
         "mainImage: $mainImage, additionalImages: $additionalImages, "
-        "region: $region, domain: $domain}";
+        "region: $region}";
   }
 }

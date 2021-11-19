@@ -83,7 +83,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
                           .then((_) {
                         setState(() {
                           loading = false;
-                          history = History(museums: 0);
+                          history = History(museums: 0, wineries: 0);
                         });
                       });
                     }

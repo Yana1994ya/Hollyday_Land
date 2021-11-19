@@ -1,10 +1,8 @@
-import "package:flutter/material.dart";
 import "package:hollyday_land/models/museum/museum_domain.dart";
 import "package:hollyday_land/models/museum/museum_filter.dart";
-import "package:hollyday_land/models/region.dart";
+import "package:hollyday_land/providers/attraction_filter.dart";
 
-class MuseumFilterProvider with ChangeNotifier {
-  final Set<int> _regionIds;
+class MuseumFilterProvider extends AttractionFilterProvider<MuseumFilter> {
   final Set<int> _domainIds;
 
   factory MuseumFilterProvider.fromFilter(MuseumFilter filter) {
@@ -17,17 +15,7 @@ class MuseumFilterProvider with ChangeNotifier {
   MuseumFilterProvider(
       {required Set<int> regionIds, required Set<int> domainIds})
       : _domainIds = domainIds,
-        _regionIds = regionIds;
-
-  toggleRegion(Region region) {
-    if (_regionIds.contains(region.id)) {
-      _regionIds.remove(region.id);
-    } else {
-      _regionIds.add(region.id);
-    }
-
-    notifyListeners();
-  }
+        super(regionIds: regionIds);
 
   toggleDomain(MuseumDomain domain) {
     if (_domainIds.contains(domain.id)) {
@@ -38,17 +26,14 @@ class MuseumFilterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool regionSelected(Region region) {
-    return _regionIds.contains(region.id);
-  }
-
   bool domainSelected(MuseumDomain domain) {
     return _domainIds.contains(domain.id);
   }
 
+  @override
   MuseumFilter get filter {
     return MuseumFilter(
-      regionIds: _regionIds,
+      regionIds: regionIds,
       domainIds: _domainIds,
     );
   }

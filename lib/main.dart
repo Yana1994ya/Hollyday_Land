@@ -9,6 +9,7 @@ import "package:hollyday_land/screens/museum/favorites_museums.dart";
 import "package:hollyday_land/screens/museum/history_museums.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/profile.dart";
+import 'package:hollyday_land/screens/winery/wineries.dart';
 import "package:provider/provider.dart";
 
 void main() {
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           MuseumsScreen.routePath: (_) => MuseumsScreen(),
+          WineriesScreen.routePath: (_) => WineriesScreen(),
           ProfileScreen.routePath: (_) => ProfileScreen(),
           HistoryScreen.routePath: (_) => HistoryScreen(),
           FavoritesScreen.routePath: (_) => FavoritesScreen(),

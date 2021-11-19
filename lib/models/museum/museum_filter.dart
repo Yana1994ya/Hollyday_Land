@@ -1,4 +1,7 @@
-class MuseumFilter {
+import 'package:hollyday_land/models/attraction_filter.dart';
+
+class MuseumFilter extends AttractionFilter {
+  @override
   final Set<int> regionIds;
   final Set<int> domainIds;
 

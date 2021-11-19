@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/museum/museum_filter.dart";
 import "package:hollyday_land/models/museum/museum_short.dart";
-import "package:hollyday_land/screens/museum/museums_filter.dart";
+import 'package:hollyday_land/screens/attractions.dart';
+import "package:hollyday_land/screens/museum/filter.dart";
+import 'package:hollyday_land/widgets/list_item.dart';
 import "package:hollyday_land/widgets/museum/list_item.dart";
 
 class MuseumsScreen extends StatefulWidget {
@@ -11,72 +13,33 @@ class MuseumsScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _MuseumsScreenState();
 }
 
-class _MuseumsScreenState extends State<MuseumsScreen> {
-  MuseumFilter filter = MuseumFilter.empty();
-
-  void filterSelectionResult(dynamic value) {
-    if (value != null) {
-      setState(() {
-        filter = value as MuseumFilter;
-      });
-    }
-  }
-
-  Widget pageTitle(BuildContext context, List<MuseumShort> museums) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 3,
-        horizontal: 8,
-      ),
-      child: Text("found ${museums.length} museums"),
-    );
+class _MuseumsScreenState
+    extends AttractionsScreenState<MuseumsScreen, MuseumShort, MuseumFilter> {
+  @override
+  MuseumFilter emptryFilter() {
+    return MuseumFilter.empty();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Museums"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(
-                      builder: (_) =>
-                          MuseumsFilterScreen(currentFilter: filter),
-                    ))
-                    .then(filterSelectionResult);
-              },
-              icon: Icon(Icons.tune)),
-        ],
-      ),
-      body: FutureBuilder(
-        future: MuseumShort.readMuseums(filter),
-        builder: (_, AsyncSnapshot<List<MuseumShort>> snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-                child: Text(
-              snapshot.error.toString(),
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ));
-          } else if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            List<MuseumShort> museums = snapshot.data!;
+  MaterialPageRoute get filterScreen => MaterialPageRoute(
+        builder: (_) => MuseumsFilterScreen(currentFilter: filter),
+      );
 
-            return ListView.builder(
-              itemBuilder: (_, index) => index == 0
-                  ? pageTitle(context, museums)
-                  : MuseumListItem(museum: museums[index - 1]),
-              itemCount: museums.length + 1,
-            );
-          }
-        },
-      ),
-    );
+  @override
+  AttractionListItem<MuseumShort> getListItem(MuseumShort museum) {
+    return MuseumListItem(museum: museum);
   }
+
+  @override
+  String itemCountText(List<MuseumShort> museums) {
+    return "found ${museums.length} museums";
+  }
+
+  @override
+  Future<List<MuseumShort>> readAttractions() {
+    return MuseumShort.readMuseums(filter);
+  }
+
+  @override
+  String get pageTitle => "Museums";
 }

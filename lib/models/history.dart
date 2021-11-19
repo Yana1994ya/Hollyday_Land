@@ -2,11 +2,15 @@ import "package:hollyday_land/api_server.dart";
 
 class History {
   final int museums;
+  final int wineries;
 
-  History({required this.museums});
+  History({required this.museums, required this.wineries});
 
   factory History.fromJson(Map<String, dynamic> json) {
-    return History(museums: json["museums"]);
+    return History(
+      museums: json["museums"],
+      wineries: json["wineries"],
+    );
   }
 
   static Future<void> deleteHistory(String token) async {

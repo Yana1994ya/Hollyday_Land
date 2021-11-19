@@ -4,13 +4,22 @@ import "package:hollyday_land/models/museum/museum_domain.dart";
 import "package:hollyday_land/models/museum/museum_filter.dart";
 import "package:hollyday_land/models/region_short.dart";
 
-class MuseumShort {
+import '../attraction_short.dart';
+
+class MuseumShort extends AttractionShort {
   final int id;
+
+  @override
   final String name;
+
+  @override
   final String address;
   final double lat;
   final double long;
+
+  @override
   final ImageAsset? mainImage;
+  @override
   final RegionShort region;
   final MuseumDomain domain;
 
