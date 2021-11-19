@@ -1,20 +1,27 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/museum/museum_short.dart";
+import 'package:hollyday_land/models/attraction_short.dart';
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
-import "package:hollyday_land/widgets/museum/list_item.dart";
+import 'package:hollyday_land/widgets/list_item.dart';
 import "package:provider/provider.dart";
 
-class HistoryMuseumsScreen extends StatelessWidget {
-  static const routePath = "/history/museums";
+abstract class UserAttractionsScreen<Attraction extends AttractionShort>
+    extends StatelessWidget {
+  String itemCountText(List<Attraction> attractions);
 
-  Widget pageTitle(BuildContext context, List<MuseumShort> museums) {
+  Future<List<Attraction>> readHistory(String hdToken);
+
+  AttractionListItem<Attraction> getListItem(Attraction attraction);
+
+  String get pageTitle;
+
+  Widget itemCount(BuildContext context, List<Attraction> attractions) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 3,
         horizontal: 8,
       ),
-      child: Text("found ${museums.length} museums"),
+      child: Text(itemCountText(attractions)),
     );
   }
 
@@ -25,20 +32,20 @@ class HistoryMuseumsScreen extends StatelessWidget {
       return ProfileScreen.loginBody(loginProvider);
     } else {
       return FutureBuilder(
-          future: MuseumShort.readHistory(loginProvider.hdToken!),
-          builder: (_, AsyncSnapshot<List<MuseumShort>> snapshot) {
+          future: readHistory(loginProvider.hdToken!),
+          builder: (_, AsyncSnapshot<List<Attraction>> snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("error ${snapshot.error}"));
             } else if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             } else {
-              List<MuseumShort> museums = snapshot.data!;
+              List<Attraction> attractions = snapshot.data!;
 
               return ListView.builder(
                 itemBuilder: (_, index) => index == 0
-                    ? pageTitle(context, museums)
-                    : MuseumListItem(museum: museums[index - 1]),
-                itemCount: museums.length + 1,
+                    ? itemCount(context, attractions)
+                    : getListItem(attractions[index - 1]),
+                itemCount: attractions.length + 1,
               );
             }
           });
@@ -49,7 +56,7 @@ class HistoryMuseumsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Visited museums"),
+        title: Text(pageTitle),
       ),
       body: bodyWidget(context),
     );

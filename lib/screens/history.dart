@@ -25,7 +25,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
       return false;
     }
 
-    if (history!.museums > 0) {
+    if (history!.museums + history!.wineries > 0) {
       return true;
     }
 

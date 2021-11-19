@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/favorites.dart";
-import "package:hollyday_land/screens/museum/favorites_museums.dart";
+import "package:hollyday_land/screens/museum/favorites.dart";
+import 'package:hollyday_land/screens/winery/favorites.dart';
 import "package:hollyday_land/widgets/category_item.dart";
 
 class FavoritesCategoriesGrid extends StatelessWidget {
@@ -17,6 +18,12 @@ class FavoritesCategoriesGrid extends StatelessWidget {
           image: "assets/graphics/museums.jpg",
           title: "Museums",
           path: FavoritesMuseumsScreen.routePath,
+        ),
+      if (favorites.wineries > 0)
+        CategoryItem(
+          image: "assets/graphics/wineries.jpg",
+          title: "Wineries",
+          path: FavoritesWineriesScreen.routePath,
         ),
     ];
 

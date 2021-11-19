@@ -5,10 +5,12 @@ import "package:hollyday_land/providers/regions.dart";
 import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
-import "package:hollyday_land/screens/museum/favorites_museums.dart";
-import "package:hollyday_land/screens/museum/history_museums.dart";
+import "package:hollyday_land/screens/museum/favorites.dart";
+import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/profile.dart";
+import 'package:hollyday_land/screens/winery/favorites.dart';
+import 'package:hollyday_land/screens/winery/history.dart';
 import 'package:hollyday_land/screens/winery/wineries.dart';
 import "package:provider/provider.dart";
 
@@ -52,7 +54,9 @@ class MyApp extends StatelessWidget {
           HistoryScreen.routePath: (_) => HistoryScreen(),
           FavoritesScreen.routePath: (_) => FavoritesScreen(),
           HistoryMuseumsScreen.routePath: (_) => HistoryMuseumsScreen(),
-          FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen()
+          HistoryWineriesScreen.routePath: (_) => HistoryWineriesScreen(),
+          FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen(),
+          FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen()
         },
       ),
     );

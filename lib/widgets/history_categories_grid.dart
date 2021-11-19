@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/history.dart";
-import "package:hollyday_land/screens/museum/history_museums.dart";
+import "package:hollyday_land/screens/museum/history.dart";
+import 'package:hollyday_land/screens/winery/history.dart';
 import "package:hollyday_land/widgets/category_item.dart";
 
 class HistoryCategoriesGrid extends StatelessWidget {
@@ -17,6 +18,12 @@ class HistoryCategoriesGrid extends StatelessWidget {
           image: "assets/graphics/museums.jpg",
           title: "Museums",
           path: HistoryMuseumsScreen.routePath,
+        ),
+      if (history.wineries > 0)
+        CategoryItem(
+          image: "assets/graphics/wineries.jpg",
+          title: "Wineries",
+          path: HistoryWineriesScreen.routePath,
         ),
     ];
 
