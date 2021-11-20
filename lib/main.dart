@@ -12,6 +12,9 @@ import "package:hollyday_land/screens/profile.dart";
 import 'package:hollyday_land/screens/winery/favorites.dart';
 import 'package:hollyday_land/screens/winery/history.dart';
 import 'package:hollyday_land/screens/winery/wineries.dart';
+import 'package:hollyday_land/screens/zoo/favorites.dart';
+import 'package:hollyday_land/screens/zoo/history.dart';
+import 'package:hollyday_land/screens/zoo/zoos.dart';
 import "package:provider/provider.dart";
 
 void main() {
@@ -50,13 +53,16 @@ class MyApp extends StatelessWidget {
         routes: {
           MuseumsScreen.routePath: (_) => MuseumsScreen(),
           WineriesScreen.routePath: (_) => WineriesScreen(),
+          ZoosScreen.routePath: (_) => ZoosScreen(),
           ProfileScreen.routePath: (_) => ProfileScreen(),
           HistoryScreen.routePath: (_) => HistoryScreen(),
           FavoritesScreen.routePath: (_) => FavoritesScreen(),
           HistoryMuseumsScreen.routePath: (_) => HistoryMuseumsScreen(),
           HistoryWineriesScreen.routePath: (_) => HistoryWineriesScreen(),
+          HistoryZoosScreen.routePath: (_) => HistoryZoosScreen(),
           FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen(),
-          FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen()
+          FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen(),
+          FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen()
         },
       ),
     );

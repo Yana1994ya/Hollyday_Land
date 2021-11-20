@@ -34,6 +34,7 @@ class ApiServer {
     final uri = Uri.https(serverName, path);
 
     print("fetching: $uri");
+    print(body);
 
     final response = await http.post(
       uri,

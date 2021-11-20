@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/winery/wineries.dart";
+import "package:hollyday_land/screens/zoo/zoos.dart";
 import "package:hollyday_land/widgets/category_item.dart";
 
 class CategoriesGrid extends StatelessWidget {
@@ -16,6 +17,11 @@ class CategoriesGrid extends StatelessWidget {
         image: "assets/graphics/wineries.jpg",
         title: "Wineries",
         path: WineriesScreen.routePath,
+      ),
+      CategoryItem(
+        image: "assets/graphics/zoos.jpg",
+        title: "Zoos",
+        path: ZoosScreen.routePath,
       )
     ];
 

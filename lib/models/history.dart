@@ -3,13 +3,15 @@ import "package:hollyday_land/api_server.dart";
 class History {
   final int museums;
   final int wineries;
+  final int zoos;
 
-  History({required this.museums, required this.wineries});
+  History({required this.museums, required this.wineries, required this.zoos});
 
   factory History.fromJson(Map<String, dynamic> json) {
     return History(
       museums: json["museums"],
       wineries: json["wineries"],
+      zoos: json["zoos"],
     );
   }
 

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/museum/museum_filter.dart";
-import "package:hollyday_land/models/museum/museum_filter_options.dart";
+import "package:hollyday_land/models/museum/filter.dart";
+import "package:hollyday_land/models/museum/filter_options.dart";
 import "package:hollyday_land/providers/museum/filter.dart";
 import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter_selection.dart";

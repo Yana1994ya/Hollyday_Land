@@ -1,5 +1,5 @@
+import "package:hollyday_land/models/museum/filter.dart";
 import "package:hollyday_land/models/museum/museum_domain.dart";
-import "package:hollyday_land/models/museum/museum_filter.dart";
 import "package:hollyday_land/providers/attraction_filter.dart";
 
 class MuseumFilterProvider extends AttractionFilterProvider<MuseumFilter> {
@@ -12,8 +12,7 @@ class MuseumFilterProvider extends AttractionFilterProvider<MuseumFilter> {
     );
   }
 
-  MuseumFilterProvider(
-      {required Set<int> regionIds, required Set<int> domainIds})
+  MuseumFilterProvider({required Set<int> regionIds, required Set<int> domainIds})
       : _domainIds = domainIds,
         super(regionIds: regionIds);
 

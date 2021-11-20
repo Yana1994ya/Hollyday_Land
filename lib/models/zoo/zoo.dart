@@ -1,9 +1,9 @@
 import "package:hollyday_land/api_server.dart";
-import 'package:hollyday_land/models/attraction.dart';
+import "package:hollyday_land/models/attraction.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/region.dart";
 
-class Winery extends Attraction {
+class Zoo extends Attraction {
   @override
   final int id;
   @override
@@ -23,7 +23,7 @@ class Winery extends Attraction {
   @override
   final Region region;
 
-  Winery({
+  Zoo({
     required this.id,
     required this.name,
     required this.description,
@@ -36,10 +36,10 @@ class Winery extends Attraction {
     required this.region,
   });
 
-  factory Winery.fromJson(Map<String, dynamic> json) {
+  factory Zoo.fromJson(Map<String, dynamic> json) {
     final List<dynamic> additionalImagesJson = json["additional_images"];
 
-    return Winery(
+    return Zoo(
       id: json["id"],
       name: json["name"],
       mainImage: json["main_image"] == null
@@ -56,16 +56,16 @@ class Winery extends Attraction {
     );
   }
 
-  static Future<Winery> readWinery(int wineryId) async {
+  static Future<Zoo> readZoo(int zooId) async {
     return ApiServer.get(
-      "/attractions/api/wineries/$wineryId",
-      "winery",
-    ).then((data) => Winery.fromJson(data));
+      "/attractions/api/zoos/$zooId",
+      "zoo",
+    ).then((data) => Zoo.fromJson(data));
   }
 
   @override
   String toString() {
-    return "Winery{id: $id, name: $name, description: $description, "
+    return "Zoo{id: $id, name: $name, description: $description, "
         "address: $address, website: $website, lat: $lat, long: $long, "
         "mainImage: $mainImage, additionalImages: $additionalImages, "
         "region: $region}";

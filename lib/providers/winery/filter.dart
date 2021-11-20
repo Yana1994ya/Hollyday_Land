@@ -1,4 +1,4 @@
-import 'package:hollyday_land/models/winery/winery_filter.dart';
+import 'package:hollyday_land/models/winery/filter.dart';
 import "package:hollyday_land/providers/attraction_filter.dart";
 
 class WineryFilterProvider extends AttractionFilterProvider<WineryFilter> {

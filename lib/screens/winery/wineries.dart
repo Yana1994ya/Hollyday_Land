@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/winery/winery_filter.dart';
-import 'package:hollyday_land/models/winery/winery_short.dart';
+import 'package:hollyday_land/models/winery/filter.dart';
+import 'package:hollyday_land/models/winery/short.dart';
 import 'package:hollyday_land/screens/winery/filter.dart';
 import 'package:hollyday_land/widgets/list_item.dart';
 import 'package:hollyday_land/widgets/winery/list_item.dart';

@@ -3,13 +3,16 @@ import "package:hollyday_land/api_server.dart";
 class Favorites {
   final int museums;
   final int wineries;
+  final int zoos;
 
-  Favorites({required this.museums, required this.wineries});
+  Favorites(
+      {required this.museums, required this.wineries, required this.zoos});
 
   factory Favorites.fromJson(Map<String, dynamic> json) {
     return Favorites(
       museums: json["museums"],
       wineries: json["wineries"],
+      zoos: json["zoos"],
     );
   }
 

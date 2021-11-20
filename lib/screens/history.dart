@@ -25,7 +25,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
       return false;
     }
 
-    if (history!.museums + history!.wineries > 0) {
+    if (history!.museums + history!.wineries + history!.zoos > 0) {
       return true;
     }
 
@@ -83,7 +83,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
                           .then((_) {
                         setState(() {
                           loading = false;
-                          history = History(museums: 0, wineries: 0);
+                          history = History(museums: 0, wineries: 0, zoos: 0);
                         });
                       });
                     }

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/winery/short.dart";
 import "package:hollyday_land/models/winery/winery.dart";
-import "package:hollyday_land/models/winery/winery_short.dart";
 import "package:hollyday_land/screens/attraction.dart";
 
 class WineryScreen extends AttractionScreen<WineryShort, Winery> {

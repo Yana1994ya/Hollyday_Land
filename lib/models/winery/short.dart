@@ -2,7 +2,7 @@ import "package:hollyday_land/api_server.dart";
 import 'package:hollyday_land/models/attraction_short.dart';
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/region_short.dart";
-import 'package:hollyday_land/models/winery/winery_filter.dart';
+import 'package:hollyday_land/models/winery/filter.dart';
 
 class WineryShort extends AttractionShort {
   final int id;
