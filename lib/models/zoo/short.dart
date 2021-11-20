@@ -5,6 +5,7 @@ import "package:hollyday_land/models/region_short.dart";
 import "package:hollyday_land/models/zoo/filter.dart";
 
 class ZooShort extends AttractionShort {
+  @override
   final int id;
 
   @override

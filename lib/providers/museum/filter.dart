@@ -12,7 +12,8 @@ class MuseumFilterProvider extends AttractionFilterProvider<MuseumFilter> {
     );
   }
 
-  MuseumFilterProvider({required Set<int> regionIds, required Set<int> domainIds})
+  MuseumFilterProvider(
+      {required Set<int> regionIds, required Set<int> domainIds})
       : _domainIds = domainIds,
         super(regionIds: regionIds);
 

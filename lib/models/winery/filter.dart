@@ -1,4 +1,4 @@
-import '../attraction_filter.dart';
+import "package:hollyday_land/models/attraction_filter.dart";
 
 class WineryFilter extends AttractionFilter {
   @override

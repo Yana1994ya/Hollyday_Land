@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/attraction_filter.dart';
-import 'package:hollyday_land/models/attraction_filter_options.dart';
+import "package:hollyday_land/models/attraction_filter.dart";
+import "package:hollyday_land/models/attraction_filter_options.dart";
 import "package:hollyday_land/models/region.dart";
-import 'package:hollyday_land/providers/attraction_filter.dart';
+import "package:hollyday_land/providers/attraction_filter.dart";
 import "package:provider/provider.dart";
 
 abstract class AttractionFilterSelectionWidget<

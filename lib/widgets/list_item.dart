@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/attraction_short.dart';
+import "package:hollyday_land/models/attraction_short.dart";
 
 abstract class AttractionListItem<T extends AttractionShort>
     extends StatelessWidget {

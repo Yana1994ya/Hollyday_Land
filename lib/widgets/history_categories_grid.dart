@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/history.dart";
 import "package:hollyday_land/screens/museum/history.dart";
-import 'package:hollyday_land/screens/winery/history.dart';
-import 'package:hollyday_land/screens/zoo/history.dart';
+import "package:hollyday_land/screens/winery/history.dart";
+import "package:hollyday_land/screens/zoo/history.dart";
 import "package:hollyday_land/widgets/category_item.dart";
 
 class HistoryCategoriesGrid extends StatelessWidget {

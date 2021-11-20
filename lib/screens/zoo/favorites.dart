@@ -1,7 +1,7 @@
-import 'package:hollyday_land/models/zoo/short.dart';
+import "package:hollyday_land/models/zoo/short.dart";
 import "package:hollyday_land/screens/user_attractions.dart";
 import "package:hollyday_land/widgets/list_item.dart";
-import 'package:hollyday_land/widgets/zoo/list_item.dart';
+import "package:hollyday_land/widgets/zoo/list_item.dart";
 
 class FavoritesZoosScreen extends UserAttractionsScreen<ZooShort> {
   static const routePath = "/favorites/zoos";

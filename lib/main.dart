@@ -9,12 +9,12 @@ import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/profile.dart";
-import 'package:hollyday_land/screens/winery/favorites.dart';
-import 'package:hollyday_land/screens/winery/history.dart';
-import 'package:hollyday_land/screens/winery/wineries.dart';
-import 'package:hollyday_land/screens/zoo/favorites.dart';
-import 'package:hollyday_land/screens/zoo/history.dart';
-import 'package:hollyday_land/screens/zoo/zoos.dart';
+import "package:hollyday_land/screens/winery/favorites.dart";
+import "package:hollyday_land/screens/winery/history.dart";
+import "package:hollyday_land/screens/winery/wineries.dart";
+import "package:hollyday_land/screens/zoo/favorites.dart";
+import "package:hollyday_land/screens/zoo/history.dart";
+import "package:hollyday_land/screens/zoo/zoos.dart";
 import "package:provider/provider.dart";
 
 void main() {

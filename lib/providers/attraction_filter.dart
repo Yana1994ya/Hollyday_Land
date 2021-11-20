@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/attraction_filter.dart';
+import "package:hollyday_land/models/attraction_filter.dart";
 import "package:hollyday_land/models/region.dart";
 
 abstract class AttractionFilterProvider<T extends AttractionFilter>

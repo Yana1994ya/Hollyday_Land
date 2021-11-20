@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/museum/museum_short.dart";
+import "package:hollyday_land/models/museum/short.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 

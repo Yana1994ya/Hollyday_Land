@@ -1,10 +1,11 @@
 import "package:hollyday_land/api_server.dart";
-import 'package:hollyday_land/models/attraction_short.dart';
+import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/region_short.dart";
-import 'package:hollyday_land/models/winery/filter.dart';
+import "package:hollyday_land/models/winery/filter.dart";
 
 class WineryShort extends AttractionShort {
+  @override
   final int id;
 
   @override
@@ -55,8 +56,7 @@ class WineryShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<WineryShort>> readWineries(
-      WineryFilter wineriesFilter) async {
+  static Future<List<WineryShort>> readWineries(WineryFilter wineriesFilter) async {
     final Map<String, Iterable<String>> parameters = {};
 
     if (wineriesFilter.regionIds.isNotEmpty) {

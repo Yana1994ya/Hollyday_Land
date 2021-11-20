@@ -1,12 +1,12 @@
 import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/museum/filter.dart";
 import "package:hollyday_land/models/museum/museum_domain.dart";
 import "package:hollyday_land/models/region_short.dart";
 
-import '../attraction_short.dart';
-
 class MuseumShort extends AttractionShort {
+  @override
   final int id;
 
   @override
@@ -61,8 +61,7 @@ class MuseumShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<MuseumShort>> readMuseums(
-      MuseumFilter museumFilter) async {
+  static Future<List<MuseumShort>> readMuseums(MuseumFilter museumFilter) async {
     final Map<String, Iterable<String>> parameters = {};
 
     if (museumFilter.regionIds.isNotEmpty) {

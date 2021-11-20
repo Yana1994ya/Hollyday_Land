@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/screens/museum/favorites.dart";
-import 'package:hollyday_land/screens/winery/favorites.dart';
-import 'package:hollyday_land/screens/zoo/favorites.dart';
+import "package:hollyday_land/screens/winery/favorites.dart";
+import "package:hollyday_land/screens/zoo/favorites.dart";
 import "package:hollyday_land/widgets/category_item.dart";
 
 class FavoritesCategoriesGrid extends StatelessWidget {

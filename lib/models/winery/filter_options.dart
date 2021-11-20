@@ -1,4 +1,4 @@
-import 'package:hollyday_land/models/attraction_filter_options.dart';
+import "package:hollyday_land/models/attraction_filter_options.dart";
 import "package:hollyday_land/models/region.dart";
 
 class WineryFilterOptions extends AttractionFilterOptions {

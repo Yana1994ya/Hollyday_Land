@@ -1,4 +1,4 @@
-import "package:hollyday_land/models/museum/museum_short.dart";
+import "package:hollyday_land/models/museum/short.dart";
 import "package:hollyday_land/screens/user_attractions.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:hollyday_land/widgets/museum/list_item.dart";
