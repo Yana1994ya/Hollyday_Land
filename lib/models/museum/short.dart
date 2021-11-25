@@ -14,7 +14,9 @@ class MuseumShort extends AttractionShort {
 
   @override
   final String address;
+  @override
   final double lat;
+  @override
   final double long;
 
   @override

@@ -14,7 +14,9 @@ class Zoo extends Attraction {
   final String address;
   @override
   final String? website;
+  @override
   final double lat;
+  @override
   final double long;
   @override
   final ImageAsset? mainImage;

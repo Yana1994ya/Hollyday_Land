@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attraction_short.dart";
+import 'package:hollyday_land/providers/location_provider.dart';
 import "package:hollyday_land/widgets/list_item.dart";
+import 'package:provider/provider.dart';
 
 abstract class AttractionsScreenState<Parent extends StatefulWidget,
     T extends AttractionShort, TFilter> extends State<Parent> {
@@ -38,6 +40,9 @@ abstract class AttractionsScreenState<Parent extends StatefulWidget,
 
   @override
   Widget build(BuildContext context) {
+    // Attempt to retirve location at the load of this page
+    Provider.of<LocationProvider>(context).retrieveLocation();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(pageTitle),
@@ -57,11 +62,11 @@ abstract class AttractionsScreenState<Parent extends StatefulWidget,
           if (snapshot.hasError) {
             return Center(
                 child: Text(
-              snapshot.error.toString(),
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ));
+                  snapshot.error.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ));
           } else if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),

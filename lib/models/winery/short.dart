@@ -12,7 +12,9 @@ class WineryShort extends AttractionShort {
   final String name;
   @override
   final String address;
+  @override
   final double lat;
+  @override
   final double long;
 
   @override

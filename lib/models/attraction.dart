@@ -17,4 +17,8 @@ abstract class Attraction {
   String? get website;
 
   String get description;
+
+  double get lat;
+
+  double get long;
 }

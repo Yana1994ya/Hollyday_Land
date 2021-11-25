@@ -11,4 +11,8 @@ abstract class AttractionShort {
   RegionShort get region;
 
   String get address;
+
+  double get lat;
+
+  double get long;
 }

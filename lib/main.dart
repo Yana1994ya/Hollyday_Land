@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import 'package:hollyday_land/providers/location_provider.dart';
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/providers/regions.dart";
 import "package:hollyday_land/screens/explore.dart";
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => RegionsProvider())
+        ChangeNotifierProvider(create: (_) => RegionsProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: MaterialApp(
         title: _title,
