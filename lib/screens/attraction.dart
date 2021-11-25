@@ -3,8 +3,11 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/attraction.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/favorites.dart";
+import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/favorite_button.dart";
+import "package:hollyday_land/widgets/rating.dart";
 import "package:provider/provider.dart";
 import "package:url_launcher/url_launcher.dart";
 
@@ -76,6 +79,9 @@ abstract class AttractionScreen<TShort extends AttractionShort,
       await canLaunch(url) ? await launch(url) : throw "Could not launch $url";
 
   Widget buildAttraction(final T attraction, BuildContext context) {
+    LocationProvider location = Provider.of<LocationProvider>(context);
+    location.retrieveLocation();
+
     final List<Image> images = [
       attraction.mainImage == null
           ? Image.asset(
@@ -91,27 +97,46 @@ abstract class AttractionScreen<TShort extends AttractionShort,
     ];
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-              padding: EdgeInsets.all(8.0),
-              child: displayImages(images, context)),
-          Text(
-            attraction.name,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          if (attraction.website != null)
-            TextButton(
-              onPressed: () {
-                launchWebsite(attraction.website!);
-              },
-              child: Text(prettyUrl(attraction.website!)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            displayImages(images, context),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  attraction.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(attraction.description),
-          ),
-        ],
+            Row(
+              children: [
+                Rating(
+                  rating: 4.6,
+                  count: 230,
+                ),
+                Distance(
+                  location: attraction,
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            if (attraction.website != null)
+              TextButton(
+                onPressed: () {
+                  launchWebsite(attraction.website!);
+                },
+                child: Text(prettyUrl(attraction.website!)),
+              ),
+            Text(attraction.description),
+          ],
+        ),
       ),
     );
   }

@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
               ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
             secondary: Colors.indigo[200],
           ),
-        ),
+          fontFamily: "Nunito"),
         routes: {
           MuseumsScreen.routePath: (_) => MuseumsScreen(),
           WineriesScreen.routePath: (_) => WineriesScreen(),
