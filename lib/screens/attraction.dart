@@ -5,6 +5,7 @@ import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/widgets/description.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/favorite_button.dart";
 import "package:hollyday_land/widgets/rating.dart";
@@ -132,9 +133,15 @@ abstract class AttractionScreen<TShort extends AttractionShort,
                 onPressed: () {
                   launchWebsite(attraction.website!);
                 },
-                child: Text(prettyUrl(attraction.website!)),
+                child: Row(
+                  children: [
+                    //Icon(Icons.iron),
+                    Text("Visit website")
+                  ],
+                ),
               ),
-            Text(attraction.description),
+            if (attraction.description.isNotEmpty)
+              Description(text: attraction.description),
           ],
         ),
       ),
