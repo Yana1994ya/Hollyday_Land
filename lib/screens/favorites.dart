@@ -65,7 +65,6 @@ class FavoritesScreen extends StatelessWidget {
     final loginProvider = Provider.of<LoginProvider>(context);
 
     if (loginProvider.currentUser == null) {
-      //reason: "Please login to see your history"
       return Scaffold(
         appBar: AppBar(
           title: Text("Favorites"),

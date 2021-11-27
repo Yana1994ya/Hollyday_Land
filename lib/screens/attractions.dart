@@ -1,30 +1,30 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attraction_short.dart";
-import 'package:hollyday_land/providers/location_provider.dart';
+import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/widgets/list_item.dart";
-import 'package:provider/provider.dart';
+import "package:provider/provider.dart";
 
 abstract class AttractionsScreenState<Parent extends StatefulWidget,
-    T extends AttractionShort, TFilter> extends State<Parent> {
-  late TFilter filter = emptryFilter();
+    AttractionType extends AttractionShort, FilterType> extends State<Parent> {
+  late FilterType filter = emptryFilter();
 
-  TFilter emptryFilter();
+  FilterType emptryFilter();
 
   void filterSelectionResult(dynamic value) {
     if (value != null) {
       setState(() {
-        filter = value as TFilter;
+        filter = value as FilterType;
       });
     }
   }
 
-  String itemCountText(List<T> attractions);
+  String itemCountText(List<AttractionType> attractions);
 
   MaterialPageRoute get filterScreen;
 
-  Future<List<T>> readAttractions();
+  Future<List<AttractionType>> readAttractions();
 
-  Widget itemCount(BuildContext context, List<T> attractions) {
+  Widget itemCount(BuildContext context, List<AttractionType> attractions) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 3,
@@ -34,7 +34,7 @@ abstract class AttractionsScreenState<Parent extends StatefulWidget,
     );
   }
 
-  AttractionListItem<T> getListItem(T attraction);
+  AttractionListItem<AttractionType> getListItem(AttractionType attraction);
 
   String get pageTitle;
 
@@ -58,21 +58,21 @@ abstract class AttractionsScreenState<Parent extends StatefulWidget,
       ),
       body: FutureBuilder(
         future: readAttractions(),
-        builder: (_, AsyncSnapshot<List<T>> snapshot) {
+        builder: (_, AsyncSnapshot<List<AttractionType>> snapshot) {
           if (snapshot.hasError) {
             return Center(
                 child: Text(
-                  snapshot.error.toString(),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ));
+              snapshot.error.toString(),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ));
           } else if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
             );
           } else {
-            List<T> attractions = snapshot.data!;
+            List<AttractionType> attractions = snapshot.data!;
 
             return ListView.builder(
               itemBuilder: (_, index) => index == 0

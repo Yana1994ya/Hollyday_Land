@@ -75,6 +75,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
                 onPressed: () {
                   confirmClear(context).then((value) {
                     if (value != null && value) {
+                      // Show loading indicator
                       setState(() {
                         loading = true;
                       });
@@ -119,7 +120,6 @@ class HistoryScreen extends StatelessWidget {
     final loginProvider = Provider.of<LoginProvider>(context);
 
     if (loginProvider.currentUser == null) {
-      //reason: "Please login to see your history"
       return Scaffold(
         appBar: AppBar(
           title: Text("History"),
