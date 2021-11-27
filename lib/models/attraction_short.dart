@@ -12,4 +12,8 @@ abstract class AttractionShort with WithLocation {
   RegionShort get region;
 
   String get address;
+
+  String? get city;
+
+  String? get telephone;
 }

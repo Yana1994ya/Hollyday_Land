@@ -22,15 +22,21 @@ class ZooShort extends AttractionShort {
   @override
   final RegionShort region;
 
-  ZooShort({
-    required this.id,
-    required this.name,
-    required this.address,
-    required this.lat,
-    required this.long,
-    required this.mainImage,
-    required this.region,
-  });
+  @override
+  final String? city;
+  @override
+  final String? telephone;
+
+  ZooShort(
+      {required this.id,
+      required this.name,
+      required this.address,
+      required this.lat,
+      required this.long,
+      required this.mainImage,
+      required this.region,
+      required this.city,
+      required this.telephone});
 
   factory ZooShort.fromJson(Map<String, dynamic> json) {
     return ZooShort(
@@ -43,6 +49,8 @@ class ZooShort extends AttractionShort {
       address: json["address"],
       long: json["long"],
       lat: json["lat"],
+      city: json["city"],
+      telephone: json["telephone"],
     );
   }
 

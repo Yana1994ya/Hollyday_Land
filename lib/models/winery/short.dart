@@ -22,15 +22,21 @@ class WineryShort extends AttractionShort {
   @override
   final RegionShort region;
 
-  WineryShort({
-    required this.id,
-    required this.name,
-    required this.address,
-    required this.lat,
-    required this.long,
-    required this.mainImage,
-    required this.region,
-  });
+  @override
+  final String? city;
+  @override
+  final String? telephone;
+
+  WineryShort(
+      {required this.id,
+      required this.name,
+      required this.address,
+      required this.lat,
+      required this.long,
+      required this.mainImage,
+      required this.region,
+      required this.city,
+      required this.telephone});
 
   factory WineryShort.fromJson(Map<String, dynamic> json) {
     return WineryShort(
@@ -43,6 +49,8 @@ class WineryShort extends AttractionShort {
       address: json["address"],
       long: json["long"],
       lat: json["lat"],
+      city: json["city"],
+      telephone: json["telephone"],
     );
   }
 

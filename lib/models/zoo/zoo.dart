@@ -24,19 +24,24 @@ class Zoo extends Attraction {
   final List<ImageAsset> additionalImages;
   @override
   final Region region;
+  @override
+  final String? city;
+  @override
+  final String? telephone;
 
-  Zoo({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.address,
-    required this.website,
-    required this.lat,
-    required this.long,
-    required this.mainImage,
-    required this.additionalImages,
-    required this.region,
-  });
+  Zoo(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.address,
+      required this.website,
+      required this.lat,
+      required this.long,
+      required this.mainImage,
+      required this.additionalImages,
+      required this.region,
+      required this.city,
+      required this.telephone});
 
   factory Zoo.fromJson(Map<String, dynamic> json) {
     final List<dynamic> additionalImagesJson = json["additional_images"];
@@ -55,6 +60,8 @@ class Zoo extends Attraction {
       website: json["website"],
       long: json["long"],
       lat: json["lat"],
+      city: json["city"],
+      telephone: json["telephone"],
     );
   }
 

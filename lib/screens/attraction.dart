@@ -79,6 +79,8 @@ abstract class AttractionScreen<TShort extends AttractionShort,
   static void launchWebsite(String url) async =>
       await canLaunch(url) ? await launch(url) : throw "Could not launch $url";
 
+  static void launchPhone(String number) => launchWebsite("tel:" + number);
+
   Widget buildAttraction(final T attraction, BuildContext context) {
     LocationProvider location = Provider.of<LocationProvider>(context);
     location.retrieveLocation();
@@ -128,17 +130,38 @@ abstract class AttractionScreen<TShort extends AttractionShort,
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
-            if (attraction.website != null)
-              TextButton(
-                onPressed: () {
-                  launchWebsite(attraction.website!);
-                },
-                child: Row(
-                  children: [
-                    //Icon(Icons.iron),
-                    Text("Visit website")
-                  ],
-                ),
+            if (attraction.website != null || attraction.telephone != null)
+              Row(
+                children: [
+                  if (attraction.website != null)
+                    TextButton(
+                      onPressed: () {
+                        launchWebsite(attraction.website!);
+                      },
+                      child: Row(
+                        children: [
+                          //Icon(Icons.iron),
+                          Text("Visit website")
+                        ],
+                      ),
+                    ),
+                  if (attraction.telephone != null)
+                    TextButton(
+                      onPressed: () {
+                        launchPhone(attraction.telephone!);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.phone,
+                            size: 16.0,
+                          ),
+                          Text("call")
+                        ],
+                      ),
+                    ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
             if (attraction.description.isNotEmpty)
               Description(text: attraction.description),

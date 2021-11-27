@@ -18,4 +18,8 @@ abstract class Attraction with WithLocation {
   String? get website;
 
   String get description;
+
+  String? get city;
+
+  String? get telephone;
 }

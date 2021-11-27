@@ -25,16 +25,22 @@ class MuseumShort extends AttractionShort {
   final RegionShort region;
   final MuseumDomain domain;
 
-  MuseumShort({
-    required this.id,
-    required this.name,
-    required this.address,
-    required this.lat,
-    required this.long,
-    required this.mainImage,
-    required this.region,
-    required this.domain,
-  });
+  @override
+  final String? city;
+  @override
+  final String? telephone;
+
+  MuseumShort(
+      {required this.id,
+      required this.name,
+      required this.address,
+      required this.lat,
+      required this.long,
+      required this.mainImage,
+      required this.region,
+      required this.domain,
+      required this.city,
+      required this.telephone});
 
   factory MuseumShort.fromJson(Map<String, dynamic> json) {
     return MuseumShort(
@@ -48,6 +54,8 @@ class MuseumShort extends AttractionShort {
       address: json["address"],
       long: json["long"],
       lat: json["lat"],
+      city: json["city"],
+      telephone: json["telephone"],
     );
   }
 

@@ -27,19 +27,25 @@ class Museum extends Attraction {
   final Region region;
   final MuseumDomain domain;
 
-  Museum({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.address,
-    required this.website,
-    required this.lat,
-    required this.long,
-    required this.mainImage,
-    required this.additionalImages,
-    required this.region,
-    required this.domain,
-  });
+  @override
+  final String? city;
+  @override
+  final String? telephone;
+
+  Museum(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.address,
+      required this.website,
+      required this.lat,
+      required this.long,
+      required this.mainImage,
+      required this.additionalImages,
+      required this.region,
+      required this.domain,
+      required this.city,
+      required this.telephone});
 
   factory Museum.fromJson(Map<String, dynamic> json) {
     final List<dynamic> additionalImagesJson = json["additional_images"];
@@ -59,6 +65,8 @@ class Museum extends Attraction {
       website: json["website"],
       long: json["long"],
       lat: json["lat"],
+      city: json["city"],
+      telephone: json["telephone"],
     );
   }
 

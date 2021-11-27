@@ -15,6 +15,19 @@ abstract class AttractionListItem<T extends AttractionShort>
 
   List<Widget> extraInformation(BuildContext context);
 
+  List<Widget> get city {
+    if (attraction.city == null) {
+      return [];
+    } else {
+      return [
+        Icon(Icons.arrow_right_rounded, size: 16.0),
+        Text(
+          attraction.city!,
+        ),
+      ];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Image image;
@@ -104,7 +117,7 @@ abstract class AttractionListItem<T extends AttractionShort>
                       Text(
                         attraction.region.name,
                       ),
-                      Icon(Icons.arrow_right_rounded, size: 16.0)
+                      ...city
                     ],
                   ),
                   ...extraInformation(context),

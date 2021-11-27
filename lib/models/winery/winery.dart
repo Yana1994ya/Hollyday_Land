@@ -25,6 +25,11 @@ class Winery extends Attraction {
   @override
   final Region region;
 
+  @override
+  final String? city;
+  @override
+  final String? telephone;
+
   Winery({
     required this.id,
     required this.name,
@@ -36,6 +41,8 @@ class Winery extends Attraction {
     required this.mainImage,
     required this.additionalImages,
     required this.region,
+    required this.city,
+    required this.telephone,
   });
 
   factory Winery.fromJson(Map<String, dynamic> json) {
@@ -55,6 +62,8 @@ class Winery extends Attraction {
       website: json["website"],
       long: json["long"],
       lat: json["lat"],
+      city: json["city"],
+      telephone: json["telephone"],
     );
   }
 
