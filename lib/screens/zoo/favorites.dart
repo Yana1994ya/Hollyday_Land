@@ -17,7 +17,7 @@ class FavoritesZoosScreen extends UserAttractionsScreen<ZooShort> {
   }
 
   @override
-  Future<List<ZooShort>> readHistory(String hdToken) {
+  Future<List<ZooShort>> readAttractions(String hdToken) {
     return ZooShort.readFavorites(hdToken);
   }
 
