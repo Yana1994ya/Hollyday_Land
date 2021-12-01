@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import 'package:hollyday_land/providers/location_provider.dart';
+import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/providers/regions.dart";
 import "package:hollyday_land/screens/explore.dart";

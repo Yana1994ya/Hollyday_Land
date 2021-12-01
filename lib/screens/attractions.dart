@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attraction_short.dart";
-import 'package:hollyday_land/providers/location_provider.dart';
+import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/widgets/list_item.dart";
-import 'package:provider/provider.dart';
+import "package:provider/provider.dart";
 
 abstract class AttractionsScreenState<Parent extends StatefulWidget,
     T extends AttractionShort, TFilter> extends State<Parent> {

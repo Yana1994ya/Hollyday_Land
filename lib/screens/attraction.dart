@@ -5,6 +5,7 @@ import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/widgets/attraction_map.dart";
 import "package:hollyday_land/widgets/description.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/favorite_button.dart";
@@ -165,6 +166,14 @@ abstract class AttractionScreen<TShort extends AttractionShort,
               ),
             if (attraction.description.isNotEmpty)
               Description(text: attraction.description),
+            SizedBox(
+              width: double.infinity,
+              height: 300.0,
+              child: AttractionMap(
+                attraction: attraction,
+              ),
+            )
+            //
           ],
         ),
       ),
