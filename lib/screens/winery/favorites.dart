@@ -17,7 +17,7 @@ class FavoritesWineriesScreen extends UserAttractionsScreen<WineryShort> {
   }
 
   @override
-  Future<List<WineryShort>> readHistory(String hdToken) {
+  Future<List<WineryShort>> readAttractions(String hdToken) {
     return WineryShort.readFavorites(hdToken);
   }
 

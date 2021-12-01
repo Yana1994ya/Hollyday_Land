@@ -20,7 +20,7 @@ class HistoryMuseumsScreen extends UserAttractionsScreen<MuseumShort> {
   String get pageTitle => "Visited museums";
 
   @override
-  Future<List<MuseumShort>> readHistory(String hdToken) {
+  Future<List<MuseumShort>> readAttractions(String hdToken) {
     return MuseumShort.readHistory(hdToken);
   }
 }

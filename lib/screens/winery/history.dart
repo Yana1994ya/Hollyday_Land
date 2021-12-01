@@ -20,7 +20,7 @@ class HistoryWineriesScreen extends UserAttractionsScreen<WineryShort> {
   String get pageTitle => "Visited wineries";
 
   @override
-  Future<List<WineryShort>> readHistory(String hdToken) {
+  Future<List<WineryShort>> readAttractions(String hdToken) {
     return WineryShort.readHistory(hdToken);
   }
 }

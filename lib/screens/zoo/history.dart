@@ -20,7 +20,7 @@ class HistoryZoosScreen extends UserAttractionsScreen<ZooShort> {
   String get pageTitle => "Visited zoos";
 
   @override
-  Future<List<ZooShort>> readHistory(String hdToken) {
+  Future<List<ZooShort>> readAttractions(String hdToken) {
     return ZooShort.readHistory(hdToken);
   }
 }

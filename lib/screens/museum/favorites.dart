@@ -17,7 +17,7 @@ class FavoritesMuseumsScreen extends UserAttractionsScreen<MuseumShort> {
   }
 
   @override
-  Future<List<MuseumShort>> readHistory(String hdToken) {
+  Future<List<MuseumShort>> readAttractions(String hdToken) {
     return MuseumShort.readFavorites(hdToken);
   }
 
