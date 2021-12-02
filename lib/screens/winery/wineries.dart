@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/region_filter.dart';
+import "package:hollyday_land/models/filter/attraction_filter.dart";
+import "package:hollyday_land/models/filter/region_filter.dart";
 import "package:hollyday_land/models/winery/short.dart";
 import "package:hollyday_land/screens/attractions.dart";
-import "package:hollyday_land/screens/winery/filter.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:hollyday_land/widgets/winery/list_item.dart";
 
@@ -14,16 +14,9 @@ class WineriesScreen extends StatefulWidget {
 }
 
 class _WineriesScreenState
-    extends AttractionsScreenState<WineriesScreen, WineryShort, RegionFilter> {
+    extends AttractionsScreenState<WineriesScreen, WineryShort> {
   @override
-  RegionFilter emptryFilter() {
-    return RegionFilter.empty();
-  }
-
-  @override
-  MaterialPageRoute get filterScreen => MaterialPageRoute(
-        builder: (_) => WineriesFilterScreen(currentFilter: filter),
-      );
+  String get pageTitle => "Wineries";
 
   @override
   AttractionListItem<WineryShort> getListItem(WineryShort winery) {
@@ -36,10 +29,13 @@ class _WineriesScreenState
   }
 
   @override
-  Future<List<WineryShort>> readAttractions() {
-    return WineryShort.readWineries(filter);
+  AttractionFilter initFilter() {
+    throw RegionFilter(pageTitle, {});
   }
 
   @override
-  String get pageTitle => "Wineries";
+  Future<List<WineryShort>> readAttractions(
+      Map<String, Iterable<String>> params) {
+    return WineryShort.readWineries(params);
+  }
 }

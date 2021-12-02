@@ -1,7 +1,6 @@
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
-import "package:hollyday_land/models/region_filter.dart";
 import "package:hollyday_land/models/region_short.dart";
 
 class WineryShort extends AttractionShort {
@@ -67,14 +66,7 @@ class WineryShort extends AttractionShort {
   }
 
   static Future<List<WineryShort>> readWineries(
-      RegionFilter regionFilter) async {
-    final Map<String, Iterable<String>> parameters = {};
-
-    if (regionFilter.regionIds.isNotEmpty) {
-      parameters["region_id"] =
-          regionFilter.regionIds.map((id) => id.toString());
-    }
-
+      final Map<String, Iterable<String>> parameters) async {
     return ApiServer.get("/attractions/api/wineries", "wineries", parameters)
         .then(_mapWineries);
   }

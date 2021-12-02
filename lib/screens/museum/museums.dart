@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/models/museum/filter.dart";
 import "package:hollyday_land/models/museum/short.dart";
 import "package:hollyday_land/screens/attractions.dart";
-import "package:hollyday_land/screens/museum/filter.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:hollyday_land/widgets/museum/list_item.dart";
 
@@ -14,17 +14,7 @@ class MuseumsScreen extends StatefulWidget {
 }
 
 class _MuseumsScreenState
-    extends AttractionsScreenState<MuseumsScreen, MuseumShort, MuseumFilter> {
-  @override
-  MuseumFilter emptryFilter() {
-    return MuseumFilter.empty();
-  }
-
-  @override
-  MaterialPageRoute get filterScreen => MaterialPageRoute(
-        builder: (_) => MuseumsFilterScreen(currentFilter: filter),
-      );
-
+    extends AttractionsScreenState<MuseumsScreen, MuseumShort> {
   @override
   AttractionListItem<MuseumShort> getListItem(MuseumShort museum) {
     return MuseumListItem(museum: museum);
@@ -36,10 +26,14 @@ class _MuseumsScreenState
   }
 
   @override
-  Future<List<MuseumShort>> readAttractions() {
-    return MuseumShort.readMuseums(filter);
-  }
+  String get pageTitle => "Museums";
 
   @override
-  String get pageTitle => "Museums";
+  AttractionFilter initFilter() => MuseumFilter(regionIds: {}, domainIds: {});
+
+  @override
+  Future<List<MuseumShort>> readAttractions(
+      Map<String, Iterable<String>> params) {
+    return MuseumShort.readMuseums(params);
+  }
 }

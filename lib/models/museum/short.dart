@@ -1,7 +1,6 @@
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
-import "package:hollyday_land/models/museum/filter.dart";
 import "package:hollyday_land/models/museum/museum_domain.dart";
 import "package:hollyday_land/models/region_short.dart";
 
@@ -71,19 +70,8 @@ class MuseumShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<MuseumShort>> readMuseums(MuseumFilter museumFilter) async {
-    final Map<String, Iterable<String>> parameters = {};
-
-    if (museumFilter.regionIds.isNotEmpty) {
-      parameters["region_id"] =
-          museumFilter.regionIds.map((id) => id.toString());
-    }
-
-    if (museumFilter.domainIds.isNotEmpty) {
-      parameters["domain_id"] =
-          museumFilter.domainIds.map((id) => id.toString());
-    }
-
+  static Future<List<MuseumShort>> readMuseums(
+      Map<String, Iterable<String>> parameters) async {
     return ApiServer.get("/attractions/api/museums", "museums", parameters)
         .then(_mapMuseums);
   }
