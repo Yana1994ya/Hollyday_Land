@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/zoo/filter.dart";
+import 'package:hollyday_land/models/region_filter.dart';
 import "package:hollyday_land/models/zoo/short.dart";
 import "package:hollyday_land/screens/attractions.dart";
 import "package:hollyday_land/screens/zoo/filter.dart";
@@ -14,10 +14,10 @@ class ZoosScreen extends StatefulWidget {
 }
 
 class _WineriesScreenState
-    extends AttractionsScreenState<ZoosScreen, ZooShort, ZooFilter> {
+    extends AttractionsScreenState<ZoosScreen, ZooShort, RegionFilter> {
   @override
-  ZooFilter emptryFilter() {
-    return ZooFilter.empty();
+  RegionFilter emptryFilter() {
+    return RegionFilter.empty();
   }
 
   @override

@@ -1,8 +1,8 @@
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
+import "package:hollyday_land/models/region_filter.dart";
 import "package:hollyday_land/models/region_short.dart";
-import "package:hollyday_land/models/zoo/filter.dart";
 
 class ZooShort extends AttractionShort {
   @override
@@ -66,11 +66,12 @@ class ZooShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<ZooShort>> readZoos(ZooFilter zooFilter) async {
+  static Future<List<ZooShort>> readZoos(RegionFilter regionFilter) async {
     final Map<String, Iterable<String>> parameters = {};
 
-    if (zooFilter.regionIds.isNotEmpty) {
-      parameters["region_id"] = zooFilter.regionIds.map((id) => id.toString());
+    if (regionFilter.regionIds.isNotEmpty) {
+      parameters["region_id"] =
+          regionFilter.regionIds.map((id) => id.toString());
     }
 
     return ApiServer.get("/attractions/api/zoos", "zoos", parameters)

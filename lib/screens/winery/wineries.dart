@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/winery/filter.dart";
+import 'package:hollyday_land/models/region_filter.dart';
 import "package:hollyday_land/models/winery/short.dart";
 import "package:hollyday_land/screens/attractions.dart";
 import "package:hollyday_land/screens/winery/filter.dart";
@@ -14,10 +14,10 @@ class WineriesScreen extends StatefulWidget {
 }
 
 class _WineriesScreenState
-    extends AttractionsScreenState<WineriesScreen, WineryShort, WineryFilter> {
+    extends AttractionsScreenState<WineriesScreen, WineryShort, RegionFilter> {
   @override
-  WineryFilter emptryFilter() {
-    return WineryFilter.empty();
+  RegionFilter emptryFilter() {
+    return RegionFilter.empty();
   }
 
   @override
