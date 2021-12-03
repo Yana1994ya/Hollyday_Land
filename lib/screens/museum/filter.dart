@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/museum/filter.dart";
 import "package:hollyday_land/models/museum/filter_options.dart";
 import "package:hollyday_land/providers/filter.dart";
+import "package:hollyday_land/providers/museum/filter.dart";
 import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter/museum.dart";
 import "package:provider/provider.dart";
@@ -32,7 +33,7 @@ class MuseumsFilterScreen extends AttractionFilterScreen {
           );
         } else {
           return ChangeNotifierProvider.value(
-            value: filterProvider,
+            value: filterProvider as MuseumFilterProvider,
             child: MuseumFilterSelectionWidget(options: snapshot.data!),
           );
         }

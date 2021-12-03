@@ -30,7 +30,7 @@ class _WineriesScreenState
 
   @override
   AttractionFilter initFilter() {
-    throw RegionFilter(pageTitle, {});
+    return RegionFilter(pageTitle, {});
   }
 
   @override

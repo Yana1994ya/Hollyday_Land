@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/providers/filter.dart";
+import "package:hollyday_land/providers/region_filter.dart";
 import "package:hollyday_land/screens/region_filter.dart";
 
 class RegionFilter extends AttractionFilter {
@@ -10,10 +11,7 @@ class RegionFilter extends AttractionFilter {
   const RegionFilter(this.pageTitle, this.regionIds);
 
   @override
-  FilterProvider createProvider() {
-    // TODO: implement createProvider
-    throw UnimplementedError();
-  }
+  FilterProvider createProvider() => RegionFilterProvider(pageTitle, regionIds);
 
   @override
   MaterialPageRoute get filterPage => MaterialPageRoute(

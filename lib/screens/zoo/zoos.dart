@@ -35,6 +35,6 @@ class _WineriesScreenState
 
   @override
   Future<List<ZooShort>> readAttractions(Map<String, Iterable<String>> params) {
-    throw ZooShort.readZoos(params);
+    return ZooShort.readZoos(params);
   }
 }
