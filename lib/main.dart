@@ -48,11 +48,11 @@ class MyApp extends StatelessWidget {
         title: _title,
         home: ExploreScreen(),
         theme: ThemeData(
-          colorScheme:
-              ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
-            secondary: Colors.indigo[200],
-          ),
-          fontFamily: "Nunito"),
+            colorScheme:
+                ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
+              secondary: Colors.indigo[200],
+            ),
+            fontFamily: "Nunito"),
         routes: {
           MuseumsScreen.routePath: (_) => MuseumsScreen(),
           WineriesScreen.routePath: (_) => WineriesScreen(),

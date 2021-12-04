@@ -14,5 +14,5 @@ class ZooListItem extends AttractionListItem<ZooShort> {
 
   @override
   MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (_) => ZooScreen(zoo: attraction));
+      MaterialPageRoute(builder: (_) => ZooScreen(attraction: attraction));
 }

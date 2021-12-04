@@ -1,8 +1,8 @@
-import 'dart:async';
+import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
-import 'package:hollyday_land/api_server.dart';
+import "package:hollyday_land/models/generic_attraction.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:provider/provider.dart";
 
@@ -26,30 +26,24 @@ class MapScreenState extends State<MapScreen> {
 
   void _loadData() {
     print("load data for bounds:" + bounds.toString());
-    final Map<String, Iterable<String>> params = {};
-    params["lat_min"] = [bounds!.southwest.latitude.toStringAsPrecision(10)];
-    params["lon_min"] = [bounds!.southwest.longitude.toStringAsPrecision(10)];
-    params["lat_max"] = [bounds!.northeast.latitude.toStringAsPrecision(10)];
-    params["lon_max"] = [bounds!.northeast.longitude.toStringAsPrecision(10)];
 
-    print(params);
+    GenericAttraction.forBounds(bounds!).then((attractions) {
+      Set<Marker> newMarkers = attractions
+          .map((attraction) => Marker(
+                markerId: MarkerId(attraction.id.toString()),
+                position: attraction.latLng,
+                infoWindow: InfoWindow(
+                    title: attraction.name,
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => attraction.page));
+                    }),
+              ))
+          .toSet();
 
-    ApiServer.get("/attractions/api/map", "attractions", params).then((values) {
-      Set<Marker> newMarkers = {};
-
-      for (Map<String, dynamic> attraction in (values as List<dynamic>)) {
-        final String type = attraction["type"];
-        final int id = attraction["id"];
-
-        newMarkers.add(Marker(
-            markerId: MarkerId("${type}_$id"),
-            position: LatLng(attraction["lat"], attraction["long"]),
-            infoWindow: InfoWindow(title: attraction["name"])));
-
-        setState(() {
-          markers = newMarkers;
-        });
-      }
+      setState(() {
+        markers = newMarkers;
+      });
     });
   }
 

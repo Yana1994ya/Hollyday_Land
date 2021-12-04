@@ -14,5 +14,5 @@ class WineryListItem extends AttractionListItem<WineryShort> {
 
   @override
   MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (_) => WineryScreen(winery: attraction));
+      MaterialPageRoute(builder: (_) => WineryScreen(attraction: attraction));
 }
