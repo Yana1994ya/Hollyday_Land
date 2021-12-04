@@ -6,6 +6,7 @@ import "package:hollyday_land/providers/regions.dart";
 import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
+import 'package:hollyday_land/screens/map.dart';
 import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
           HistoryZoosScreen.routePath: (_) => HistoryZoosScreen(),
           FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen(),
           FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen(),
-          FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen()
+          FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen(),
+          MapScreen.routePath: (_) => MapScreen(),
         },
       ),
     );
