@@ -3,6 +3,7 @@ import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/base_attraction.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
+import "package:hollyday_land/screens/offroad/trip.dart";
 import "package:hollyday_land/screens/winery/winery.dart";
 import "package:hollyday_land/screens/zoo/zoo.dart";
 
@@ -55,6 +56,8 @@ class GenericAttraction extends BaseAttraction {
       return WineryScreen(attraction: this);
     } else if (type == "zoo") {
       return ZooScreen(attraction: this);
+    } else if (type == "offroad") {
+      return OffRoadTripScreen(attraction: this);
     } else {
       throw Exception("couldn't resolve type: $type to page");
     }

@@ -4,15 +4,21 @@ class Favorites {
   final int museums;
   final int wineries;
   final int zoos;
+  final int offRoadTrips;
 
-  Favorites(
-      {required this.museums, required this.wineries, required this.zoos});
+  Favorites({
+    required this.museums,
+    required this.wineries,
+    required this.zoos,
+    required this.offRoadTrips,
+  });
 
   factory Favorites.fromJson(Map<String, dynamic> json) {
     return Favorites(
       museums: json["museums"],
       wineries: json["wineries"],
       zoos: json["zoos"],
+      offRoadTrips: json["off_road"],
     );
   }
 

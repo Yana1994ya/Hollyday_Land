@@ -25,11 +25,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
       return false;
     }
 
-    if (history!.museums + history!.wineries + history!.zoos > 0) {
-      return true;
-    }
-
-    return false;
+    return !history!.isEmpty;
   }
 
   Future<bool?> confirmClear(BuildContext context) {
@@ -84,7 +80,11 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
                           .then((_) {
                         setState(() {
                           loading = false;
-                          history = History(museums: 0, wineries: 0, zoos: 0);
+                          history = History(
+                              museums: 0,
+                              wineries: 0,
+                              zoos: 0,
+                              offRoadTrips: 0);
                         });
                       });
                     }

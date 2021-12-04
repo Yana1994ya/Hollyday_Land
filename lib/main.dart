@@ -10,6 +10,9 @@ import 'package:hollyday_land/screens/map.dart';
 import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
+import 'package:hollyday_land/screens/offroad/favorites.dart';
+import 'package:hollyday_land/screens/offroad/history.dart';
+import 'package:hollyday_land/screens/offroad/trips.dart';
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/winery/favorites.dart";
 import "package:hollyday_land/screens/winery/history.dart";
@@ -67,6 +70,11 @@ class MyApp extends StatelessWidget {
           FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen(),
           FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen(),
           MapScreen.routePath: (_) => MapScreen(),
+          OffRoadTripsScreen.routePath: (_) => OffRoadTripsScreen(),
+          FavoritesOffRoadTripsScreen.routePath: (_) =>
+              FavoritesOffRoadTripsScreen(),
+          HistoryOffRoadTripsScreen.routePath: (_) =>
+              HistoryOffRoadTripsScreen()
         },
       ),
     );

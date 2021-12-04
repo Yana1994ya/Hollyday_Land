@@ -4,15 +4,25 @@ class History {
   final int museums;
   final int wineries;
   final int zoos;
+  final int offRoadTrips;
 
-  History({required this.museums, required this.wineries, required this.zoos});
+  History({
+    required this.museums,
+    required this.wineries,
+    required this.zoos,
+    required this.offRoadTrips,
+  });
+
+  bool get isEmpty {
+    return museums + wineries + zoos + offRoadTrips == 0;
+  }
 
   factory History.fromJson(Map<String, dynamic> json) {
     return History(
-      museums: json["museums"],
-      wineries: json["wineries"],
-      zoos: json["zoos"],
-    );
+        museums: json["museums"],
+        wineries: json["wineries"],
+        zoos: json["zoos"],
+        offRoadTrips: json["off_road"]);
   }
 
   static Future<void> deleteHistory(String token) async {
