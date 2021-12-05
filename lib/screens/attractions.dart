@@ -41,7 +41,7 @@ abstract class AttractionsScreenState<Parent extends StatefulWidget,
   @override
   Widget build(BuildContext context) {
     // Attempt to retirve location at the load of this page
-    Provider.of<LocationProvider>(context).retrieveLocation();
+    Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
 
     return Scaffold(
       appBar: AppBar(

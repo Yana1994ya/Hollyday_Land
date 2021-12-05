@@ -29,7 +29,7 @@ class _MuseumsScreenState
   String get pageTitle => "Museums";
 
   @override
-  AttractionFilter initFilter() => MuseumFilter(regionIds: {}, domainIds: {});
+  AttractionFilter initFilter() => MuseumFilter.empty();
 
   @override
   Future<List<MuseumShort>> readAttractions(

@@ -1,4 +1,4 @@
-import "package:flutter/src/material/page.dart";
+import "package:flutter/material.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/providers/filter.dart";
 import "package:hollyday_land/providers/museum/filter.dart";
@@ -19,7 +19,8 @@ class MuseumFilter extends AttractionFilter {
 
   @override
   MaterialPageRoute get filterPage => MaterialPageRoute(
-      builder: (_) => MuseumsFilterScreen(currentFilter: this));
+        builder: (_) => MuseumsFilterScreen(currentFilter: this),
+      );
 
   @override
   Map<String, Iterable<String>> get parameters {
