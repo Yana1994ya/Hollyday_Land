@@ -6,9 +6,13 @@ import "package:hollyday_land/providers/regions.dart";
 import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
+import 'package:hollyday_land/screens/map.dart';
 import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
+import 'package:hollyday_land/screens/offroad/favorites.dart';
+import 'package:hollyday_land/screens/offroad/history.dart';
+import 'package:hollyday_land/screens/offroad/trips.dart';
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/winery/favorites.dart";
 import "package:hollyday_land/screens/winery/history.dart";
@@ -47,11 +51,11 @@ class MyApp extends StatelessWidget {
         title: _title,
         home: ExploreScreen(),
         theme: ThemeData(
-          colorScheme:
-              ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
-            secondary: Colors.indigo[200],
-          ),
-          fontFamily: "Nunito"),
+            colorScheme:
+                ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
+              secondary: Colors.indigo[200],
+            ),
+            fontFamily: "Nunito"),
         routes: {
           MuseumsScreen.routePath: (_) => MuseumsScreen(),
           WineriesScreen.routePath: (_) => WineriesScreen(),
@@ -64,7 +68,13 @@ class MyApp extends StatelessWidget {
           HistoryZoosScreen.routePath: (_) => HistoryZoosScreen(),
           FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen(),
           FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen(),
-          FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen()
+          FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen(),
+          MapScreen.routePath: (_) => MapScreen(),
+          OffRoadTripsScreen.routePath: (_) => OffRoadTripsScreen(),
+          FavoritesOffRoadTripsScreen.routePath: (_) =>
+              FavoritesOffRoadTripsScreen(),
+          HistoryOffRoadTripsScreen.routePath: (_) =>
+              HistoryOffRoadTripsScreen()
         },
       ),
     );

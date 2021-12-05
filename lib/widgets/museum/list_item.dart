@@ -19,5 +19,5 @@ class MuseumListItem extends AttractionListItem<MuseumShort> {
 
   @override
   MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (_) => MuseumScreen(museum: attraction));
+      MaterialPageRoute(builder: (_) => MuseumScreen(attraction: attraction));
 }

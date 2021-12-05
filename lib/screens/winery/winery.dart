@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/winery/short.dart";
+import "package:hollyday_land/models/base_attraction.dart";
 import "package:hollyday_land/models/winery/winery.dart";
 import "package:hollyday_land/screens/attraction.dart";
 
-class WineryScreen extends AttractionScreen<WineryShort, Winery> {
-  const WineryScreen({Key? key, required WineryShort winery})
-      : super(key: key, attraction: winery);
+class WineryScreen extends AttractionScreen<Winery> {
+  const WineryScreen({Key? key, required BaseAttraction attraction})
+      : super(key: key, attraction: attraction);
 
   @override
   Future<Winery> readFull() {
