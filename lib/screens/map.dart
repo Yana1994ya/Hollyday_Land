@@ -60,7 +60,7 @@ class MapScreenState extends State<MapScreen> {
         refreshTimer!.cancel();
       }
 
-      refreshTimer = Timer(Duration(seconds: 3), _loadData);
+      refreshTimer = Timer(Duration(milliseconds: 1200), _loadData);
     });
   }
 
