@@ -3,7 +3,6 @@ import "package:flutter/services.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/providers/regions.dart";
-import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
 import 'package:hollyday_land/screens/map.dart';
@@ -14,6 +13,7 @@ import 'package:hollyday_land/screens/offroad/favorites.dart';
 import 'package:hollyday_land/screens/offroad/history.dart';
 import 'package:hollyday_land/screens/offroad/trips.dart';
 import "package:hollyday_land/screens/profile.dart";
+import 'package:hollyday_land/screens/trail.dart';
 import "package:hollyday_land/screens/winery/favorites.dart";
 import "package:hollyday_land/screens/winery/history.dart";
 import "package:hollyday_land/screens/winery/wineries.dart";
@@ -49,7 +49,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: _title,
-        home: ExploreScreen(),
+        //home: ExploreScreen(),
+        home: TrailScreen(),
         theme: ThemeData(
             colorScheme:
                 ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
