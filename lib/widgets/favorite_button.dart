@@ -1,4 +1,3 @@
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/favorites.dart";
 
