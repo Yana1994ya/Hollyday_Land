@@ -13,7 +13,7 @@ class Distance extends StatelessWidget {
 
   const Distance({Key? key, required this.location}) : super(key: key);
 
-  double _calculateDistance(lat1, lon1, lat2, lon2) {
+  static double calculateDistanceKM(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
 
     var a = 0.5 -
@@ -23,8 +23,12 @@ class Distance extends StatelessWidget {
   }
 
   Widget distanceWidget(LocationData locationData) {
-    final double distance = _calculateDistance(locationData.latitude,
-        locationData.longitude, location.lat, location.long);
+    final double distance = calculateDistanceKM(
+      locationData.latitude,
+      locationData.longitude,
+      location.lat,
+      location.long,
+    );
 
     return Text(
       distanceFormat.format(distance) + " km",

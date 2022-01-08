@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/short.dart";
+import 'package:hollyday_land/screens/trail/record.dart';
 import "package:hollyday_land/widgets/trail/trail_list_item.dart";
 
 class TrailsScreen extends StatefulWidget {
@@ -37,6 +38,13 @@ class _TrailsScreenState extends State<TrailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Trails"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(TrailRecordScreen.routePath);
+              },
+              icon: Icon(Icons.fiber_manual_record))
+        ],
       ),
       body: body,
     );
