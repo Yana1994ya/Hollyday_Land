@@ -88,6 +88,7 @@ class TrailScreen extends StatelessWidget {
   }
 }
 
+// Everything is loaded
 class _TrailScreenBody extends StatefulWidget {
   final _TrailWithPoints trailAndPoints;
 

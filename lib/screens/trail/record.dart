@@ -71,6 +71,8 @@ class _TrailRecordScreenState extends State<TrailRecordScreen> {
         location.altitude != null &&
         location.accuracy != null &&
         location.time != null) {
+
+      // if not first point    
       if (points.isNotEmpty) {
         final lastPoint = points.last;
 

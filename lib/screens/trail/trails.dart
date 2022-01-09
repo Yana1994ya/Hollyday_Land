@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/short.dart";
-import 'package:hollyday_land/screens/trail/record.dart';
+import "package:hollyday_land/screens/trail/record.dart";
 import "package:hollyday_land/widgets/trail/trail_list_item.dart";
 
 class TrailsScreen extends StatefulWidget {
