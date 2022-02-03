@@ -1,55 +1,61 @@
-import 'dart:convert';
+import "dart:async";
 
-import 'package:archive/archive.dart';
-import 'package:background_location/background_location.dart';
-import 'package:csv/csv.dart';
+import "package:background_location/background_location.dart";
 import "package:flutter/material.dart";
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hollyday_land/api_server.dart';
+import "package:google_maps_flutter/google_maps_flutter.dart";
+import "package:hollyday_land/models/trail/point_collector.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
-import 'package:hollyday_land/widgets/distance.dart';
-import "package:http/http.dart" as http;
+import "package:hollyday_land/screens/trail/form.dart";
 import "package:provider/provider.dart";
 
-class TrailRecordScreen extends StatefulWidget {
+class TrailRecordScreen extends StatelessWidget {
   static const routePath = "/trails/record";
 
   @override
-  State<StatefulWidget> createState() => _TrailRecordScreenState();
+  Widget build(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
+
+    if (loginProvider.hdToken == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Record trail"),
+        ),
+        body: ProfileScreen.loginBody(loginProvider),
+      );
+    } else {
+      return _LoggedInTrailRecordScreen(
+        hdToken: loginProvider.hdToken!,
+      );
+    }
+  }
 }
 
-class _Location {
-  final double latitude;
-  final double longitude;
-  final double altitude;
-  final double accuracy;
-  final double time;
+class _LoggedInTrailRecordScreen extends StatefulWidget {
+  final String hdToken;
 
-  _Location({
-    required this.latitude,
-    required this.longitude,
-    required this.altitude,
-    required this.accuracy,
-    required this.time,
-  });
+  const _LoggedInTrailRecordScreen({Key? key, required this.hdToken})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _LoggedInTrailRecordScreenState();
 }
 
-class _TrailRecordScreenState extends State<TrailRecordScreen> {
+class _LoggedInTrailRecordScreenState
+    extends State<_LoggedInTrailRecordScreen> {
   bool isRecording = false;
   bool uploading = false;
-  List<_Location> points = List.empty(growable: true);
-  double distance = 0;
-  double elevationGain = 0;
-  double lastTime = 0;
-  double elapsedTime = 0;
-  bool justStarted = false;
+  final pointCollector = PointCollector();
+  late Timer? timer;
+  int elapsedTime = 0;
   GoogleMapController? controller;
 
   void startRecording() {
-    justStarted = true;
+    pointCollector.resume();
     BackgroundLocation.setAndroidConfiguration(1000);
     BackgroundLocation.startLocationService(distanceFilter: 0.5);
+
+    timer = Timer.periodic(Duration(seconds: 1), updateScreen);
 
     setState(() {
       isRecording = true;
@@ -59,72 +65,76 @@ class _TrailRecordScreenState extends State<TrailRecordScreen> {
   void pauseRecording() {
     BackgroundLocation.stopLocationService();
 
+    timer!.cancel();
+    timer = null;
+
     setState(() {
       isRecording = false;
     });
   }
 
-  void onLocation(Location location) {
-    // Don't collect partial location data, since it's of dubious value
-    if (location.latitude != null &&
-        location.longitude != null &&
-        location.altitude != null &&
-        location.accuracy != null &&
-        location.time != null) {
-
-      // if not first point    
-      if (points.isNotEmpty) {
-        final lastPoint = points.last;
-
-        // Register elevation gain
-        if (location.altitude! > lastPoint.altitude) {
-          elevationGain += location.altitude! - lastPoint.altitude;
-        }
-
-        distance += (Distance.calculateDistanceKM(
-              lastPoint.latitude,
-              lastPoint.longitude,
-              location.latitude!,
-              location.longitude!,
-            ) *
-            1000.0);
-
-        if (justStarted) {
-          justStarted = false;
-        } else {
-          elapsedTime += location.time! - lastPoint.time;
-        }
-      }
-
-      points.add(_Location(
-          longitude: location.longitude!,
-          latitude: location.latitude!,
-          altitude: location.altitude!,
-          accuracy: location.accuracy!,
-          time: location.time!));
-
-      if (location.time! - lastTime > 10 * 1000) {
-        setState(() {
-          lastTime = location.time!;
-
-          controller?.animateCamera(CameraUpdate.newLatLngZoom(
-            LatLng(location.latitude!, location.longitude!),
-            17.0,
-          ));
-        });
-      }
-    }
+  void updateScreen(Timer timer) {
+    setState(() {
+      elapsedTime += 1;
+    });
   }
 
-  void reset() {
-    setState(() {
-      uploading = false;
-      points.clear();
-      distance = 0;
-      elevationGain = 0;
-      lastTime = 0;
-      elapsedTime = 0;
-      justStarted = false;
+  void uploadSuccessful(void _) {
+    // Let the user know their upload was successful
+    showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return AlertDialog(
+          title: const Text("Upload successful"),
+          content: Text("The trail was successfully uploaded"),
+          actions: [
+            TextButton(
+              child: const Text("Confirm"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    ).then((_) {
+      // Then exit the record screen upon completion
+      // Notify the caller a refresh is recommended
+      Navigator.of(context).pop(true);
+    });
+  }
+
+  void uploadFailed(dynamic error) {
+    final String message;
+
+    if (error is UploadError) {
+      message = "Failed with status ${error.status}, message:${error.cause}";
+    } else {
+      message = error.toString();
+    }
+
+    // Let the user know upload failed
+    showDialog(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return AlertDialog(
+          title: const Text("Upload failed"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: const Text("Confirm"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    ).then((_) {
+      // Allow them to re-try at a later date
+      setState(() {
+        uploading = false;
+      });
     });
   }
 
@@ -133,130 +143,90 @@ class _TrailRecordScreenState extends State<TrailRecordScreen> {
       uploading = true;
     });
 
-    List<List<dynamic>> result = List.empty(growable: true);
-
-    result.add(["Latitude", "Longitude", "Altitude", "Accuracy", "Time"]);
-
-    points.forEach((point) {
-      result.add([
-        point.latitude,
-        point.longitude,
-        point.altitude,
-        point.accuracy,
-        point.time
-      ]);
-    });
-
-    final csvFile = ListToCsvConverter().convert(result, eol: "\n");
-    var stringBytes = utf8.encode(csvFile);
-    var gzipBytes = GZipEncoder().encode(stringBytes);
-
-    http.MultipartRequest request = http.MultipartRequest(
-      "POST",
-      Uri.https(ApiServer.serverName, "attractions/api/trail/upload"),
-    );
-    request.headers["host"] = ApiServer.serverName;
-
-    /*http.MultipartRequest request = http.MultipartRequest(
-      "POST",
-      Uri.http("192.168.1.159:8000", "attractions/api/trail/upload"),
-    );*/
-
-    request.fields["token"] =
-        Provider.of<LoginProvider>(context, listen: false).hdToken!;
-    request.files.add(http.MultipartFile.fromBytes("file", gzipBytes!,
-        filename: "point.csv.gz"));
-
-    request.send().then((response) {
-      if (response.statusCode != 200) {
-        response.stream.transform(utf8.decoder).listen((body) {
-          print(body);
-        });
-
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => NewTrailForm()))
+        .then((description) {
+      // If description == null meaning user closed the form without filling
+      // data, in that case, just quite the upload process without doing
+      // upload (by flipping the state back to false)
+      if (description == null) {
         setState(() {
           uploading = false;
         });
       } else {
-        reset();
+        pointCollector
+            .upload(widget.hdToken, description as NewTrailDescription)
+            .then(uploadSuccessful)
+            .catchError(uploadFailed);
       }
     });
   }
 
   @override
   void initState() {
-    BackgroundLocation.getLocationUpdates(onLocation);
-  }
+    super.initState();
 
-  List<LatLng> listPoint() {
-    return points.map((l) => LatLng(l.latitude, l.longitude)).toList();
+    BackgroundLocation.getLocationUpdates(pointCollector.addPoint);
   }
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<LoginProvider>(context);
-
-    if (loginProvider.currentUser == null) {
-      return Scaffold(
-          appBar: AppBar(
-            title: Text("Record trail"),
-          ),
-          body: ProfileScreen.loginBody(loginProvider));
-    } else {
-      return Scaffold(
-        appBar: AppBar(title: Text("Record trail")),
-        body: Column(
-          children: [
-            isRecording ? Text("Recording trail") : Text("Waiting"),
-            Text("Distance: " + distance.toStringAsFixed(2) + "m"),
-            Text("Elevation Gain: " + elevationGain.toStringAsFixed(2) + "m"),
-            Text("Time: " + (elapsedTime / 1000).toStringAsFixed(2) + "s"),
-            Container(
-              width: double.infinity,
-              height: 300.0,
-              child: GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition:
-                    CameraPosition(target: LatLng(0, 0), zoom: 15),
-                onMapCreated: (GoogleMapController controller) {
-                  this.controller = controller;
-                },
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                polylines: {
-                  Polyline(
-                    polylineId: PolylineId("trail"),
-                    visible: true,
-                    color: Colors.lightGreen,
-                    points: listPoint(),
-                    width: 3,
-                  )
-                },
-              ),
+    return Scaffold(
+      appBar: AppBar(title: Text("Record trail")),
+      body: Column(
+        children: [
+          isRecording ? Text("Recording trail") : Text("Waiting"),
+          Text("Distance: " + pointCollector.distance.toStringAsFixed(2) + "m"),
+          Text("Elevation Gain: " +
+              pointCollector.elevationGain.toStringAsFixed(2) +
+              "m"),
+          Text("Time: " + elapsedTime.toString() + "s"),
+          Container(
+            width: double.infinity,
+            height: 300.0,
+            child: GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition:
+                  CameraPosition(target: LatLng(0, 0), zoom: 15),
+              onMapCreated: (GoogleMapController controller) {
+                this.controller = controller;
+              },
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
+              polylines: {
+                Polyline(
+                  polylineId: PolylineId("trail"),
+                  visible: true,
+                  color: Colors.lightGreen,
+                  points: pointCollector.latLng,
+                  width: 3,
+                ),
+              },
             ),
-            if (!isRecording && !uploading)
-              TextButton(onPressed: upload, child: Text("Upload"))
-          ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          child: Container(
-            height: 50.0,
           ),
+          if (!isRecording && !uploading)
+            TextButton(onPressed: upload, child: Text("Upload"))
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+          height: 50.0,
         ),
-        floatingActionButton: !isRecording
-            ? FloatingActionButton(
-                onPressed: startRecording,
-                tooltip: "Record",
-                child: const Icon(Icons.fiber_manual_record),
-              )
-            : FloatingActionButton(
-                onPressed: pauseRecording,
-                tooltip: "Pause",
-                child: const Icon(Icons.pause),
-              ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      );
-    }
+      ),
+      floatingActionButton: !isRecording
+          ? FloatingActionButton(
+              onPressed: startRecording,
+              tooltip: "Record",
+              child: const Icon(Icons.fiber_manual_record),
+            )
+          : FloatingActionButton(
+              onPressed: pauseRecording,
+              tooltip: "Pause",
+              child: const Icon(Icons.pause),
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 
   @override

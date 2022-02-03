@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/short.dart";
+import "package:hollyday_land/providers/trail/cache_key.dart";
 import "package:hollyday_land/screens/trail/record.dart";
 import "package:hollyday_land/widgets/trail/trail_list_item.dart";
+import "package:provider/provider.dart";
 
 class TrailsScreen extends StatefulWidget {
   static const routePath = "/trails";
@@ -18,8 +20,10 @@ class _TrailsScreenState extends State<TrailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TrailsCacheKey cacheKey = Provider.of<TrailsCacheKey>(context);
+
     final body = FutureBuilder(
-      future: TrailShort.readTrails(trailsFilter.parameters),
+      future: TrailShort.readTrails(trailsFilter.parameters(cacheKey.cacheKey)),
       builder: (BuildContext _, AsyncSnapshot<List<TrailShort>> snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text(snapshot.error!.toString()));
@@ -41,7 +45,15 @@ class _TrailsScreenState extends State<TrailsScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(TrailRecordScreen.routePath);
+                Navigator.of(context)
+                    .pushNamed(TrailRecordScreen.routePath)
+                    .then((value) {
+                  // If upload was successful, true is returned via pop
+                  if (value == true) {
+                    // Trigger refresh
+                    cacheKey.refresh();
+                  }
+                });
               },
               icon: Icon(Icons.fiber_manual_record))
         ],

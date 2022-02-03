@@ -31,7 +31,7 @@ class TrailsFilter {
     );
   }
 
-  Map<String, Iterable<String>> get parameters {
+  Map<String, Iterable<String>> parameters(int cache) {
     final Map<String, Iterable<String>> params = {};
 
     if (difficulty.isNotEmpty) {
@@ -42,6 +42,8 @@ class TrailsFilter {
     // but return value is ignored so it basically does nothing)
     length?._addParameter(params, "length");
     elevationGain?._addParameter(params, "elevation_gain");
+
+    params["cache"] = [cache.toString()];
 
     return params;
   }
