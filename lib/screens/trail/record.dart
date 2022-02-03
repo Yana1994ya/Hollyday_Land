@@ -7,6 +7,7 @@ import "package:hollyday_land/models/trail/point_collector.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/trail/form.dart";
+import "package:location/location.dart" as loc;
 import "package:provider/provider.dart";
 
 class TrailRecordScreen extends StatelessWidget {
@@ -162,10 +163,20 @@ class _LoggedInTrailRecordScreenState
     });
   }
 
+  _getLocation() async {
+    final location = loc.Location();
+    final currentLocation = await location.getLocation();
+
+    print("locationLatitude: ${currentLocation.latitude}");
+    print("locationLongitude: ${currentLocation.longitude}");
+    //rebuild the widget after getting the current location of the user
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
-
+    _getLocation();
     BackgroundLocation.getLocationUpdates(pointCollector.addPoint);
   }
 

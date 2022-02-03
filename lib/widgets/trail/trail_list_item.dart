@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:hollyday_land/models/trail/difficulty.dart';
 import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/screens/trail/trail.dart";
 import "package:hollyday_land/widgets/distance.dart";
@@ -87,6 +88,20 @@ class TrailListItem extends StatelessWidget {
                       overflow: TextOverflow.fade,
                       maxLines: 1,
                       softWrap: false,
+                    ),
+                    alignment: Alignment.topLeft,
+                  ),
+                  Align(
+                    child: Text(
+                      "Difficulty: " +
+                          difficultyToString(trail.difficulty) +
+                          " ,distance: " +
+                          (trail.length.toDouble() / 1000.0)
+                              .toStringAsFixed(2) +
+                          "km" +
+                          " ,elv gain: " +
+                          trail.elevationGain.toString() +
+                          "m",
                     ),
                     alignment: Alignment.topLeft,
                   ),
