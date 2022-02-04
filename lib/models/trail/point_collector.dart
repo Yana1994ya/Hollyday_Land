@@ -6,11 +6,10 @@ import "package:background_location/background_location.dart";
 import "package:csv/csv.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/screens/trail/form.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:http/http.dart" as http;
-
-import 'difficulty.dart';
 
 class ExportLocation {
   final double latitude;
@@ -130,7 +129,8 @@ class PointCollector {
   List<LatLng> get latLng =>
       points.map((l) => LatLng(l.latitude, l.longitude)).toList();
 
-  Future<void> upload(String hdToken, NewTrailDescription description) async {
+  Future<void> upload(
+      String hdToken, NewTrailDescription description, List<int> images) async {
     List<List<dynamic>> result = List.empty(growable: true);
 
     result.add(["Latitude", "Longitude", "Altitude", "Accuracy", "Time"]);
@@ -163,6 +163,8 @@ class PointCollector {
     request.fields["token"] = hdToken;
     request.fields["name"] = description.name;
     request.fields["difficulty"] = difficultyToString(description.difficulty);
+    request.fields["images"] =
+        images.map((imageId) => imageId.toString()).join(",");
 
     request.files.add(http.MultipartFile.fromBytes("file", gzipBytes!,
         filename: "point.csv.gz"));

@@ -4,9 +4,11 @@ import "package:background_location/background_location.dart";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/trail/point_collector.dart";
+import "package:hollyday_land/providers/image_upload.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/trail/form.dart";
+import "package:image_picker/image_picker.dart";
 import "package:location/location.dart" as loc;
 import "package:provider/provider.dart";
 
@@ -50,6 +52,7 @@ class _LoggedInTrailRecordScreenState
   late Timer? timer;
   int elapsedTime = 0;
   GoogleMapController? controller;
+  List<int> images = List.empty(growable: true);
 
   void startRecording() {
     pointCollector.resume();
@@ -75,9 +78,11 @@ class _LoggedInTrailRecordScreenState
   }
 
   void updateScreen(Timer timer) {
-    setState(() {
-      elapsedTime += 1;
-    });
+    if (mounted) {
+      setState(() {
+        elapsedTime += 1;
+      });
+    }
   }
 
   void uploadSuccessful(void _) {
@@ -156,7 +161,7 @@ class _LoggedInTrailRecordScreenState
         });
       } else {
         pointCollector
-            .upload(widget.hdToken, description as NewTrailDescription)
+            .upload(widget.hdToken, description as NewTrailDescription, images)
             .then(uploadSuccessful)
             .catchError(uploadFailed);
       }
@@ -183,7 +188,35 @@ class _LoggedInTrailRecordScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Record trail")),
+      appBar: AppBar(
+        title: Text("Record trail"),
+        actions: [
+          if (isRecording)
+            IconButton(
+                onPressed: () async {
+                  // Pick multiple images
+                  final ImagePicker _picker = ImagePicker();
+                  _picker
+                      .pickImage(
+                    source: ImageSource.camera,
+                    imageQuality: 80,
+                    maxWidth: 3840,
+                    maxHeight: 2160,
+                  )
+                      .then((picture) async {
+                    if (picture != null) {
+                      final imageId = await ImageUpload.uploadImage(
+                          picture, widget.hdToken);
+
+                      setState(() {
+                        images.add(imageId);
+                      });
+                    }
+                  });
+                },
+                icon: Icon(Icons.camera))
+        ],
+      ),
       body: Column(
         children: [
           isRecording ? Text("Recording trail") : Text("Waiting"),
@@ -192,6 +225,7 @@ class _LoggedInTrailRecordScreenState
               pointCollector.elevationGain.toStringAsFixed(2) +
               "m"),
           Text("Time: " + elapsedTime.toString() + "s"),
+          Text("Images: " + images.length.toString()),
           Container(
             width: double.infinity,
             height: 300.0,
