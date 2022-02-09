@@ -1,6 +1,12 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/filter.dart";
+import "package:hollyday_land/widgets/filter/chips.dart";
+
+const maxDistance = 150 * 1000;
+const minDistance = 1 * 1000;
+const maxElevationGain = 4000;
+const minElevationGain = 100;
 
 class TrailsFilterScreen extends StatefulWidget {
   final TrailsFilter initialFilter;
@@ -34,7 +40,7 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final subtitle = Theme.of(context).textTheme.subtitle1;
+    final titleTheme = Theme.of(context).textTheme.headline6;
 
     return Scaffold(
       appBar: AppBar(
@@ -59,20 +65,20 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: ListView(
           children: [
             Text(
               "Trail length - Minimum",
-              style: subtitle,
+              style: titleTheme,
             ),
             Slider(
               value: lengthRange.rangeStart == null
                   ? 0.0
                   : lengthRange.rangeStart!.toDouble(),
               min: 0,
-              max: 20000,
-              divisions: 1000,
+              max: maxDistance.toDouble(),
+              divisions: 100,
               onChanged: (newValue) {
                 setState(() {
                   if (newValue == 0.0) {
@@ -90,18 +96,18 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
             Divider(),
             Text(
               "Trail length - Maximum",
-              style: subtitle,
+              style: titleTheme,
             ),
             Slider(
               value: lengthRange.rangeEnd == null
-                  ? 20000
+                  ? maxDistance.toDouble()
                   : lengthRange.rangeEnd!.toDouble(),
-              min: 1000,
-              max: 20000,
-              divisions: 1000,
+              min: minDistance.toDouble(),
+              max: (maxDistance + minDistance).toDouble(),
+              divisions: 100,
               onChanged: (newValue) {
                 setState(() {
-                  if (newValue == 20000) {
+                  if (newValue == maxDistance) {
                     lengthRange = MeterRange(lengthRange.rangeStart, null);
                   } else {
                     lengthRange =
@@ -116,15 +122,15 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
             Divider(),
             Text(
               "Elevation gain - Minimum",
-              style: subtitle,
+              style: titleTheme,
             ),
             Slider(
               value: elvGainRange.rangeStart == null
                   ? 0.0
                   : elvGainRange.rangeStart!.toDouble(),
               min: 0,
-              max: 4000,
-              divisions: 100,
+              max: maxElevationGain.toDouble(),
+              divisions: 80,
               onChanged: (newValue) {
                 setState(() {
                   if (newValue == 0.0) {
@@ -142,15 +148,15 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
             Divider(),
             Text(
               "Elevation gain - Maximum",
-              style: subtitle,
+              style: titleTheme,
             ),
             Slider(
               value: elvGainRange.rangeEnd == null
-                  ? 4000
+                  ? (maxElevationGain + minElevationGain).toDouble()
                   : elvGainRange.rangeEnd!.toDouble(),
-              min: 100,
-              max: 4000,
-              divisions: 100,
+              min: minElevationGain.toDouble(),
+              max: (maxElevationGain + minElevationGain).toDouble(),
+              divisions: 80,
               onChanged: (newValue) {
                 setState(() {
                   if (newValue == 4000) {
@@ -168,52 +174,23 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
             Divider(),
             Text(
               "Difficulty",
-              style: subtitle,
+              style: titleTheme,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ChoiceChip(
-                  label: Text("Easy"),
-                  selected: difficulty.contains(Difficulty.easy),
-                  onSelected: (value) {
-                    setState(() {
-                      if (value) {
-                        difficulty.add(Difficulty.easy);
-                      } else {
-                        difficulty.remove(Difficulty.easy);
-                      }
-                    });
-                  },
-                ),
-                ChoiceChip(
-                  label: Text("Moderate"),
-                  selected: difficulty.contains(Difficulty.medium),
-                  onSelected: (value) {
-                    setState(() {
-                      if (value) {
-                        difficulty.add(Difficulty.medium);
-                      } else {
-                        difficulty.remove(Difficulty.medium);
-                      }
-                    });
-                  },
-                ),
-                ChoiceChip(
-                  label: Text("Hard"),
-                  selected: difficulty.contains(Difficulty.hard),
-                  onSelected: (value) {
-                    setState(() {
-                      if (value) {
-                        difficulty.add(Difficulty.hard);
-                      } else {
-                        difficulty.remove(Difficulty.hard);
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
+            FilterChips.choiceChips<Difficulty>(
+              items: [Difficulty.easy, Difficulty.medium, Difficulty.hard],
+              isSelected: difficulty.contains,
+              toggle: (diff) {
+                setState(() {
+                  if (difficulty.contains(diff)) {
+                    difficulty.remove(diff);
+                  } else {
+                    difficulty.add(diff);
+                  }
+                });
+              },
+              title: difficultyToDescription,
+              colorScheme: Theme.of(context).colorScheme,
+            )
           ],
         ),
       ),

@@ -36,11 +36,12 @@ class OffRoadTripFilterSelectionWidget extends StatelessWidget {
                 height: 5,
               ),
               FilterChips.choiceChips<TripType>(
-                  items: options.tripTypes,
-                  isSelected: filterProvider.tripTypeIsSelected,
-                  toggle: filterProvider.toggleTripType,
-                  title: (domain) => domain.name,
-                  colorScheme: colorScheme)
+                items: options.tripTypes,
+                isSelected: filterProvider.tripTypeIsSelected,
+                toggle: filterProvider.toggleTripType,
+                title: (domain) => domain.name,
+                colorScheme: colorScheme,
+              )
             ],
       ),
     );
