@@ -7,6 +7,7 @@ import "package:csv/csv.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
+import "package:hollyday_land/models/upload_error.dart";
 import "package:hollyday_land/screens/trail/form.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:http/http.dart" as http;
@@ -25,13 +26,6 @@ class ExportLocation {
     required this.accuracy,
     required this.time,
   });
-}
-
-class UploadError implements Exception {
-  final int status;
-  final String cause;
-
-  UploadError(this.status, this.cause);
 }
 
 class PointCollector {

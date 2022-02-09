@@ -1,14 +1,19 @@
 import "package:hollyday_land/models/trail/difficulty.dart";
 
 class MeterRange {
-  final int rangeStart;
-  final int rangeEnd;
+  final int? rangeStart;
+  final int? rangeEnd;
 
   MeterRange(this.rangeStart, this.rangeEnd);
 
   void _addParameter(Map<String, Iterable<String>> params, String prefix) {
-    params["${prefix}_start"] = [rangeStart.toString()];
-    params["${prefix}_end"] = [rangeEnd.toString()];
+    if (rangeStart != null) {
+      params["${prefix}_start"] = [rangeStart.toString()];
+    }
+
+    if (rangeEnd != null) {
+      params["${prefix}_end"] = [rangeEnd.toString()];
+    }
   }
 }
 

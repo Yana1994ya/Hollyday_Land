@@ -23,3 +23,15 @@ String difficultyToString(Difficulty difficulty) {
     throw Exception("Difficulty $difficulty is not recognized");
   }
 }
+
+String difficultyToDescription(Difficulty difficulty) {
+  if (difficulty == Difficulty.hard) {
+    return "Hard";
+  } else if (difficulty == Difficulty.medium) {
+    return "Moderate";
+  } else if (difficulty == Difficulty.easy) {
+    return "Easy";
+  } else {
+    throw Exception("Difficulty $difficulty is not recognized");
+  }
+}

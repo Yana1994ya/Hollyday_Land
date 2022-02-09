@@ -94,7 +94,7 @@ class TrailListItem extends StatelessWidget {
                   Align(
                     child: Text(
                       "Difficulty: " +
-                          difficultyToString(trail.difficulty) +
+                          difficultyToDescription(trail.difficulty) +
                           " ,distance: " +
                           (trail.length.toDouble() / 1000.0)
                               .toStringAsFixed(2) +
