@@ -19,6 +19,9 @@ class MeterRange {
 
 class TrailsFilter {
   final Set<Difficulty> difficulty;
+  final Set<int> activities;
+  final Set<int> attractions;
+  final Set<int> suitabilities;
   final MeterRange? length;
   final MeterRange? elevationGain;
 
@@ -26,6 +29,9 @@ class TrailsFilter {
     required this.difficulty,
     required this.length,
     required this.elevationGain,
+    required this.activities,
+    required this.attractions,
+    required this.suitabilities,
   });
 
   factory TrailsFilter.empty() {
@@ -33,6 +39,9 @@ class TrailsFilter {
       difficulty: {},
       length: null,
       elevationGain: null,
+      activities: {},
+      attractions: {},
+      suitabilities: {},
     );
   }
 
@@ -47,6 +56,18 @@ class TrailsFilter {
     // but return value is ignored so it basically does nothing)
     length?._addParameter(params, "length");
     elevationGain?._addParameter(params, "elevation_gain");
+
+    if (activities.isNotEmpty) {
+      params["activities"] = activities.map((id) => id.toString());
+    }
+
+    if (attractions.isNotEmpty) {
+      params["attractions"] = attractions.map((id) => id.toString());
+    }
+
+    if (suitabilities.isNotEmpty) {
+      params["suitabilities"] = suitabilities.map((id) => id.toString());
+    }
 
     params["cache"] = [cache.toString()];
 

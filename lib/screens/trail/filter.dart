@@ -1,6 +1,10 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/trail/activity.dart";
+import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/filter.dart";
+import "package:hollyday_land/models/trail/suitability.dart";
+import 'package:hollyday_land/models/trail/tags.dart';
 import "package:hollyday_land/widgets/filter/chips.dart";
 
 const maxDistance = 150 * 1000;
@@ -8,20 +12,55 @@ const minDistance = 1 * 1000;
 const maxElevationGain = 4000;
 const minElevationGain = 100;
 
-class TrailsFilterScreen extends StatefulWidget {
+class TrailsFilterScreen extends StatelessWidget {
   final TrailsFilter initialFilter;
 
   const TrailsFilterScreen({Key? key, required this.initialFilter})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _TrailsFilterScreenState();
+  Widget build(BuildContext context) {
+    return FutureBuilder<TrailTags>(
+      future: TrailTags.retrieve(),
+      builder: (_cnt, snapshot) {
+        if (snapshot.hasError) {
+          return Scaffold(
+            appBar: AppBar(title: const Text("Trails filter")),
+            body: Center(child: Text("error: ${snapshot.error}")),
+          );
+        } else if (!snapshot.hasData) {
+          return Scaffold(
+            appBar: AppBar(title: const Text("Trails filter")),
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        } else {
+          return LoadedTrailsFilterScreen(
+              initialFilter: initialFilter, tags: snapshot.data!);
+        }
+      },
+    );
+  }
 }
 
-class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
+class LoadedTrailsFilterScreen extends StatefulWidget {
+  final TrailsFilter initialFilter;
+  final TrailTags tags;
+
+  const LoadedTrailsFilterScreen(
+      {Key? key, required this.initialFilter, required this.tags})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _LoadedTrailsFilterScreenState();
+}
+
+class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
   MeterRange lengthRange = MeterRange(null, null);
   MeterRange elvGainRange = MeterRange(null, null);
   Set<Difficulty> difficulty = {};
+  Set<TrailActivity> activities = {};
+  Set<TrailAttraction> attractions = {};
+  Set<TrailSuitability> suitabilities = {};
 
   @override
   void initState() {
@@ -34,6 +73,21 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
     }
 
     difficulty = widget.initialFilter.difficulty;
+
+    activities = widget.tags.activities
+        .where(
+            (activity) => widget.initialFilter.activities.contains(activity.id))
+        .toSet();
+
+    attractions = widget.tags.attractions
+        .where((attraction) =>
+            widget.initialFilter.attractions.contains(attraction.id))
+        .toSet();
+
+    suitabilities = widget.tags.suitabilities
+        .where((suitability) =>
+            widget.initialFilter.suitabilities.contains(suitability.id))
+        .toSet();
 
     super.initState();
   }
@@ -52,6 +106,11 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
                 difficulty: difficulty,
                 length: lengthRange,
                 elevationGain: elvGainRange,
+                activities: activities.map((activity) => activity.id).toSet(),
+                attractions:
+                    attractions.map((attraction) => attraction.id).toSet(),
+                suitabilities:
+                    suitabilities.map((suitability) => suitability.id).toSet(),
               ));
             },
             icon: Icon(Icons.save),
@@ -189,6 +248,66 @@ class _TrailsFilterScreenState extends State<TrailsFilterScreen> {
                 });
               },
               title: difficultyToDescription,
+              colorScheme: Theme.of(context).colorScheme,
+            ),
+            Divider(),
+            Text(
+              "Activities",
+              style: titleTheme,
+            ),
+            FilterChips.choiceChips<TrailActivity>(
+              items: widget.tags.activities,
+              isSelected: activities.contains,
+              toggle: (activity) {
+                setState(() {
+                  if (activities.contains(activity)) {
+                    activities.remove(activity);
+                  } else {
+                    activities.add(activity);
+                  }
+                });
+              },
+              title: (activity) => activity.name,
+              colorScheme: Theme.of(context).colorScheme,
+            ),
+            Divider(),
+            Text(
+              "Attractions",
+              style: titleTheme,
+            ),
+            FilterChips.choiceChips<TrailAttraction>(
+              items: widget.tags.attractions,
+              isSelected: attractions.contains,
+              toggle: (attraction) {
+                setState(() {
+                  if (attractions.contains(attraction)) {
+                    attractions.remove(attraction);
+                  } else {
+                    attractions.add(attraction);
+                  }
+                });
+              },
+              title: (attraction) => attraction.name,
+              colorScheme: Theme.of(context).colorScheme,
+            ),
+            Divider(),
+            Text(
+              "Suitability",
+              style: titleTheme,
+            ),
+            FilterChips.choiceChips<TrailSuitability>(
+              items: widget.tags.suitabilities,
+              isSelected: suitabilities.contains,
+              toggle: (suitability) {
+                setState(() {
+                  if (suitabilities.contains(suitability)) {
+                    suitabilities.remove(suitability);
+                  } else {
+                    suitabilities.add(suitability);
+                  }
+                });
+              },
+              title: (suitability) => suitability.name,
               colorScheme: Theme.of(context).colorScheme,
             )
           ],

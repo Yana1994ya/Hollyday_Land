@@ -61,9 +61,12 @@ class _TrailsScreenState extends State<TrailsScreen> {
           IconButton(
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(
-                      builder: (_) =>
-                          TrailsFilterScreen(initialFilter: trailsFilter)))
+                  .push(
+                MaterialPageRoute(
+                  builder: (_) =>
+                      TrailsFilterScreen(initialFilter: trailsFilter),
+                ),
+              )
                   .then((value) {
                 if (value != null) {
                   setState(() {

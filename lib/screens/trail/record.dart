@@ -151,7 +151,7 @@ class _LoggedInTrailRecordScreenState
     });
 
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => NewTrailForm()))
+        .push(MaterialPageRoute(builder: (_) => LoadingTrailForm()))
         .then((description) {
       // If description == null meaning user closed the form without filling
       // data, in that case, just quite the upload process without doing
