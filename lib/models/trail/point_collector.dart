@@ -5,6 +5,7 @@ import "package:archive/archive.dart";
 import "package:background_location/background_location.dart";
 import "package:csv/csv.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
+import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/upload_error.dart";
 import "package:hollyday_land/screens/trail/form.dart";
@@ -142,16 +143,16 @@ class PointCollector {
     var stringBytes = utf8.encode(csvFile);
     var gzipBytes = GZipEncoder().encode(stringBytes);
 
-    /*http.MultipartRequest request = http.MultipartRequest(
+    http.MultipartRequest request = http.MultipartRequest(
       "POST",
       Uri.https(ApiServer.serverName, "attractions/api/trail/upload"),
     );
-    request.headers["host"] = ApiServer.serverName;*/
+    request.headers["host"] = ApiServer.serverName;
 
-    http.MultipartRequest request = http.MultipartRequest(
+    /*http.MultipartRequest request = http.MultipartRequest(
       "POST",
       Uri.http("192.168.1.159:8000", "attractions/api/trail/upload"),
-    );
+    );*/
 
     request.fields["token"] = hdToken;
     request.fields["name"] = description.name;

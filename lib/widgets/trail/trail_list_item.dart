@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/trail/difficulty.dart';
+import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/screens/trail/trail.dart";
 import "package:hollyday_land/widgets/distance.dart";

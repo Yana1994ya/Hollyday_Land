@@ -4,7 +4,7 @@ import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
-import 'package:hollyday_land/models/trail/tags.dart';
+import "package:hollyday_land/models/trail/tags.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
 
 const maxDistance = 150 * 1000;

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
-import 'package:hollyday_land/screens/trail/trails.dart';
+import "package:hollyday_land/screens/trail/trails.dart";
 import "package:hollyday_land/screens/winery/wineries.dart";
 import "package:hollyday_land/screens/zoo/zoos.dart";
 import "package:hollyday_land/widgets/category_item.dart";
