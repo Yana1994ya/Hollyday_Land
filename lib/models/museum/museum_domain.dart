@@ -27,7 +27,7 @@ class MuseumDomain {
   static Future<List<MuseumDomain>> readMuseumDomains() async {
     return ApiServer.get(
       "/attractions/api/museum_domains",
-      "domains",
+      "museum_domains",
     ).then(_mapDomains);
   }
 }

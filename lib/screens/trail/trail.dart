@@ -5,9 +5,15 @@ import "dart:math" as math;
 import "package:csv/csv.dart";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
+import "package:hollyday_land/models/trail/activity.dart";
+import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/short.dart";
+import "package:hollyday_land/models/trail/suitability.dart";
 import "package:hollyday_land/models/trail/trail.dart";
 import "package:hollyday_land/providers/location_provider.dart";
+import "package:hollyday_land/widgets/distance.dart";
+import "package:hollyday_land/widgets/image_carousel.dart";
+import "package:hollyday_land/widgets/rating.dart";
 import "package:http/http.dart" as http;
 import "package:provider/provider.dart";
 
@@ -119,27 +125,141 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
     return CameraUpdate.newLatLngBounds(bound, 50);
   }
 
+  List<Widget> getChips<T>(
+    ThemeData theme,
+    String label,
+    List<T> tags,
+    String Function(T) tagName,
+  ) {
+    if (tags.isEmpty) {
+      return [];
+    } else {
+      return [
+        SizedBox(
+          height: 5,
+        ),
+        Text(label),
+        Wrap(
+          children: tags
+              .map((tag) => Chip(
+                    label: Text(tagName(tag)),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    backgroundColor: Colors.white,
+                  ))
+              .toList(),
+        ),
+      ];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      mapType: MapType.normal,
-      initialCameraPosition:
-          CameraPosition(target: widget.trailAndPoints.points.first, zoom: 13),
-      onMapCreated: (GoogleMapController controller) {
-        this.controller = controller;
-        controller.animateCamera(trailCamera());
-      },
-      myLocationEnabled: true,
-      myLocationButtonEnabled: true,
-      polylines: {
-        Polyline(
-          polylineId: PolylineId("trail"),
-          visible: true,
-          color: Colors.lightGreen,
-          points: widget.trailAndPoints.points,
-          width: 3,
-        )
-      },
+    final theme = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: ListView(
+        children: [
+          ImageCarousel(
+            images: ImageCarousel.collectImages(
+              widget.trailAndPoints.trail.mainImage,
+              widget.trailAndPoints.trail.additionalImages,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: Text(
+                widget.trailAndPoints.trail.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Rating(
+                rating: 4.6,
+                count: 230,
+              ),
+              Distance(
+                location: widget.trailAndPoints.trail,
+              ),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          Row(
+            children: [
+              Column(
+                children: [
+                  Text("Length"),
+                  Text((widget.trailAndPoints.trail.length.toDouble() / 1000)
+                          .toStringAsFixed(2) +
+                      "km"),
+                ],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                children: [
+                  Text("Elevation Gain"),
+                  Text(widget.trailAndPoints.trail.elevationGain.toString() +
+                      "m"),
+                ],
+              ),
+            ],
+          ),
+          ...getChips<TrailActivity>(
+            theme,
+            "Activities",
+            widget.trailAndPoints.trail.activities,
+            (tag) => tag.name,
+          ),
+          ...getChips<TrailAttraction>(
+            theme,
+            "Attractions",
+            widget.trailAndPoints.trail.attractions,
+            (tag) => tag.name,
+          ),
+          ...getChips<TrailSuitability>(
+            theme,
+            "Suitabilities",
+            widget.trailAndPoints.trail.suitabilities,
+            (tag) => tag.name,
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: 200,
+            child: GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: CameraPosition(
+                  target: widget.trailAndPoints.points.first, zoom: 13),
+              onMapCreated: (GoogleMapController controller) {
+                this.controller = controller;
+                controller.animateCamera(trailCamera());
+              },
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
+              polylines: {
+                Polyline(
+                  polylineId: PolylineId("trail"),
+                  visible: true,
+                  color: Colors.lightGreen,
+                  points: widget.trailAndPoints.points,
+                  width: 3,
+                )
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
