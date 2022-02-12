@@ -140,15 +140,19 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
         ),
         Text(label),
         Wrap(
+          spacing: 5,
           children: tags
               .map((tag) => Chip(
-                    label: Text(tagName(tag)),
+                    label: Text(
+                      tagName(tag),
+                      style: TextStyle(color: Colors.white),
+                    ),
                     shape: StadiumBorder(
                       side: BorderSide(
                         color: theme.colorScheme.primary,
                       ),
                     ),
-                    backgroundColor: Colors.white,
+                    backgroundColor: theme.colorScheme.primary,
                   ))
               .toList(),
         ),
@@ -182,6 +186,7 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
               ),
             ),
           ),
+          Text("by: ${widget.trailAndPoints.trail.googleUser.name}"),
           Row(
             children: [
               Rating(
@@ -195,21 +200,30 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: [
-                  Text("Length"),
+                  Text(
+                    "Length",
+                    style: theme.textTheme.subtitle1!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
                   Text((widget.trailAndPoints.trail.length.toDouble() / 1000)
                           .toStringAsFixed(2) +
                       "km"),
                 ],
               ),
-              SizedBox(
+              /*SizedBox(
                 width: 10,
-              ),
+              ),*/
               Column(
                 children: [
-                  Text("Elevation Gain"),
+                  Text(
+                    "Elevation Gain",
+                    style: theme.textTheme.subtitle1!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
                   Text(widget.trailAndPoints.trail.elevationGain.toString() +
                       "m"),
                 ],
@@ -233,6 +247,9 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
             "Suitabilities",
             widget.trailAndPoints.trail.suitabilities,
             (tag) => tag.name,
+          ),
+          SizedBox(
+            height: 5,
           ),
           SizedBox(
             width: double.infinity,
