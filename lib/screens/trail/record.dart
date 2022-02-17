@@ -230,11 +230,12 @@ class _LoggedInTrailRecordScreenState
           value: 1,
           child: Row(
             children: [
-              Icon(
-                Icons.camera,
-                color: Colors.black,
+              SizedBox(
+                child: Image.asset("assets/graphics/camera.png"),
+                width: 24,
+                height: 24,
               ),
-              Text("Camera"),
+              Text(" Take a picture"),
             ],
           ),
         ),
@@ -242,11 +243,12 @@ class _LoggedInTrailRecordScreenState
           value: 2,
           child: Row(
             children: [
-              Icon(
-                Icons.file_upload,
-                color: Colors.black,
+              SizedBox(
+                child: Image.asset("assets/graphics/photos.png"),
+                width: 24,
+                height: 24,
               ),
-              Text("Upload"),
+              Text(" Upload from gallery"),
             ],
           ),
         ),

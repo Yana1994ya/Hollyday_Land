@@ -4,9 +4,9 @@ import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/generic_attraction.dart";
 import "package:hollyday_land/models/map_objects.dart";
-import 'package:hollyday_land/models/trail/short.dart';
+import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/providers/location_provider.dart";
-import 'package:hollyday_land/screens/trail/trail.dart';
+import "package:hollyday_land/screens/trail/trail.dart";
 import "package:provider/provider.dart";
 
 class MapScreen extends StatefulWidget {
@@ -108,7 +108,8 @@ class _MapScreenState extends State<MapScreen> {
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
     return Scaffold(
       appBar: AppBar(
-        title: Text(objects == MapObjects.attractions ? "Map" : "Trails"),
+        title:
+            Text(objects == MapObjects.attractions ? "Map" : "Map of Trails"),
       ),
       body: GoogleMap(
         mapType: MapType.normal,

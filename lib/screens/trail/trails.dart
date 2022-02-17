@@ -60,9 +60,9 @@ class _TrailsScreenState extends State<TrailsScreen> {
             children: [
               Icon(
                 Icons.fiber_manual_record,
-                color: Colors.black,
+                color: Colors.red,
               ),
-              Text("Record"),
+              Text(" Record trail"),
             ],
           ),
         ),
@@ -74,7 +74,7 @@ class _TrailsScreenState extends State<TrailsScreen> {
                 Icons.filter_list,
                 color: Colors.black,
               ),
-              Text("Filter"),
+              Text(" Filter"),
             ],
           ),
         ),
@@ -82,11 +82,12 @@ class _TrailsScreenState extends State<TrailsScreen> {
           value: 3,
           child: Row(
             children: [
-              Icon(
-                Icons.map,
-                color: Colors.black,
+              SizedBox(
+                child: Image.asset("assets/graphics/map.png"),
+                width: 24,
+                height: 24,
               ),
-              Text("Map"),
+              Text(" Map"),
             ],
           ),
         ),
