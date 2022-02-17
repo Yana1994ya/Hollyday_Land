@@ -19,6 +19,76 @@ class TrailsScreen extends StatefulWidget {
 class _TrailsScreenState extends State<TrailsScreen> {
   TrailsFilter trailsFilter = TrailsFilter.empty();
 
+  Widget actionsMenu() {
+    return PopupMenuButton(
+      onSelected: (index) {
+        if (index == 1) {
+          Navigator.of(context)
+              .pushNamed(TrailRecordScreen.routePath)
+              .then((value) {
+            // If upload was successful, true is returned via pop
+            if (value == true) {
+              // Trigger refresh
+              Provider.of<TrailsCacheKey>(context, listen: false).refresh();
+            }
+          });
+        } else if (index == 2) {
+          Navigator.of(context)
+              .push(
+            MaterialPageRoute(
+              builder: (_) => TrailsFilterScreen(initialFilter: trailsFilter),
+            ),
+          )
+              .then((value) {
+            if (value != null) {
+              setState(() {
+                trailsFilter = value as TrailsFilter;
+              });
+            }
+          });
+        }
+      },
+      itemBuilder: (context) => <PopupMenuEntry<int>>[
+        PopupMenuItem<int>(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(
+                Icons.fiber_manual_record,
+                color: Colors.black,
+              ),
+              Text("Record"),
+            ],
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Row(
+            children: [
+              Icon(
+                Icons.filter_list,
+                color: Colors.black,
+              ),
+              Text("Filter"),
+            ],
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 3,
+          child: Row(
+            children: [
+              Icon(
+                Icons.map,
+                color: Colors.black,
+              ),
+              Text("Map"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     TrailsCacheKey cacheKey = Provider.of<TrailsCacheKey>(context);
@@ -43,41 +113,7 @@ class _TrailsScreenState extends State<TrailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Trails"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(TrailRecordScreen.routePath)
-                  .then((value) {
-                // If upload was successful, true is returned via pop
-                if (value == true) {
-                  // Trigger refresh
-                  cacheKey.refresh();
-                }
-              });
-            },
-            icon: Icon(Icons.fiber_manual_record),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(
-                MaterialPageRoute(
-                  builder: (_) =>
-                      TrailsFilterScreen(initialFilter: trailsFilter),
-                ),
-              )
-                  .then((value) {
-                if (value != null) {
-                  setState(() {
-                    trailsFilter = value as TrailsFilter;
-                  });
-                }
-              });
-            },
-            icon: Icon(Icons.tune),
-          )
-        ],
+        actions: [actionsMenu()],
       ),
       body: body,
     );

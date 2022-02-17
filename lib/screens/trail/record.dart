@@ -49,6 +49,7 @@ class _LoggedInTrailRecordScreenState
     extends State<_LoggedInTrailRecordScreen> {
   bool isRecording = false;
   bool uploading = false;
+  bool imageUploading = false;
   final pointCollector = PointCollector();
   late Timer? timer;
   int elapsedTime = 0;
@@ -186,36 +187,76 @@ class _LoggedInTrailRecordScreenState
     BackgroundLocation.getLocationUpdates(pointCollector.addPoint);
   }
 
+  void pickImage(ImageSource source) {
+    setState(() {
+      imageUploading = true;
+    });
+
+    // Pick multiple images
+    ImagePicker()
+        .pickImage(
+      source: source,
+      imageQuality: 80,
+      maxWidth: 3840,
+      maxHeight: 2160,
+    )
+        .then((picture) async {
+      if (picture != null) {
+        final imageId = await ImageUpload.uploadImage(picture, widget.hdToken);
+
+        setState(() {
+          images.add(imageId);
+          imageUploading = false;
+        });
+      }
+    });
+  }
+
+  Widget actionsMenu() {
+    return PopupMenuButton(
+      onSelected: (index) {
+        if (index == 1) {
+          pickImage(ImageSource.camera);
+        } else if (index == 2) {
+          pickImage(ImageSource.gallery);
+        }
+      },
+      itemBuilder: (context) => <PopupMenuEntry<int>>[
+        PopupMenuItem<int>(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(
+                Icons.camera,
+                color: Colors.black,
+              ),
+              Text("Camera"),
+            ],
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Row(
+            children: [
+              Icon(
+                Icons.file_upload,
+                color: Colors.black,
+              ),
+              Text("Upload"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Record trail"),
         actions: [
-          if (isRecording)
-            IconButton(
-                onPressed: () async {
-                  // Pick multiple images
-                  final ImagePicker _picker = ImagePicker();
-                  _picker
-                      .pickImage(
-                    source: ImageSource.camera,
-                    imageQuality: 80,
-                    maxWidth: 3840,
-                    maxHeight: 2160,
-                  )
-                      .then((picture) async {
-                    if (picture != null) {
-                      final imageId = await ImageUpload.uploadImage(
-                          picture, widget.hdToken);
-
-                      setState(() {
-                        images.add(imageId);
-                      });
-                    }
-                  });
-                },
-                icon: Icon(Icons.camera))
+          actionsMenu(),
         ],
       ),
       body: Column(
@@ -226,7 +267,21 @@ class _LoggedInTrailRecordScreenState
               pointCollector.elevationGain.toStringAsFixed(2) +
               "m"),
           Text("Time: " + elapsedTime.toString() + "s"),
-          Text("Images: " + images.length.toString()),
+          Row(
+            children: [
+              Text("Images: " + images.length.toString()),
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: imageUploading
+                    ? Padding(
+                        padding: EdgeInsets.all(3),
+                        child: CircularProgressIndicator(),
+                      )
+                    : Container(),
+              ),
+            ],
+          ),
           Container(
             width: double.infinity,
             height: 300.0,
