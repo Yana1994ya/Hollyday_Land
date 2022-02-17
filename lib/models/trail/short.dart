@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
@@ -55,5 +56,14 @@ class TrailShort with WithLocation {
       Map<String, Iterable<String>> parameters) async {
     return ApiServer.get("/attractions/api/trails", "trails", parameters)
         .then(_mapTrail);
+  }
+
+  static Future<List<TrailShort>> forBounds(LatLngBounds bounds) {
+    return readTrails({
+      "lat_min": [bounds.southwest.latitude.toStringAsPrecision(10)],
+      "lon_min": [bounds.southwest.longitude.toStringAsPrecision(10)],
+      "lat_max": [bounds.northeast.latitude.toStringAsPrecision(10)],
+      "lon_max": [bounds.northeast.longitude.toStringAsPrecision(10)]
+    });
   }
 }

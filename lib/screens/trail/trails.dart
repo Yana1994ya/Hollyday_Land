@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/map_objects.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/providers/trail/cache_key.dart";
+import "package:hollyday_land/screens/map.dart";
 import "package:hollyday_land/screens/trail/filter.dart";
 import "package:hollyday_land/screens/trail/record.dart";
 import "package:hollyday_land/widgets/trail/trail_list_item.dart";
@@ -46,6 +48,9 @@ class _TrailsScreenState extends State<TrailsScreen> {
               });
             }
           });
+        } else if (index == 3) {
+          Navigator.of(context)
+              .pushNamed(MapScreen.routePath, arguments: MapObjects.trails);
         }
       },
       itemBuilder: (context) => <PopupMenuEntry<int>>[

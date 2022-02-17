@@ -1,0 +1,1 @@
+enum MapObjects { attractions, trails }

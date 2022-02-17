@@ -208,6 +208,10 @@ class _LoggedInTrailRecordScreenState
           images.add(imageId);
           imageUploading = false;
         });
+      } else {
+        setState(() {
+          imageUploading = false;
+        });
       }
     });
   }
@@ -259,55 +263,60 @@ class _LoggedInTrailRecordScreenState
           actionsMenu(),
         ],
       ),
-      body: Column(
-        children: [
-          isRecording ? Text("Recording trail") : Text("Waiting"),
-          Text("Distance: " + pointCollector.distance.toStringAsFixed(2) + "m"),
-          Text("Elevation Gain: " +
-              pointCollector.elevationGain.toStringAsFixed(2) +
-              "m"),
-          Text("Time: " + elapsedTime.toString() + "s"),
-          Row(
-            children: [
-              Text("Images: " + images.length.toString()),
-              SizedBox(
-                width: 20,
-                height: 20,
-                child: imageUploading
-                    ? Padding(
-                        padding: EdgeInsets.all(3),
-                        child: CircularProgressIndicator(),
-                      )
-                    : Container(),
-              ),
-            ],
-          ),
-          Container(
-            width: double.infinity,
-            height: 300.0,
-            child: GoogleMap(
-              mapType: MapType.normal,
-              initialCameraPosition:
-                  CameraPosition(target: LatLng(0, 0), zoom: 15),
-              onMapCreated: (GoogleMapController controller) {
-                this.controller = controller;
-              },
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              polylines: {
-                Polyline(
-                  polylineId: PolylineId("trail"),
-                  visible: true,
-                  color: Colors.lightGreen,
-                  points: pointCollector.latLng,
-                  width: 3,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            isRecording ? Text("Recording trail") : Text("Waiting"),
+            Text("Distance: " +
+                pointCollector.distance.toStringAsFixed(2) +
+                "m"),
+            Text("Elevation Gain: " +
+                pointCollector.elevationGain.toStringAsFixed(2) +
+                "m"),
+            Text("Time: " + elapsedTime.toString() + "s"),
+            Row(
+              children: [
+                Text("Images: " + images.length.toString()),
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: imageUploading
+                      ? Padding(
+                          padding: EdgeInsets.all(3),
+                          child: CircularProgressIndicator(),
+                        )
+                      : Container(),
                 ),
-              },
+              ],
             ),
-          ),
-          if (!isRecording && !uploading)
-            TextButton(onPressed: upload, child: Text("Upload"))
-        ],
+            Container(
+              width: double.infinity,
+              height: 300.0,
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition:
+                    CameraPosition(target: LatLng(0, 0), zoom: 15),
+                onMapCreated: (GoogleMapController controller) {
+                  this.controller = controller;
+                },
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                polylines: {
+                  Polyline(
+                    polylineId: PolylineId("trail"),
+                    visible: true,
+                    color: Colors.lightGreen,
+                    points: pointCollector.latLng,
+                    width: 3,
+                  ),
+                },
+              ),
+            ),
+            if (!isRecording && !uploading)
+              TextButton(onPressed: upload, child: Text("Upload"))
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
