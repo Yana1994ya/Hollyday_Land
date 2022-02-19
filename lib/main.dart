@@ -18,7 +18,7 @@ import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
 import "package:hollyday_land/screens/trail/record.dart";
 import "package:hollyday_land/screens/trail/trails.dart";
-import 'package:hollyday_land/screens/water_sports/list.dart';
+import "package:hollyday_land/screens/water_sports/list.dart";
 import "package:hollyday_land/screens/winery/favorites.dart";
 import "package:hollyday_land/screens/winery/history.dart";
 import "package:hollyday_land/screens/winery/wineries.dart";

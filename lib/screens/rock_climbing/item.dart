@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/base_attraction.dart";
-import 'package:hollyday_land/models/rock_climbing/item.dart';
+import "package:hollyday_land/models/rock_climbing/item.dart";
 import "package:hollyday_land/screens/attraction.dart";
 
 class RockClimbingItemScreen extends AttractionScreen<RockClimbingItem> {

@@ -2,7 +2,7 @@ import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/region.dart";
-import 'package:hollyday_land/models/rock_climbing/attraction_type.dart';
+import "package:hollyday_land/models/rock_climbing/attraction_type.dart";
 
 class RockClimbingItem extends Attraction {
   @override
