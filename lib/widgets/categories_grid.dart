@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
+import "package:hollyday_land/screens/rock_climbing/list.dart";
 import "package:hollyday_land/screens/trail/trails.dart";
+import 'package:hollyday_land/screens/water_sports/list.dart';
 import "package:hollyday_land/screens/winery/wineries.dart";
 import "package:hollyday_land/screens/zoo/zoos.dart";
 import "package:hollyday_land/widgets/category_item.dart";
@@ -34,7 +36,15 @@ class CategoriesGrid extends StatelessWidget {
         image: "assets/graphics/trails.jpg",
         title: "Trails",
         path: TrailsScreen.routePath,
-      )
+      ),
+      CategoryItem(
+          image: "assets/graphics/rock_climbing.jpg",
+          title: "Rock climbing",
+          path: RockClimbingListScreen.routePath),
+      CategoryItem(
+          image: "assets/graphics/water_sports.jpg",
+          title: "Water sports",
+          path: WaterSportsListScreen.routePath)
     ];
 
     return GridView.builder(

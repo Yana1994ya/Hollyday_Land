@@ -1,14 +1,20 @@
+import 'package:built_collection/built_collection.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 
+part "filter.g.dart";
+
+@CopyWith()
 class WaterSportsFilter extends AttractionFilter {
-  final Set<int> regionIds;
-  final Set<int> attractionTypeIds;
+  final BuiltSet<int> regionIds;
+  final BuiltSet<int> attractionTypeIds;
 
   const WaterSportsFilter(
       {required this.regionIds, required this.attractionTypeIds});
 
   factory WaterSportsFilter.empty() {
-    return WaterSportsFilter(regionIds: {}, attractionTypeIds: {});
+    return WaterSportsFilter(
+        regionIds: BuiltSet.of([]), attractionTypeIds: BuiltSet.of([]));
   }
 
   @override
