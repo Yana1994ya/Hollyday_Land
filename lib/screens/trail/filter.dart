@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/activity.dart";
 import "package:hollyday_land/models/trail/attraction.dart";
-import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
 import "package:hollyday_land/models/trail/tags.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
+import "package:hollyday_land/widgets/filter/difficulty_chips.dart";
 
 const maxDistance = 150 * 1000;
 const minDistance = 1 * 1000;
@@ -55,39 +55,11 @@ class LoadedTrailsFilterScreen extends StatefulWidget {
 }
 
 class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
-  MeterRange lengthRange = MeterRange(null, null);
-  MeterRange elvGainRange = MeterRange(null, null);
-  Set<Difficulty> difficulty = {};
-  Set<TrailActivity> activities = {};
-  Set<TrailAttraction> attractions = {};
-  Set<TrailSuitability> suitabilities = {};
+  late TrailsFilter filter;
 
   @override
   void initState() {
-    if (widget.initialFilter.length != null) {
-      lengthRange = widget.initialFilter.length!;
-    }
-
-    if (widget.initialFilter.elevationGain != null) {
-      elvGainRange = widget.initialFilter.elevationGain!;
-    }
-
-    difficulty = widget.initialFilter.difficulty;
-
-    activities = widget.tags.activities
-        .where(
-            (activity) => widget.initialFilter.activities.contains(activity.id))
-        .toSet();
-
-    attractions = widget.tags.attractions
-        .where((attraction) =>
-            widget.initialFilter.attractions.contains(attraction.id))
-        .toSet();
-
-    suitabilities = widget.tags.suitabilities
-        .where((suitability) =>
-            widget.initialFilter.suitabilities.contains(suitability.id))
-        .toSet();
+    filter = widget.initialFilter;
 
     super.initState();
   }
@@ -100,26 +72,16 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
       appBar: AppBar(
         title: Text("Trails filter"),
         actions: [
-          IconButton(
+          TextButton(
             onPressed: () {
-              Navigator.of(context).pop(TrailsFilter(
-                difficulty: difficulty,
-                length: lengthRange,
-                elevationGain: elvGainRange,
-                activities: activities.map((activity) => activity.id).toSet(),
-                attractions:
-                    attractions.map((attraction) => attraction.id).toSet(),
-                suitabilities:
-                    suitabilities.map((suitability) => suitability.id).toSet(),
-              ));
+              Navigator.of(context).pop(filter);
             },
-            icon: Icon(Icons.save),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pop(TrailsFilter.empty());
-            },
-            icon: Icon(Icons.delete),
+            child: const Text(
+              "Save",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
           )
         ],
       ),
@@ -132,25 +94,29 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               style: titleTheme,
             ),
             Slider(
-              value: lengthRange.rangeStart == null
+              value: filter.length.rangeStart == null
                   ? 0.0
-                  : lengthRange.rangeStart!.toDouble(),
+                  : filter.length.rangeStart!.toDouble(),
               min: 0,
               max: maxDistance.toDouble(),
               divisions: 100,
               onChanged: (newValue) {
                 setState(() {
+                  final MeterRange newLength;
+
                   if (newValue == 0.0) {
-                    lengthRange = MeterRange(null, lengthRange.rangeEnd);
+                    newLength = filter.length.copyWith(rangeStart: null);
                   } else {
-                    lengthRange =
-                        MeterRange(newValue.toInt(), lengthRange.rangeEnd);
+                    newLength =
+                        filter.length.copyWith(rangeStart: newValue.toInt());
                   }
+
+                  filter = filter.copyWith(length: newLength);
                 });
               },
-              label: lengthRange.rangeStart == null
+              label: filter.length.rangeStart == null
                   ? "Any"
-                  : (lengthRange.rangeStart! / 1000).toString() + "km",
+                  : (filter.length.rangeStart! / 1000).toString() + "km",
             ),
             Divider(),
             Text(
@@ -158,25 +124,29 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               style: titleTheme,
             ),
             Slider(
-              value: lengthRange.rangeEnd == null
+              value: filter.length.rangeEnd == null
                   ? maxDistance.toDouble()
-                  : lengthRange.rangeEnd!.toDouble(),
+                  : filter.length.rangeEnd!.toDouble(),
               min: minDistance.toDouble(),
               max: (maxDistance + minDistance).toDouble(),
               divisions: 100,
               onChanged: (newValue) {
                 setState(() {
+                  final MeterRange newLength;
+
                   if (newValue == maxDistance) {
-                    lengthRange = MeterRange(lengthRange.rangeStart, null);
+                    newLength = filter.length.copyWith(rangeEnd: null);
                   } else {
-                    lengthRange =
-                        MeterRange(lengthRange.rangeStart, newValue.toInt());
+                    newLength =
+                        filter.length.copyWith(rangeEnd: newValue.toInt());
                   }
+
+                  filter = filter.copyWith(length: newLength);
                 });
               },
-              label: lengthRange.rangeEnd == null
+              label: filter.length.rangeEnd == null
                   ? "Any"
-                  : (lengthRange.rangeEnd! / 1000).toString() + "km",
+                  : (filter.length.rangeEnd! / 1000).toString() + "km",
             ),
             Divider(),
             Text(
@@ -184,25 +154,29 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               style: titleTheme,
             ),
             Slider(
-              value: elvGainRange.rangeStart == null
+              value: filter.elevationGain.rangeStart == null
                   ? 0.0
-                  : elvGainRange.rangeStart!.toDouble(),
+                  : filter.elevationGain.rangeStart!.toDouble(),
               min: 0,
               max: maxElevationGain.toDouble(),
               divisions: 80,
               onChanged: (newValue) {
                 setState(() {
+                  final MeterRange newRange;
+
                   if (newValue == 0.0) {
-                    elvGainRange = MeterRange(null, elvGainRange.rangeEnd);
+                    newRange = filter.elevationGain.copyWith(rangeStart: null);
                   } else {
-                    elvGainRange =
-                        MeterRange(newValue.toInt(), elvGainRange.rangeEnd);
+                    newRange = filter.elevationGain
+                        .copyWith(rangeStart: newValue.toInt());
                   }
+
+                  filter = filter.copyWith(elevationGain: newRange);
                 });
               },
-              label: elvGainRange.rangeStart == null
+              label: filter.elevationGain.rangeStart == null
                   ? "Any"
-                  : (elvGainRange.rangeStart!).toString() + "m",
+                  : (filter.elevationGain.rangeStart!).toString() + "m",
             ),
             Divider(),
             Text(
@@ -210,106 +184,76 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               style: titleTheme,
             ),
             Slider(
-              value: elvGainRange.rangeEnd == null
+              value: filter.elevationGain.rangeEnd == null
                   ? (maxElevationGain + minElevationGain).toDouble()
-                  : elvGainRange.rangeEnd!.toDouble(),
+                  : filter.elevationGain.rangeEnd!.toDouble(),
               min: minElevationGain.toDouble(),
               max: (maxElevationGain + minElevationGain).toDouble(),
               divisions: 80,
               onChanged: (newValue) {
                 setState(() {
+                  final MeterRange newRange;
                   if (newValue == 4000) {
-                    elvGainRange = MeterRange(elvGainRange.rangeStart, null);
+                    newRange = filter.elevationGain.copyWith(rangeEnd: null);
                   } else {
-                    elvGainRange =
-                        MeterRange(elvGainRange.rangeStart, newValue.toInt());
+                    newRange = filter.elevationGain
+                        .copyWith(rangeEnd: newValue.toInt());
                   }
+
+                  filter = filter.copyWith(elevationGain: newRange);
                 });
               },
-              label: elvGainRange.rangeEnd == null
+              label: filter.elevationGain.rangeEnd == null
                   ? "Any"
-                  : (elvGainRange.rangeEnd!).toString() + "m",
+                  : (filter.elevationGain.rangeEnd!).toString() + "m",
             ),
             Divider(),
             Text(
               "Difficulty",
               style: titleTheme,
             ),
-            FilterChips.choiceChips<Difficulty>(
-              items: [Difficulty.easy, Difficulty.medium, Difficulty.hard],
-              isSelected: difficulty.contains,
-              toggle: (diff) {
-                setState(() {
-                  if (difficulty.contains(diff)) {
-                    difficulty.remove(diff);
-                  } else {
-                    difficulty.add(diff);
-                  }
-                });
+            DifficultyFilterChips(
+              initialSelected: filter.difficulty,
+              onChange: (newDifficulties) {
+                filter = filter.copyWith(difficulty: newDifficulties);
               },
-              title: difficultyToDescription,
-              colorScheme: Theme.of(context).colorScheme,
             ),
             Divider(),
             Text(
               "Activities",
               style: titleTheme,
             ),
-            FilterChips.choiceChips<TrailActivity>(
+            FilterChips<TrailActivity>(
               items: widget.tags.activities,
-              isSelected: activities.contains,
-              toggle: (activity) {
-                setState(() {
-                  if (activities.contains(activity)) {
-                    activities.remove(activity);
-                  } else {
-                    activities.add(activity);
-                  }
-                });
+              initialSelected: filter.activities,
+              onChange: (newActivities) {
+                filter = filter.copyWith(activities: newActivities);
               },
-              title: (activity) => activity.name,
-              colorScheme: Theme.of(context).colorScheme,
             ),
             Divider(),
             Text(
               "Attractions",
               style: titleTheme,
             ),
-            FilterChips.choiceChips<TrailAttraction>(
+            FilterChips<TrailAttraction>(
               items: widget.tags.attractions,
-              isSelected: attractions.contains,
-              toggle: (attraction) {
-                setState(() {
-                  if (attractions.contains(attraction)) {
-                    attractions.remove(attraction);
-                  } else {
-                    attractions.add(attraction);
-                  }
-                });
+              initialSelected: filter.attractions,
+              onChange: (newAttractions) {
+                filter = filter.copyWith(attractions: newAttractions);
               },
-              title: (attraction) => attraction.name,
-              colorScheme: Theme.of(context).colorScheme,
             ),
             Divider(),
             Text(
               "Suitability",
               style: titleTheme,
             ),
-            FilterChips.choiceChips<TrailSuitability>(
+            FilterChips<TrailSuitability>(
               items: widget.tags.suitabilities,
-              isSelected: suitabilities.contains,
-              toggle: (suitability) {
-                setState(() {
-                  if (suitabilities.contains(suitability)) {
-                    suitabilities.remove(suitability);
-                  } else {
-                    suitabilities.add(suitability);
-                  }
-                });
+              initialSelected: filter.suitabilities,
+              onChange: (newSuitabilities) {
+                filter = filter.copyWith(suitabilities: newSuitabilities);
               },
-              title: (suitability) => suitability.name,
-              colorScheme: Theme.of(context).colorScheme,
-            )
+            ),
           ],
         ),
       ),

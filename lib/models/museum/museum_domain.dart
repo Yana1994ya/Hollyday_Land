@@ -1,7 +1,10 @@
 import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/filter_tag.dart";
 
-class MuseumDomain {
+class MuseumDomain with FilterTag {
+  @override
   final int id;
+  @override
   final String name;
 
   MuseumDomain({required this.id, required this.name});

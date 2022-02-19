@@ -1,3 +1,4 @@
+import "package:built_collection/built_collection.dart";
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/activity.dart";
 import "package:hollyday_land/models/trail/attraction.dart";
@@ -9,9 +10,9 @@ import "package:hollyday_land/widgets/filter/chips.dart";
 class NewTrailDescription {
   final String name;
   final Difficulty difficulty;
-  final Set<int> activities;
-  final Set<int> attractions;
-  final Set<int> suitabilities;
+  final BuiltSet<int> activities;
+  final BuiltSet<int> attractions;
+  final BuiltSet<int> suitabilities;
 
   const NewTrailDescription({
     required this.name,
@@ -67,9 +68,9 @@ class _NewTrailFormState extends State<NewTrailForm> {
   final _formKey = GlobalKey<FormState>();
   Difficulty? _difficulty = Difficulty.easy;
   final _nameController = TextEditingController();
-  final Set<TrailActivity> activities = {};
-  final Set<TrailAttraction> attractions = {};
-  final Set<TrailSuitability> suitabilities = {};
+  BuiltSet<int> activities = BuiltSet.of([]);
+  BuiltSet<int> attractions = BuiltSet.of([]);
+  BuiltSet<int> suitabilities = BuiltSet.of([]);
 
   List<Widget> subTitle(String text) {
     return [
@@ -146,52 +147,28 @@ class _NewTrailFormState extends State<NewTrailForm> {
                 ),
               ),
               ...subTitle("Activities"),
-              FilterChips.choiceChips<TrailActivity>(
+              FilterChips<TrailActivity>(
                 items: widget.tags.activities,
-                isSelected: activities.contains,
-                toggle: (activity) {
-                  setState(() {
-                    if (activities.contains(activity)) {
-                      activities.remove(activity);
-                    } else {
-                      activities.add(activity);
-                    }
-                  });
+                initialSelected: BuiltSet.of([]),
+                onChange: (newActivities) {
+                  activities = newActivities;
                 },
-                title: (activity) => activity.name,
-                colorScheme: Theme.of(context).colorScheme,
               ),
               ...subTitle("Attractions"),
-              FilterChips.choiceChips<TrailAttraction>(
+              FilterChips<TrailAttraction>(
                 items: widget.tags.attractions,
-                isSelected: attractions.contains,
-                toggle: (attraction) {
-                  setState(() {
-                    if (attractions.contains(attraction)) {
-                      attractions.remove(attraction);
-                    } else {
-                      attractions.add(attraction);
-                    }
-                  });
+                initialSelected: BuiltSet.of([]),
+                onChange: (newAttractions) {
+                  attractions = newAttractions;
                 },
-                title: (attraction) => attraction.name,
-                colorScheme: Theme.of(context).colorScheme,
               ),
               ...subTitle("Suitability"),
-              FilterChips.choiceChips<TrailSuitability>(
+              FilterChips<TrailSuitability>(
                 items: widget.tags.suitabilities,
-                isSelected: suitabilities.contains,
-                toggle: (suitability) {
-                  setState(() {
-                    if (suitabilities.contains(suitability)) {
-                      suitabilities.remove(suitability);
-                    } else {
-                      suitabilities.add(suitability);
-                    }
-                  });
+                initialSelected: BuiltSet.of([]),
+                onChange: (newSuitabilities) {
+                  suitabilities = newSuitabilities;
                 },
-                title: (suitability) => suitability.name,
-                colorScheme: Theme.of(context).colorScheme,
               ),
               TextButton(
                 child: Text("Upload"),
@@ -200,14 +177,9 @@ class _NewTrailFormState extends State<NewTrailForm> {
                     Navigator.of(context).pop(NewTrailDescription(
                       difficulty: _difficulty!,
                       name: _nameController.value.text,
-                      activities:
-                          activities.map((activity) => activity.id).toSet(),
-                      attractions: attractions
-                          .map((attraction) => attraction.id)
-                          .toSet(),
-                      suitabilities: suitabilities
-                          .map((suitability) => suitability.id)
-                          .toSet(),
+                      activities: activities,
+                      attractions: attractions,
+                      suitabilities: suitabilities,
                     ));
                   }
                 },

@@ -1,26 +1,16 @@
-import "package:flutter/material.dart";
+import "package:built_collection/built_collection.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
-import "package:hollyday_land/providers/filter.dart";
-import "package:hollyday_land/providers/offroad/filter.dart";
-import "package:hollyday_land/screens/offroad/filter.dart";
 
 class OffRoadTripFilter extends AttractionFilter {
-  final Set<int> regionIds;
-  final Set<int> tripTypeIds;
+  final BuiltSet<int> regionIds;
+  final BuiltSet<int> tripTypeIds;
 
   const OffRoadTripFilter({required this.regionIds, required this.tripTypeIds});
 
   factory OffRoadTripFilter.empty() {
-    return OffRoadTripFilter(regionIds: {}, tripTypeIds: {});
+    return OffRoadTripFilter(
+        regionIds: BuiltSet.of([]), tripTypeIds: BuiltSet.of([]));
   }
-
-  @override
-  FilterProvider createProvider() =>
-      OffRoadTripFilterProvider(regionIds, tripTypeIds);
-
-  @override
-  MaterialPageRoute get filterPage => MaterialPageRoute(
-      builder: (_) => OffRoadTripFilterScreen(currentFilter: this));
 
   @override
   Map<String, Iterable<String>> get parameters {
@@ -35,5 +25,13 @@ class OffRoadTripFilter extends AttractionFilter {
     }
 
     return params;
+  }
+
+  OffRoadTripFilter withRegionIds(BuiltSet<int> newRegionIds) {
+    return OffRoadTripFilter(regionIds: newRegionIds, tripTypeIds: tripTypeIds);
+  }
+
+  OffRoadTripFilter withTripTypeIds(BuiltSet<int> newTripTypeIds) {
+    return OffRoadTripFilter(regionIds: regionIds, tripTypeIds: newTripTypeIds);
   }
 }

@@ -5,19 +5,23 @@ import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:provider/provider.dart";
 
-abstract class AttractionsScreenState<Parent extends StatefulWidget,
-    AttractionType extends AttractionShort> extends State<Parent> {
-  late AttractionFilter filter = initFilter();
+abstract class AttractionsScreenState<
+    Parent extends StatefulWidget,
+    AttractionType extends AttractionShort,
+    Filter extends AttractionFilter> extends State<Parent> {
+  late Filter _filter = initFilter();
 
-  AttractionFilter initFilter();
+  Filter initFilter();
 
   void filterSelectionResult(dynamic value) {
     if (value != null) {
       setState(() {
-        filter = value as AttractionFilter;
+        _filter = value as Filter;
       });
     }
   }
+
+  MaterialPageRoute filterPage(Filter filter);
 
   String itemCountText(List<AttractionType> attractions);
 
@@ -50,14 +54,14 @@ abstract class AttractionsScreenState<Parent extends StatefulWidget,
           IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .push(filter.filterPage)
+                    .push(filterPage(_filter))
                     .then(filterSelectionResult);
               },
               icon: Icon(Icons.tune)),
         ],
       ),
       body: FutureBuilder(
-        future: readAttractions(filter.parameters),
+        future: readAttractions(_filter.parameters),
         builder: (_, AsyncSnapshot<List<AttractionType>> snapshot) {
           if (snapshot.hasError) {
             return Center(

@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/models/offroad/filter.dart";
 import "package:hollyday_land/models/offroad/short.dart";
 import "package:hollyday_land/screens/attractions.dart";
+import "package:hollyday_land/screens/offroad/filter.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:hollyday_land/widgets/offroad/list_item.dart";
 
@@ -13,8 +13,8 @@ class OffRoadTripsScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _OffRoadTripsScreenState();
 }
 
-class _OffRoadTripsScreenState
-    extends AttractionsScreenState<OffRoadTripsScreen, OffRoadTripShort> {
+class _OffRoadTripsScreenState extends AttractionsScreenState<
+    OffRoadTripsScreen, OffRoadTripShort, OffRoadTripFilter> {
   @override
   AttractionListItem<OffRoadTripShort> getListItem(OffRoadTripShort trip) {
     return OffRoadTripListItem(trip: trip);
@@ -29,11 +29,16 @@ class _OffRoadTripsScreenState
   String get pageTitle => "Off Road Trips";
 
   @override
-  AttractionFilter initFilter() => OffRoadTripFilter.empty();
+  OffRoadTripFilter initFilter() => OffRoadTripFilter.empty();
 
   @override
   Future<List<OffRoadTripShort>> readAttractions(
       Map<String, Iterable<String>> params) {
     return OffRoadTripShort.readTrips(params);
   }
+
+  @override
+  MaterialPageRoute filterPage(OffRoadTripFilter filter) => MaterialPageRoute(
+        builder: (_) => OffRoadFilterScreen(currentFilter: filter),
+      );
 }
