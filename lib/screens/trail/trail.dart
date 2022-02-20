@@ -11,6 +11,7 @@ import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
 import "package:hollyday_land/models/trail/trail.dart";
 import "package:hollyday_land/providers/location_provider.dart";
+import 'package:hollyday_land/providers/trail/cache_key.dart';
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
@@ -74,13 +75,15 @@ class TrailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Ask for permission to get location, ask early to improve user experience
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
+    final TrailsCacheKey trailsCacheKey = Provider.of<TrailsCacheKey>(context);
 
     return Scaffold(
         appBar: AppBar(
           title: Text(trail.name),
         ),
         body: FutureBuilder(
-          future: Trail.readTrail(trail.id).then(_resolvePoints),
+          future: Trail.readTrail(trail.id, trailsCacheKey.cacheKey)
+              .then(_resolvePoints),
           builder: (BuildContext _, AsyncSnapshot<_TrailWithPoints> snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text(snapshot.error!.toString()));

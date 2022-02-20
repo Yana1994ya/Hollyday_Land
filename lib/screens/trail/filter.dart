@@ -105,10 +105,10 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
                   final MeterRange newLength;
 
                   if (newValue == 0.0) {
-                    newLength = filter.length.copyWith(rangeStart: null);
+                    newLength = filter.length.copyWith.rangeStart(null);
                   } else {
                     newLength =
-                        filter.length.copyWith(rangeStart: newValue.toInt());
+                        filter.length.copyWith.rangeStart(newValue.toInt());
                   }
 
                   filter = filter.copyWith(length: newLength);
@@ -135,10 +135,10 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
                   final MeterRange newLength;
 
                   if (newValue == maxDistance) {
-                    newLength = filter.length.copyWith(rangeEnd: null);
+                    newLength = filter.length.copyWith.rangeEnd(null);
                   } else {
                     newLength =
-                        filter.length.copyWith(rangeEnd: newValue.toInt());
+                        filter.length.copyWith.rangeEnd(newValue.toInt());
                   }
 
                   filter = filter.copyWith(length: newLength);
@@ -165,10 +165,10 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
                   final MeterRange newRange;
 
                   if (newValue == 0.0) {
-                    newRange = filter.elevationGain.copyWith(rangeStart: null);
+                    newRange = filter.elevationGain.copyWith.rangeStart(null);
                   } else {
-                    newRange = filter.elevationGain
-                        .copyWith(rangeStart: newValue.toInt());
+                    newRange = filter.elevationGain.copyWith
+                        .rangeStart(newValue.toInt());
                   }
 
                   filter = filter.copyWith(elevationGain: newRange);
@@ -194,10 +194,10 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
                 setState(() {
                   final MeterRange newRange;
                   if (newValue == 4000) {
-                    newRange = filter.elevationGain.copyWith(rangeEnd: null);
+                    newRange = filter.elevationGain.copyWith.rangeEnd(null);
                   } else {
-                    newRange = filter.elevationGain
-                        .copyWith(rangeEnd: newValue.toInt());
+                    newRange = filter.elevationGain.copyWith
+                        .rangeEnd(newValue.toInt());
                   }
 
                   filter = filter.copyWith(elevationGain: newRange);

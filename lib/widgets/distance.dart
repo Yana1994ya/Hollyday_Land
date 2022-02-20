@@ -30,8 +30,13 @@ class Distance extends StatelessWidget {
       location.long,
     );
 
+    var distanceString = distanceFormat.format(distance);
+    if (distanceString.startsWith(".")) {
+      distanceString = "0" + distanceString;
+    }
+
     return Text(
-      distanceFormat.format(distance) + " km",
+      distanceString + " km",
     );
   }
 
