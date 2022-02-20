@@ -1,38 +1,72 @@
+import "package:built_collection/built_collection.dart";
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/filter_tag.dart";
 
-class FilterChips {
-  static Widget choiceChips<T>({
-    required List<T> items,
-    required bool Function(T) isSelected,
-    required void Function(T) toggle,
-    required String Function(T) title,
-    required ColorScheme colorScheme,
-  }) {
-    final childern = items.map((item) {
-      final selected = isSelected(item);
+class FilterChips<T extends FilterTag> extends StatefulWidget {
+  final List<T> items;
+  final BuiltSet<int> initialSelected;
+  final void Function(BuiltSet<int>) onChange;
+
+  const FilterChips(
+      {Key? key,
+      required this.items,
+      required this.initialSelected,
+      required this.onChange})
+      : super(key: key);
+
+  @override
+  State<FilterChips<T>> createState() => _FilterChipsState<T>();
+}
+
+class _FilterChipsState<T extends FilterTag> extends State<FilterChips<T>> {
+  late final Set<int> selected;
+
+  @override
+  void initState() {
+    // Create a copy
+    selected = widget.initialSelected.toSet();
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).colorScheme.primary;
+
+    final children = widget.items.map((item) {
+      final isSelected = selected.contains(item.id);
 
       return ChoiceChip(
         backgroundColor: Colors.transparent,
         shape: StadiumBorder(
-            side: BorderSide(
-          color: colorScheme.primary,
-        )),
-        selectedColor: colorScheme.primary,
-        label: Text(
-          title(item),
-          style: TextStyle(
-            color: selected ? Colors.white : colorScheme.primary,
+          side: BorderSide(
+            color: primaryColor,
           ),
         ),
-        selected: selected,
+        selectedColor: primaryColor,
+        label: Text(
+          item.name,
+          style: TextStyle(
+            color: isSelected ? Colors.white : primaryColor,
+          ),
+        ),
+        selected: isSelected,
         onSelected: (_) {
-          toggle(item);
+          setState(() {
+            if (isSelected) {
+              selected.remove(item.id);
+            } else {
+              selected.add(item.id);
+            }
+          });
+
+          widget.onChange(selected.build());
         },
       );
     }).toList();
 
     return Wrap(
-      children: childern,
+      children: children,
       spacing: 8.0,
     );
   }

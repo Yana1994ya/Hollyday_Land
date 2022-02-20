@@ -3,21 +3,41 @@ import "dart:async";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/generic_attraction.dart";
+import "package:hollyday_land/models/map_objects.dart";
+import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/providers/location_provider.dart";
+import "package:hollyday_land/screens/trail/trail.dart";
 import "package:provider/provider.dart";
 
 class MapScreen extends StatefulWidget {
   static const routePath = "/map";
 
   @override
-  State<MapScreen> createState() => MapScreenState();
+  State<MapScreen> createState() => _MapScreenState();
 }
 
-class MapScreenState extends State<MapScreen> {
+class _MapScreenState extends State<MapScreen> {
   GoogleMapController? _controller;
   Timer? refreshTimer;
   LatLngBounds? bounds;
   Set<Marker> markers = {};
+  bool initiated = false;
+  late MapObjects objects;
+
+  @override
+  void didChangeDependencies() {
+    if (!initiated) {
+      if (ModalRoute.of(context)!.settings.arguments == null) {
+        objects = MapObjects.attractions;
+      } else {
+        objects = ModalRoute.of(context)!.settings.arguments as MapObjects;
+      }
+
+      initiated = true;
+    }
+
+    super.didChangeDependencies();
+  }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(31.7945578, 35.2392122),
@@ -25,22 +45,41 @@ class MapScreenState extends State<MapScreen> {
   );
 
   void _loadData() {
-    print("load data for bounds:" + bounds.toString());
+    final Future<Set<Marker>> markerLoading;
 
-    GenericAttraction.forBounds(bounds!).then((attractions) {
-      Set<Marker> newMarkers = attractions
-          .map((attraction) => Marker(
-                markerId: MarkerId(attraction.id.toString()),
-                position: attraction.latLng,
-                infoWindow: InfoWindow(
-                    title: attraction.name,
-                    onTap: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => attraction.page));
-                    }),
-              ))
-          .toSet();
+    if (objects == MapObjects.attractions) {
+      markerLoading = GenericAttraction.forBounds(bounds!).then((attractions) {
+        return attractions
+            .map((attraction) => Marker(
+                  markerId: MarkerId(attraction.id.toString()),
+                  position: attraction.latLng,
+                  infoWindow: InfoWindow(
+                      title: attraction.name,
+                      onTap: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => attraction.page));
+                      }),
+                ))
+            .toSet();
+      });
+    } else {
+      markerLoading = TrailShort.forBounds(bounds!).then((trails) {
+        return trails
+            .map((trail) => Marker(
+                  markerId: MarkerId(trail.id.toString()),
+                  position: trail.latLng,
+                  infoWindow: InfoWindow(
+                      title: trail.name,
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => TrailScreen(trail: trail)));
+                      }),
+                ))
+            .toSet();
+      });
+    }
 
+    markerLoading.then((newMarkers) {
       setState(() {
         markers = newMarkers;
       });
@@ -69,7 +108,8 @@ class MapScreenState extends State<MapScreen> {
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Map"),
+        title:
+            Text(objects == MapObjects.attractions ? "Map" : "Map of Trails"),
       ),
       body: GoogleMap(
         mapType: MapType.normal,

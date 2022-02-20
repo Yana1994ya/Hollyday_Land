@@ -1,4 +1,3 @@
-import "package:carousel_slider/carousel_slider.dart";
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attraction.dart";
 import "package:hollyday_land/models/base_attraction.dart";
@@ -9,6 +8,7 @@ import "package:hollyday_land/widgets/attraction_map.dart";
 import "package:hollyday_land/widgets/description.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/favorite_button.dart";
+import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
 import "package:provider/provider.dart";
 import "package:url_launcher/url_launcher.dart";
@@ -18,43 +18,6 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
 
   const AttractionScreen({Key? key, required this.attraction})
       : super(key: key);
-
-  Widget displayImages(final List<Image> images, BuildContext context) {
-    if (images.length == 1) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-        child: Container(
-          width: double.infinity,
-          height: 300.0,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: images[0].image,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      );
-    } else {
-      return CarouselSlider(
-        options: CarouselOptions(height: 300.0),
-        items: images.map((i) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: i.image,
-                      fit: BoxFit.cover,
-                    ),
-                  ));
-            },
-          );
-        }).toList(),
-      );
-    }
-  }
 
   // Trim details from url that aren't needed to
   // identify the site to a human, such as the protocol
@@ -85,26 +48,16 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     LocationProvider location = Provider.of<LocationProvider>(context);
     location.retrieveLocation();
 
-    final List<Image> images = [
-      attraction.mainImage == null
-          ? Image.asset(
-              "assets/graphics/icon.png",
-              fit: BoxFit.cover,
-            )
-          : Image.network(
-              attraction.mainImage!.url,
-              fit: BoxFit.cover,
-            ),
-      ...attraction.additionalImages
-          .map((image) => Image.network(image.url, fit: BoxFit.cover))
-    ];
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            displayImages(images, context),
+            ImageCarousel(
+                images: ImageCarousel.collectImages(
+              attraction.mainImage,
+              attraction.additionalImages,
+            )),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(

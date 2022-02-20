@@ -1,14 +1,14 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/offroad/filter.dart";
 import "package:hollyday_land/models/offroad/filter_options.dart";
-import "package:hollyday_land/providers/filter.dart";
-import "package:hollyday_land/providers/offroad/filter.dart";
+import "package:hollyday_land/models/offroad/trip_type.dart";
+import "package:hollyday_land/models/region.dart";
 import "package:hollyday_land/screens/filter.dart";
-import "package:hollyday_land/widgets/filter/offroad.dart";
-import "package:provider/provider.dart";
+import "package:hollyday_land/widgets/filter/chips.dart";
 
-class OffRoadTripFilterScreen extends AttractionFilterScreen {
-  const OffRoadTripFilterScreen(
+class OffRoadFilterScreen extends AttractionFilterScreen<OffRoadTripFilter,
+    OffRoadTripFilterOptions> {
+  const OffRoadFilterScreen(
       {Key? key, required OffRoadTripFilter currentFilter})
       : super(key: key, currentFilter: currentFilter);
 
@@ -16,29 +16,93 @@ class OffRoadTripFilterScreen extends AttractionFilterScreen {
   String get pageTitle => "Off Road Trips";
 
   @override
-  Widget selectionWidget(BuildContext context, FilterProvider filterProvider) {
-    return FutureBuilder(
-      future: OffRoadTripFilterOptions.fetch(),
-      builder: (_, AsyncSnapshot<OffRoadTripFilterOptions> snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-              child: Text(
-            snapshot.error.toString(),
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.error,
+  Future<OffRoadTripFilterOptions> loadOptions() =>
+      OffRoadTripFilterOptions.fetch();
+
+  @override
+  Widget selectionWidget(
+          BuildContext context, OffRoadTripFilterOptions options) =>
+      _OffRoadFilterScreen(
+        options: options,
+        initialFilter: currentFilter,
+      );
+}
+
+class _OffRoadFilterScreen extends StatefulWidget {
+  final OffRoadTripFilterOptions options;
+  final OffRoadTripFilter initialFilter;
+
+  const _OffRoadFilterScreen(
+      {Key? key, required this.options, required this.initialFilter})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _OffRoadFilterScreenState();
+}
+
+class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
+  late OffRoadTripFilter filter;
+
+  @override
+  void initState() {
+    filter = widget.initialFilter;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Off Road Trips"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(filter);
+            },
+            child: const Text(
+              "Save",
+              style: TextStyle(
+                color: Colors.white,
+              ),
             ),
-          ));
-        } else if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          return ChangeNotifierProvider.value(
-            value: filterProvider as OffRoadTripFilterProvider,
-            child: OffRoadTripFilterSelectionWidget(options: snapshot.data!),
-          );
-        }
-      },
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListView(
+          children: [
+            Text(
+              "Region:",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Container(
+              height: 5,
+            ),
+            FilterChips<Region>(
+              items: widget.options.regions,
+              initialSelected: widget.initialFilter.regionIds,
+              onChange: (regionIds) {
+                filter = filter.withRegionIds(regionIds);
+              },
+            ),
+            Divider(),
+            Text(
+              "Trip Types:",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Container(
+              height: 5,
+            ),
+            FilterChips<TripType>(
+                items: widget.options.tripTypes,
+                initialSelected: widget.initialFilter.tripTypeIds,
+                onChange: (tripTypeIds) {
+                  filter = filter.withTripTypeIds(tripTypeIds);
+                })
+          ],
+        ),
+      ),
     );
   }
 }

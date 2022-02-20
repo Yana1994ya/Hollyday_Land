@@ -1,22 +1,10 @@
-import "package:flutter/material.dart";
+import "package:built_collection/built_collection.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
-import "package:hollyday_land/providers/filter.dart";
-import "package:hollyday_land/providers/region_filter.dart";
-import "package:hollyday_land/screens/region_filter.dart";
 
 class RegionFilter extends AttractionFilter {
-  final String pageTitle;
-  final Set<int> regionIds;
+  final BuiltSet<int> regionIds;
 
-  const RegionFilter(this.pageTitle, this.regionIds);
-
-  @override
-  FilterProvider createProvider() => RegionFilterProvider(pageTitle, regionIds);
-
-  @override
-  MaterialPageRoute get filterPage => MaterialPageRoute(
-      builder: (_) =>
-          RegionFilterScreen(currentFilter: this, pageTitle: pageTitle));
+  const RegionFilter(this.regionIds);
 
   @override
   Map<String, Iterable<String>> get parameters {
@@ -27,5 +15,9 @@ class RegionFilter extends AttractionFilter {
     }
 
     return params;
+  }
+
+  static RegionFilter empty() {
+    return RegionFilter(BuiltSet.of([]));
   }
 }

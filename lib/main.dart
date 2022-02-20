@@ -3,7 +3,8 @@ import "package:flutter/services.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/providers/regions.dart";
-import 'package:hollyday_land/screens/explore.dart';
+import "package:hollyday_land/providers/trail/cache_key.dart";
+import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
 import "package:hollyday_land/screens/map.dart";
@@ -14,8 +15,10 @@ import "package:hollyday_land/screens/offroad/favorites.dart";
 import "package:hollyday_land/screens/offroad/history.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/profile.dart";
-import 'package:hollyday_land/screens/trail/record.dart';
+import "package:hollyday_land/screens/rock_climbing/list.dart";
+import "package:hollyday_land/screens/trail/record.dart";
 import "package:hollyday_land/screens/trail/trails.dart";
+import "package:hollyday_land/screens/water_sports/list.dart";
 import "package:hollyday_land/screens/winery/favorites.dart";
 import "package:hollyday_land/screens/winery/history.dart";
 import "package:hollyday_land/screens/winery/wineries.dart";
@@ -48,11 +51,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => RegionsProvider()),
         ChangeNotifierProvider(create: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => TrailsCacheKey()),
       ],
       child: MaterialApp(
         title: _title,
         home: ExploreScreen(),
-        //home: TrailRecordScreen(),
+        // home: NewTrailForm(),
+        // home: TrailRecordScreen(),
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
@@ -74,6 +79,8 @@ class MyApp extends StatelessWidget {
           FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen(),
           FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen(),
           FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen(),
+          RockClimbingListScreen.routePath: (_) => RockClimbingListScreen(),
+          WaterSportsListScreen.routePath: (_) => WaterSportsListScreen(),
           MapScreen.routePath: (_) => MapScreen(),
           OffRoadTripsScreen.routePath: (_) => OffRoadTripsScreen(),
           FavoritesOffRoadTripsScreen.routePath: (_) =>

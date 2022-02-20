@@ -28,25 +28,9 @@ class _DescriptionState extends State<Description> {
   @override
   Widget build(BuildContext context) {
     if (!willOverflow) {
-      return Column(children: [
-        Align(
-          child: Text(
-            "About:",
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          alignment: Alignment.topLeft,
-        ),
-        Text(widget.text),
-      ]);
+      return Text(widget.text);
     } else {
       return Column(children: [
-        Align(
-          child: Text(
-            "About:",
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          alignment: Alignment.topLeft,
-        ),
         if (expended) Text(widget.text),
         if (!expended)
           Text(
@@ -62,7 +46,7 @@ class _DescriptionState extends State<Description> {
             },
             child: Row(
               children: [
-                Text("Read more"),
+                Text(expended ? "Read less" : "Read more"),
                 Icon(expended ? Icons.expand_less : Icons.expand_more),
               ],
             ))
