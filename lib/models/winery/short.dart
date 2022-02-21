@@ -79,11 +79,15 @@ class WineryShort extends AttractionShort {
     ).then(_mapWineries);
   }
 
-  static Future<List<WineryShort>> readFavorites(String token) async {
+  static Future<List<WineryShort>> readFavorites(
+      String token, int cacheKey) async {
     return ApiServer.post(
       "/attractions/api/favorites/wineries",
       "wineries",
-      {"token": token},
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
     ).then(_mapWineries);
   }
 }

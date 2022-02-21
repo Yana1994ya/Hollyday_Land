@@ -1,3 +1,4 @@
+import "package:flutter/material.dart";
 import "package:hollyday_land/models/offroad/short.dart";
 import "package:hollyday_land/screens/user_attractions.dart";
 import "package:hollyday_land/widgets/list_item.dart";
@@ -22,7 +23,10 @@ class HistoryOffRoadTripsScreen
   String get pageTitle => "Visited off road trips";
 
   @override
-  Future<List<OffRoadTripShort>> readAttractions(String hdToken) {
+  Future<List<OffRoadTripShort>> readAttractions(
+    String hdToken,
+    BuildContext context,
+  ) {
     return OffRoadTripShort.readHistory(hdToken);
   }
 }

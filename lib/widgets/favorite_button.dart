@@ -1,17 +1,19 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/favorites.dart";
+import "package:hollyday_land/providers/favorites_cache_key.dart";
+import "package:provider/provider.dart";
 
 class FavoriteButton extends StatefulWidget {
   final int attractionId;
   final bool initalState;
   final String token;
 
-  const FavoriteButton(
-      {Key? key,
-      required this.attractionId,
-      required this.initalState,
-      required this.token})
-      : super(key: key);
+  const FavoriteButton({
+    Key? key,
+    required this.attractionId,
+    required this.initalState,
+    required this.token,
+  }) : super(key: key);
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();
@@ -38,6 +40,8 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         working = false;
         favorite = newValue;
       });
+
+      Provider.of<FavoritesCacheKey>(context, listen: false).refresh();
     });
   }
 

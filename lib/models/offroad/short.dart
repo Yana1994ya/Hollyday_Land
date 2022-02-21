@@ -84,11 +84,15 @@ class OffRoadTripShort extends AttractionShort {
     ).then(_mapOffroad);
   }
 
-  static Future<List<OffRoadTripShort>> readFavorites(String token) async {
+  static Future<List<OffRoadTripShort>> readFavorites(
+      String token, int cacheKey) async {
     return ApiServer.post(
       "/attractions/api/favorites/offroad",
       "offroad",
-      {"token": token},
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
     ).then(_mapOffroad);
   }
 }

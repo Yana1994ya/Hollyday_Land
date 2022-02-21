@@ -84,11 +84,15 @@ class MuseumShort extends AttractionShort {
     ).then(_mapMuseums);
   }
 
-  static Future<List<MuseumShort>> readFavorites(String token) async {
+  static Future<List<MuseumShort>> readFavorites(
+      String token, int cacheKey) async {
     return ApiServer.post(
       "/attractions/api/favorites/museums",
       "museums",
-      {"token": token},
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
     ).then(_mapMuseums);
   }
 }

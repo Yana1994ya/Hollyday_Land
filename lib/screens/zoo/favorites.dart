@@ -1,7 +1,10 @@
+import "package:flutter/material.dart";
 import "package:hollyday_land/models/zoo/short.dart";
+import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/screens/user_attractions.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:hollyday_land/widgets/zoo/list_item.dart";
+import "package:provider/provider.dart";
 
 class FavoritesZoosScreen extends UserAttractionsScreen<ZooShort> {
   static const routePath = "/favorites/zoos";
@@ -17,8 +20,12 @@ class FavoritesZoosScreen extends UserAttractionsScreen<ZooShort> {
   }
 
   @override
-  Future<List<ZooShort>> readAttractions(String hdToken) {
-    return ZooShort.readFavorites(hdToken);
+  Future<List<ZooShort>> readAttractions(
+    String hdToken,
+    BuildContext context,
+  ) {
+    final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
+    return ZooShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override

@@ -1,3 +1,4 @@
+import "package:flutter/material.dart";
 import "package:hollyday_land/models/museum/short.dart";
 import "package:hollyday_land/screens/user_attractions.dart";
 import "package:hollyday_land/widgets/list_item.dart";
@@ -20,7 +21,10 @@ class HistoryMuseumsScreen extends UserAttractionsScreen<MuseumShort> {
   String get pageTitle => "Visited museums";
 
   @override
-  Future<List<MuseumShort>> readAttractions(String hdToken) {
+  Future<List<MuseumShort>> readAttractions(
+    String hdToken,
+    BuildContext context,
+  ) {
     return MuseumShort.readHistory(hdToken);
   }
 }

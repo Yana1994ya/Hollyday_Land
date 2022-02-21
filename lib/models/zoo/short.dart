@@ -79,11 +79,15 @@ class ZooShort extends AttractionShort {
     ).then(_mapZoos);
   }
 
-  static Future<List<ZooShort>> readFavorites(String token) async {
+  static Future<List<ZooShort>> readFavorites(
+      String token, int cacheKey) async {
     return ApiServer.post(
       "/attractions/api/favorites/zoos",
       "zoos",
-      {"token": token},
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
     ).then(_mapZoos);
   }
 }

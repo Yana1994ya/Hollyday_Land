@@ -22,11 +22,14 @@ class Favorites {
     );
   }
 
-  static Future<Favorites> readFavorites(String token) async {
+  static Future<Favorites> readFavorites(String token, int cacheKey) async {
     return ApiServer.post(
       "/attractions/api/favorites",
       "favorites",
-      {"token": token},
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
     ).then((favorites) => Favorites.fromJson(favorites));
   }
 

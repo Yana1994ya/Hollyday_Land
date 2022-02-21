@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/favorites.dart";
+import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/favorites_categories_grid.dart";
@@ -12,12 +13,17 @@ class _LoggedInFavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Favorites"),
       ),
       body: FutureBuilder<Favorites>(
-        future: Favorites.readFavorites(loginProvider.hdToken!),
+        future: Favorites.readFavorites(
+          loginProvider.hdToken!,
+          cacheKeyProvider.cacheKey,
+        ),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(

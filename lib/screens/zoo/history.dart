@@ -1,3 +1,4 @@
+import "package:flutter/material.dart";
 import "package:hollyday_land/models/zoo/short.dart";
 import "package:hollyday_land/screens/user_attractions.dart";
 import "package:hollyday_land/widgets/list_item.dart";
@@ -20,7 +21,10 @@ class HistoryZoosScreen extends UserAttractionsScreen<ZooShort> {
   String get pageTitle => "Visited zoos";
 
   @override
-  Future<List<ZooShort>> readAttractions(String hdToken) {
+  Future<List<ZooShort>> readAttractions(
+    String hdToken,
+    BuildContext context,
+  ) {
     return ZooShort.readHistory(hdToken);
   }
 }

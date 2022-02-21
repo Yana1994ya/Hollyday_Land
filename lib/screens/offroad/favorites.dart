@@ -1,7 +1,10 @@
+import "package:flutter/material.dart";
 import "package:hollyday_land/models/offroad/short.dart";
+import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/screens/user_attractions.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:hollyday_land/widgets/offroad/list_item.dart";
+import "package:provider/provider.dart";
 
 class FavoritesOffRoadTripsScreen
     extends UserAttractionsScreen<OffRoadTripShort> {
@@ -19,8 +22,12 @@ class FavoritesOffRoadTripsScreen
   }
 
   @override
-  Future<List<OffRoadTripShort>> readAttractions(String hdToken) {
-    return OffRoadTripShort.readFavorites(hdToken);
+  Future<List<OffRoadTripShort>> readAttractions(
+    String hdToken,
+    BuildContext context,
+  ) {
+    final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
+    return OffRoadTripShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override

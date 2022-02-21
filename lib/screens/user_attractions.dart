@@ -9,7 +9,10 @@ abstract class UserAttractionsScreen<Attraction extends AttractionShort>
     extends StatelessWidget {
   String itemCountText(List<Attraction> attractions);
 
-  Future<List<Attraction>> readAttractions(String hdToken);
+  Future<List<Attraction>> readAttractions(
+    String hdToken,
+    BuildContext context,
+  );
 
   AttractionListItem<Attraction> getListItem(Attraction attraction);
 
@@ -32,7 +35,7 @@ abstract class UserAttractionsScreen<Attraction extends AttractionShort>
       return ProfileScreen.loginBody(loginProvider);
     } else {
       return FutureBuilder<List<Attraction>>(
-          future: readAttractions(loginProvider.hdToken!),
+          future: readAttractions(loginProvider.hdToken!, context),
           builder: (_, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("error ${snapshot.error}"));
