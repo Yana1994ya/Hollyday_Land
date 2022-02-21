@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
-import "package:hollyday_land/providers/regions.dart";
 import "package:hollyday_land/providers/trail/cache_key.dart";
 import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
@@ -49,15 +48,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => RegionsProvider()),
         ChangeNotifierProvider(create: (_) => LocationProvider()),
         ChangeNotifierProvider(create: (_) => TrailsCacheKey()),
       ],
       child: MaterialApp(
         title: _title,
         home: ExploreScreen(),
-        // home: NewTrailForm(),
-        // home: TrailRecordScreen(),
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(

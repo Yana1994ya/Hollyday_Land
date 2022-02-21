@@ -5,53 +5,34 @@ import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/favorites_categories_grid.dart";
 import "package:provider/provider.dart";
 
-class _LoggedInFavoritesScreen extends StatefulWidget {
+class _LoggedInFavoritesScreen extends StatelessWidget {
   final LoginProvider loginProvider;
 
-  const _LoggedInFavoritesScreen({Key? key, required this.loginProvider})
-      : super(key: key);
-
-  @override
-  State<_LoggedInFavoritesScreen> createState() =>
-      _LoggedInFavoritesScreenState();
-}
-
-class _LoggedInFavoritesScreenState extends State<_LoggedInFavoritesScreen> {
-  Favorites? favorites;
-  bool loading = true;
-  Error? error;
+  const _LoggedInFavoritesScreen({required this.loginProvider});
 
   @override
   Widget build(BuildContext context) {
-    if (loading == true) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text("Favorites"),
-        ),
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text("Favorites"),
-        ),
-        body: FavoritesCategoriesGrid(favorites: favorites!),
-      );
-    }
-  }
-
-  @override
-  void initState() {
-    Favorites.readFavorites(widget.loginProvider.hdToken!).then((favorites) {
-      setState(() {
-        this.favorites = favorites;
-        loading = false;
-      });
-    });
-
-    super.initState();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Favorites"),
+      ),
+      body: FutureBuilder<Favorites>(
+        future: Favorites.readFavorites(loginProvider.hdToken!),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error:" + snapshot.error!.toString()),
+            );
+          } else if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return FavoritesCategoriesGrid(favorites: snapshot.data!);
+          }
+        },
+      ),
+    );
   }
 }
 

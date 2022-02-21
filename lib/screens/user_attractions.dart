@@ -31,9 +31,9 @@ abstract class UserAttractionsScreen<Attraction extends AttractionShort>
     if (loginProvider.currentUser == null) {
       return ProfileScreen.loginBody(loginProvider);
     } else {
-      return FutureBuilder(
+      return FutureBuilder<List<Attraction>>(
           future: readAttractions(loginProvider.hdToken!),
-          builder: (_, AsyncSnapshot<List<Attraction>> snapshot) {
+          builder: (_, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("error ${snapshot.error}"));
             } else if (!snapshot.hasData) {
