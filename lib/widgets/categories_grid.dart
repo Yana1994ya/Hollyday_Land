@@ -38,13 +38,15 @@ class CategoriesGrid extends StatelessWidget {
         path: TrailsScreen.routePath,
       ),
       CategoryItem(
-          image: "assets/graphics/rock_climbing.jpg",
-          title: "Rock climbing",
-          path: RockClimbingListScreen.routePath),
+        image: "assets/graphics/rock_climbing.jpg",
+        title: "Rock climbing",
+        path: RockClimbingListScreen.routePath,
+      ),
       CategoryItem(
-          image: "assets/graphics/water_sports.jpg",
-          title: "Water sports",
-          path: WaterSportsListScreen.routePath)
+        image: "assets/graphics/water_sports.jpg",
+        title: "Water sports",
+        path: WaterSportsListScreen.routePath,
+      ),
     ];
 
     return GridView.builder(

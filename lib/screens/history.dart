@@ -25,7 +25,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
       return false;
     }
 
-    return !history!.isEmpty;
+    return !(history!.isEmpty);
   }
 
   Future<bool?> confirmClear(BuildContext context) {

@@ -11,7 +11,7 @@ import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
 import "package:hollyday_land/models/trail/trail.dart";
 import "package:hollyday_land/providers/location_provider.dart";
-import 'package:hollyday_land/providers/trail/cache_key.dart';
+import "package:hollyday_land/providers/trail/cache_key.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";

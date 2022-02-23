@@ -6,9 +6,9 @@ import "package:hollyday_land/widgets/list_item.dart";
 import "package:provider/provider.dart";
 
 abstract class AttractionsScreenState<
-    Parent extends StatefulWidget,
+    WidgetType extends StatefulWidget,
     AttractionType extends AttractionShort,
-    Filter extends AttractionFilter> extends State<Parent> {
+    Filter extends AttractionFilter> extends State<WidgetType> {
   late Filter _filter = initFilter();
 
   Filter initFilter();
