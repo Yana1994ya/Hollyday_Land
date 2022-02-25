@@ -70,8 +70,6 @@ abstract class AttractionListItem<T extends AttractionShort>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        //Colors.grey.shade400.withOpacity(0.9),
-                        //Colors.grey.shade400.withOpacity(0)
                         Colors.black.withOpacity(0.4),
                         Colors.white.withOpacity(0),
                       ],

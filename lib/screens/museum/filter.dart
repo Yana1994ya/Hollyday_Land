@@ -19,25 +19,25 @@ class MuseumsFilterScreen
 
   @override
   Widget selectionWidget(BuildContext context, MuseumFilterOptions options) =>
-      _MuseumsFilterScreen(
+      _MuseumsFilter(
         options: options,
         initialFilter: currentFilter,
       );
 }
 
-class _MuseumsFilterScreen extends StatefulWidget {
+class _MuseumsFilter extends StatefulWidget {
   final MuseumFilterOptions options;
   final MuseumFilter initialFilter;
 
-  const _MuseumsFilterScreen(
+  const _MuseumsFilter(
       {Key? key, required this.options, required this.initialFilter})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MuseumsFilterScreenState();
+  State<StatefulWidget> createState() => _MuseumsFilterState();
 }
 
-class _MuseumsFilterScreenState extends State<_MuseumsFilterScreen> {
+class _MuseumsFilterState extends State<_MuseumsFilter> {
   late MuseumFilter filter;
 
   @override
