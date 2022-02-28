@@ -5,6 +5,7 @@ import "dart:math" as math;
 import "package:csv/csv.dart";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
+import 'package:hollyday_land/models/filter_tag.dart';
 import "package:hollyday_land/models/trail/activity.dart";
 import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/short.dart";
@@ -128,12 +129,7 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
     return CameraUpdate.newLatLngBounds(bound, 50);
   }
 
-  List<Widget> getChips<T>(
-    ThemeData theme,
-    String label,
-    List<T> tags,
-    String Function(T) tagName,
-  ) {
+  List<Widget> getChips(ThemeData theme, String label, List<FilterTag> tags) {
     if (tags.isEmpty) {
       return [];
     } else {
@@ -147,7 +143,7 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
           children: tags
               .map((tag) => Chip(
                     label: Text(
-                      tagName(tag),
+                      tag.name,
                       style: TextStyle(color: Colors.white),
                     ),
                     shape: StadiumBorder(
@@ -233,23 +229,20 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
               ),
             ],
           ),
-          ...getChips<TrailActivity>(
+          ...getChips(
             theme,
             "Activities",
             widget.trailAndPoints.trail.activities,
-            (tag) => tag.name,
           ),
-          ...getChips<TrailAttraction>(
+          ...getChips(
             theme,
             "Attractions",
             widget.trailAndPoints.trail.attractions,
-            (tag) => tag.name,
           ),
-          ...getChips<TrailSuitability>(
+          ...getChips(
             theme,
             "Suitabilities",
             widget.trailAndPoints.trail.suitabilities,
-            (tag) => tag.name,
           ),
           SizedBox(
             height: 5,

@@ -80,10 +80,10 @@ class _LoggedInTrailRecordScreenState
   }
 
   void updateScreen(Timer timer) {
+    elapsedTime += 1;
+
     if (mounted) {
-      setState(() {
-        elapsedTime += 1;
-      });
+      setState(() {});
     }
   }
 
@@ -192,7 +192,7 @@ class _LoggedInTrailRecordScreenState
       imageUploading = true;
     });
 
-    // Pick multiple images
+    // Pick an image
     ImagePicker()
         .pickImage(
       source: source,

@@ -27,6 +27,11 @@ class ImageUpload {
     final response = await request.send();
 
     if (response.statusCode == 200) {
+      // Reading the image_id from the result can only happen in an async
+      // manner, in a way that doesn't allow me to "await" the result.
+
+      // That's why I'm using Completer to wait for that async process to update
+      // me when the id is ready in a future.
       final Completer<int> imageId = Completer();
 
       response.stream.transform(utf8.decoder).listen((body) {

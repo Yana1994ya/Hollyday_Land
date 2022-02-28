@@ -7,7 +7,7 @@ class MuseumDomain with FilterTag {
   @override
   final String name;
 
-  MuseumDomain({required this.id, required this.name});
+  const MuseumDomain({required this.id, required this.name});
 
   factory MuseumDomain.fromJson(Map<String, dynamic> json) {
     return MuseumDomain(

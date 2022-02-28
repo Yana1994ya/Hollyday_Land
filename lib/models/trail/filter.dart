@@ -58,8 +58,6 @@ class TrailsFilter {
       params["difficulty"] = difficulty.map(difficultyToString);
     }
 
-    // The ?. operator does operation if not null(otherwise returns null,
-    // but return value is ignored so it basically does nothing)
     length._addParameter(params, "length");
     elevationGain._addParameter(params, "elevation_gain");
 
@@ -78,16 +76,5 @@ class TrailsFilter {
     params["cache"] = [cache.toString()];
 
     return params;
-  }
-
-  TrailsFilter withDifficulty(BuiltSet<Difficulty> newDifficulty) {
-    return TrailsFilter(
-      difficulty: newDifficulty,
-      length: length,
-      elevationGain: elevationGain,
-      activities: activities,
-      attractions: attractions,
-      suitabilities: suitabilities,
-    );
   }
 }

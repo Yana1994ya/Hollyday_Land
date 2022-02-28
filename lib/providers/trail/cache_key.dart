@@ -11,7 +11,7 @@ class TrailsCacheKey extends ChangeNotifier {
   }
 
   void refresh() {
-    notifyListeners();
     _cacheKey = Random().nextInt(maxCacheKey);
+    notifyListeners();
   }
 }

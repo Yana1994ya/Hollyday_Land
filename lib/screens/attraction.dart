@@ -39,10 +39,10 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     return original;
   }
 
-  static void launchWebsite(String url) async =>
+  static void launchUrl(String url) async =>
       await canLaunch(url) ? await launch(url) : throw "Could not launch $url";
 
-  static void launchPhone(String number) => launchWebsite("tel:" + number);
+  static void launchPhone(String number) => launchUrl("tel:" + number);
 
   Widget buildAttraction(final T attraction, BuildContext context) {
     LocationProvider location = Provider.of<LocationProvider>(context);
@@ -89,7 +89,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
                   if (attraction.website != null)
                     TextButton(
                       onPressed: () {
-                        launchWebsite(attraction.website!);
+                        launchUrl(attraction.website!);
                       },
                       child: Row(
                         children: [
@@ -141,9 +141,9 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: const Text("You are currently not logged in"),
+                title: const Text("You are currently not logged in."),
                 content: const Text(
-                    "Do you wish to login to mark this museum as favorite?"),
+                    "Do you wish to login to mark this attraction as favorite?"),
                 actions: [
                   TextButton(
                       onPressed: () {

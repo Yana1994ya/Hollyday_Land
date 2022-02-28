@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:hollyday_land/models/map_objects.dart';
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
@@ -70,7 +71,10 @@ class ExploreScreen extends StatelessWidget {
                 title: Text("Map"),
               ),
               onTap: () {
-                Navigator.of(context).pushNamed(MapScreen.routePath);
+                Navigator.of(context).pushNamed(
+                  MapScreen.routePath,
+                  arguments: MapObjects.attractions,
+                );
               },
             ),
             InkWell(

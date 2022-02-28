@@ -53,15 +53,15 @@ class _MuseumsFilterState extends State<_MuseumsFilter> {
         title: const Text("Museums"),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
             child: const Text(
               "Save",
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
+            onPressed: () {
+              Navigator.of(context).pop(filter);
+            },
           ),
         ],
       ),
