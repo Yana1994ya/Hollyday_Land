@@ -53,9 +53,31 @@ class TrailShort with WithLocation {
   }
 
   static Future<List<TrailShort>> readTrails(
-      Map<String, Iterable<String>> parameters) async {
+      Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/trails", "trails", parameters)
         .then(_mapTrail);
+  }
+
+  static Future<List<TrailShort>> readHistory(String hdToken) {
+    return ApiServer.post(
+      "/attractions/api/history/trails",
+      "trails",
+      {"token": hdToken},
+    ).then(_mapTrail);
+  }
+
+  static Future<List<TrailShort>> readFavorites(
+    String token,
+    int cacheKey,
+  ) {
+    return ApiServer.post(
+      "/attractions/api/favorites/trails",
+      "trails",
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
+    ).then(_mapTrail);
   }
 
   static Future<List<TrailShort>> forBounds(LatLngBounds bounds) {

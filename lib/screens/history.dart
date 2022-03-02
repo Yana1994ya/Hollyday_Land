@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/attractions_count.dart";
 import "package:hollyday_land/models/history.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
@@ -16,7 +17,7 @@ class _LoggedInHistoryScreen extends StatefulWidget {
 }
 
 class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
-  History? history;
+  AttractionsCount? history;
   bool loading = true;
   Error? error;
 
@@ -80,11 +81,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
                           .then((_) {
                         setState(() {
                           loading = false;
-                          history = History(
-                              museums: 0,
-                              wineries: 0,
-                              zoos: 0,
-                              offRoadTrips: 0);
+                          history = AttractionsCount.empty();
                         });
                       });
                     }

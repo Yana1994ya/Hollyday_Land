@@ -15,9 +15,15 @@ import "package:hollyday_land/screens/offroad/favorites.dart";
 import "package:hollyday_land/screens/offroad/history.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/profile.dart";
+import "package:hollyday_land/screens/rock_climbing/favorites.dart";
+import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
+import "package:hollyday_land/screens/trail/favorites.dart";
+import "package:hollyday_land/screens/trail/history.dart";
 import "package:hollyday_land/screens/trail/record.dart";
 import "package:hollyday_land/screens/trail/trails.dart";
+import "package:hollyday_land/screens/water_sports/favorites.dart";
+import "package:hollyday_land/screens/water_sports/history.dart";
 import "package:hollyday_land/screens/water_sports/list.dart";
 import "package:hollyday_land/screens/winery/favorites.dart";
 import "package:hollyday_land/screens/winery/history.dart";
@@ -74,18 +80,27 @@ class MyApp extends StatelessWidget {
           HistoryMuseumsScreen.routePath: (_) => HistoryMuseumsScreen(),
           HistoryWineriesScreen.routePath: (_) => HistoryWineriesScreen(),
           HistoryZoosScreen.routePath: (_) => HistoryZoosScreen(),
+          HistoryTrailsScreen.routePath: (_) => HistoryTrailsScreen(),
+          HistoryWaterSportsScreen.routePath: (_) => HistoryWaterSportsScreen(),
+          HistoryRockClimbingScreen.routePath: (_) =>
+              HistoryRockClimbingScreen(),
           FavoritesMuseumsScreen.routePath: (_) => FavoritesMuseumsScreen(),
           FavoritesWineriesScreen.routePath: (_) => FavoritesWineriesScreen(),
           FavoritesZoosScreen.routePath: (_) => FavoritesZoosScreen(),
+          FavoritesOffRoadTripsScreen.routePath: (_) =>
+              FavoritesOffRoadTripsScreen(),
+          FavoritesTrailsScreen.routePath: (_) => FavoritesTrailsScreen(),
+          FavoritesWaterSportsScreen.routePath: (_) =>
+              FavoritesWaterSportsScreen(),
+          FavoritesRockClimbingScreen.routePath: (_) =>
+              FavoritesRockClimbingScreen(),
           RockClimbingListScreen.routePath: (_) => RockClimbingListScreen(),
           WaterSportsListScreen.routePath: (_) => WaterSportsListScreen(),
           MapScreen.routePath: (_) => MapScreen(),
           OffRoadTripsScreen.routePath: (_) => OffRoadTripsScreen(),
-          FavoritesOffRoadTripsScreen.routePath: (_) =>
-              FavoritesOffRoadTripsScreen(),
           HistoryOffRoadTripsScreen.routePath: (_) =>
               HistoryOffRoadTripsScreen(),
-          TrailRecordScreen.routePath: (_) => TrailRecordScreen()
+          TrailRecordScreen.routePath: (_) => TrailRecordScreen(),
         },
       ),
     );

@@ -72,7 +72,7 @@ class WaterSportsShort extends AttractionShort {
   }
 
   static Future<List<WaterSportsShort>> readAttractions(
-      Map<String, Iterable<String>> parameters) async {
+      Map<String, Iterable<String>> parameters) {
     return ApiServer.get(
       "/attractions/api/water_sports",
       "water_sports",
@@ -80,7 +80,7 @@ class WaterSportsShort extends AttractionShort {
     ).then(_mapAttraction);
   }
 
-  static Future<List<WaterSportsShort>> readHistory(String token) async {
+  static Future<List<WaterSportsShort>> readHistory(String token) {
     return ApiServer.post(
       "/attractions/api/history/water_sports",
       "water_sports",
@@ -88,11 +88,17 @@ class WaterSportsShort extends AttractionShort {
     ).then(_mapAttraction);
   }
 
-  static Future<List<WaterSportsShort>> readFavorites(String token) async {
+  static Future<List<WaterSportsShort>> readFavorites(
+    String token,
+    int cacheKey,
+  ) {
     return ApiServer.post(
       "/attractions/api/favorites/water_sports",
       "water_sports",
-      {"token": token},
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
     ).then(_mapAttraction);
   }
 }

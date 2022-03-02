@@ -67,7 +67,7 @@ class Winery extends Attraction {
     );
   }
 
-  static Future<Winery> readWinery(int wineryId) async {
+  static Future<Winery> readWinery(int wineryId) {
     return ApiServer.get(
       "/attractions/api/wineries/$wineryId",
       "winery",

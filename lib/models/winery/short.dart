@@ -66,12 +66,12 @@ class WineryShort extends AttractionShort {
   }
 
   static Future<List<WineryShort>> readWineries(
-      final Map<String, Iterable<String>> parameters) async {
+      final Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/wineries", "wineries", parameters)
         .then(_mapWineries);
   }
 
-  static Future<List<WineryShort>> readHistory(String token) async {
+  static Future<List<WineryShort>> readHistory(String token) {
     return ApiServer.post(
       "/attractions/api/history/wineries",
       "wineries",
@@ -80,7 +80,9 @@ class WineryShort extends AttractionShort {
   }
 
   static Future<List<WineryShort>> readFavorites(
-      String token, int cacheKey) async {
+    String token,
+    int cacheKey,
+  ) {
     return ApiServer.post(
       "/attractions/api/favorites/wineries",
       "wineries",

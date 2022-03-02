@@ -70,7 +70,7 @@ class OffRoadTrip extends Attraction {
     );
   }
 
-  static Future<OffRoadTrip> readTrip(int offroadId) async {
+  static Future<OffRoadTrip> readTrip(int offroadId) {
     return ApiServer.get(
       "/attractions/api/offroad/$offroadId",
       "offroad",

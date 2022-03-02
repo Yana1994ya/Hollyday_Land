@@ -16,6 +16,25 @@ class TrailsScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _TrailsScreenState();
   }
+
+  static Widget trailsWidget(Future<List<TrailShort>> future) {
+    return FutureBuilder(
+      future: future,
+      builder: (BuildContext _, AsyncSnapshot<List<TrailShort>> snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error!.toString()));
+        } else if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          final trails = snapshot.data!;
+          return ListView.builder(
+            itemBuilder: (_, index) => TrailListItem(trail: trails[index]),
+            itemCount: trails.length,
+          );
+        }
+      },
+    );
+  }
 }
 
 class _TrailsScreenState extends State<TrailsScreen> {
@@ -99,29 +118,14 @@ class _TrailsScreenState extends State<TrailsScreen> {
   Widget build(BuildContext context) {
     TrailsCacheKey cacheKey = Provider.of<TrailsCacheKey>(context);
 
-    final body = FutureBuilder(
-      future: TrailShort.readTrails(trailsFilter.parameters(cacheKey.cacheKey)),
-      builder: (BuildContext _, AsyncSnapshot<List<TrailShort>> snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error!.toString()));
-        } else if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          final trails = snapshot.data!;
-          return ListView.builder(
-            itemBuilder: (_, index) => TrailListItem(trail: trails[index]),
-            itemCount: trails.length,
-          );
-        }
-      },
-    );
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Trails"),
         actions: [actionsMenu()],
       ),
-      body: body,
+      body: TrailsScreen.trailsWidget(TrailShort.readTrails(
+        trailsFilter.parameters(cacheKey.cacheKey),
+      )),
     );
   }
 }

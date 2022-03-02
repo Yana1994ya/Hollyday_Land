@@ -71,7 +71,7 @@ class WaterSportsItem extends Attraction {
     );
   }
 
-  static Future<WaterSportsItem> readAttraction(int attractionId) async {
+  static Future<WaterSportsItem> readAttraction(int attractionId) {
     return ApiServer.get(
       "/attractions/api/water_sports/$attractionId",
       "water_sports",

@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/map_objects.dart';
+import "package:hollyday_land/models/map_objects.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";

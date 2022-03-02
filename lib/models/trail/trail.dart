@@ -72,7 +72,7 @@ class Trail with WithLocation {
     );
   }
 
-  static Future<Trail> readTrail(String trailId, int cacheKey) async {
+  static Future<Trail> readTrail(String trailId, int cacheKey) {
     return ApiServer.get("/attractions/api/trail/$trailId", "trail", {
       "cache_key": [cacheKey.toString()]
     }).then((data) => Trail.fromJson(data));

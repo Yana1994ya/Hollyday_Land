@@ -70,7 +70,7 @@ class Museum extends Attraction {
     );
   }
 
-  static Future<Museum> readMuseum(int museumId) async {
+  static Future<Museum> readMuseum(int museumId) {
     return ApiServer.get(
       "/attractions/api/museums/$museumId",
       "museum",

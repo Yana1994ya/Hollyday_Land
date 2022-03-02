@@ -65,7 +65,7 @@ class Zoo extends Attraction {
     );
   }
 
-  static Future<Zoo> readZoo(int zooId) async {
+  static Future<Zoo> readZoo(int zooId) {
     return ApiServer.get(
       "/attractions/api/zoos/$zooId",
       "zoo",

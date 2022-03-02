@@ -71,12 +71,12 @@ class OffRoadTripShort extends AttractionShort {
   }
 
   static Future<List<OffRoadTripShort>> readTrips(
-      Map<String, Iterable<String>> parameters) async {
+      Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/offroad", "offroad", parameters)
         .then(_mapOffroad);
   }
 
-  static Future<List<OffRoadTripShort>> readHistory(String token) async {
+  static Future<List<OffRoadTripShort>> readHistory(String token) {
     return ApiServer.post(
       "/attractions/api/history/offroad",
       "offroad",
@@ -85,7 +85,9 @@ class OffRoadTripShort extends AttractionShort {
   }
 
   static Future<List<OffRoadTripShort>> readFavorites(
-      String token, int cacheKey) async {
+    String token,
+    int cacheKey,
+  ) {
     return ApiServer.post(
       "/attractions/api/favorites/offroad",
       "offroad",

@@ -72,7 +72,7 @@ class RockClimbingShort extends AttractionShort {
   }
 
   static Future<List<RockClimbingShort>> readAttractions(
-      Map<String, Iterable<String>> parameters) async {
+      Map<String, Iterable<String>> parameters) {
     return ApiServer.get(
       "/attractions/api/rock_climbing",
       "rock_climbing",
@@ -80,7 +80,7 @@ class RockClimbingShort extends AttractionShort {
     ).then(_mapAttraction);
   }
 
-  static Future<List<RockClimbingShort>> readHistory(String token) async {
+  static Future<List<RockClimbingShort>> readHistory(String token) {
     return ApiServer.post(
       "/attractions/api/history/rock_climbing",
       "rock_climbing",
@@ -88,11 +88,17 @@ class RockClimbingShort extends AttractionShort {
     ).then(_mapAttraction);
   }
 
-  static Future<List<RockClimbingShort>> readFavorites(String token) async {
+  static Future<List<RockClimbingShort>> readFavorites(
+    String token,
+    int cacheKey,
+  ) {
     return ApiServer.post(
       "/attractions/api/favorites/rock_climbing",
       "rock_climbing",
-      {"token": token},
+      {
+        "token": token,
+        "cache_key": cacheKey,
+      },
     ).then(_mapAttraction);
   }
 }

@@ -71,7 +71,7 @@ class RockClimbingItem extends Attraction {
     );
   }
 
-  static Future<RockClimbingItem> readAttraction(int attractionId) async {
+  static Future<RockClimbingItem> readAttraction(int attractionId) {
     return ApiServer.get(
       "/attractions/api/rock_climbing/$attractionId",
       "rock_climbing",

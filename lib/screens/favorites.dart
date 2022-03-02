@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/attractions_count.dart";
 import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/providers/login.dart";
@@ -19,7 +20,7 @@ class _LoggedInFavoritesScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Favorites"),
       ),
-      body: FutureBuilder<Favorites>(
+      body: FutureBuilder<AttractionsCount>(
         future: Favorites.readFavorites(
           loginProvider.hdToken!,
           cacheKeyProvider.cacheKey,

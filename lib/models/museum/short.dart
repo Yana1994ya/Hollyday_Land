@@ -71,12 +71,12 @@ class MuseumShort extends AttractionShort {
   }
 
   static Future<List<MuseumShort>> readMuseums(
-      Map<String, Iterable<String>> parameters) async {
+      Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/museums", "museums", parameters)
         .then(_mapMuseums);
   }
 
-  static Future<List<MuseumShort>> readHistory(String token) async {
+  static Future<List<MuseumShort>> readHistory(String token) {
     return ApiServer.post(
       "/attractions/api/history/museums",
       "museums",
@@ -85,7 +85,9 @@ class MuseumShort extends AttractionShort {
   }
 
   static Future<List<MuseumShort>> readFavorites(
-      String token, int cacheKey) async {
+    String token,
+    int cacheKey,
+  ) {
     return ApiServer.post(
       "/attractions/api/favorites/museums",
       "museums",

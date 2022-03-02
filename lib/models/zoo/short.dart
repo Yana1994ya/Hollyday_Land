@@ -66,12 +66,12 @@ class ZooShort extends AttractionShort {
   }
 
   static Future<List<ZooShort>> readZoos(
-      final Map<String, Iterable<String>> parameters) async {
+      final Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/zoos", "zoos", parameters)
         .then(_mapZoos);
   }
 
-  static Future<List<ZooShort>> readHistory(String token) async {
+  static Future<List<ZooShort>> readHistory(String token) {
     return ApiServer.post(
       "/attractions/api/history/zoos",
       "zoos",
@@ -80,7 +80,9 @@ class ZooShort extends AttractionShort {
   }
 
   static Future<List<ZooShort>> readFavorites(
-      String token, int cacheKey) async {
+    String token,
+    int cacheKey,
+  ) {
     return ApiServer.post(
       "/attractions/api/favorites/zoos",
       "zoos",
