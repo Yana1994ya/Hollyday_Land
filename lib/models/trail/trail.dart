@@ -77,4 +77,41 @@ class Trail with WithLocation {
       "cache_key": [cacheKey.toString()]
     }).then((data) => Trail.fromJson(data));
   }
+
+  static Future<bool> readFavorite(String token, String trailId) {
+    return ApiServer.post(
+      "/attractions/api/favorite/trail",
+      "value",
+      {
+        "token": token,
+        "id": trailId,
+      },
+    ).then((value) => (value as bool));
+  }
+
+  static Future<void> setFavorite(String token, String trailId, bool value) {
+    return ApiServer.voidPost(
+      "/attractions/api/favorite/trail",
+      {
+        "token": token,
+        "id": trailId,
+        "value": value,
+      },
+    );
+  }
+
+  static Future<void> visit(String? hdToken, String trailId) async {
+    // Visit is irrelevant for non-logged in users
+    if (hdToken == null) {
+      return;
+    }
+
+    return ApiServer.voidPost(
+      "/attractions/api/visit/trail",
+      {
+        "token": hdToken,
+        "id": trailId,
+      },
+    );
+  }
 }

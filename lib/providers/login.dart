@@ -61,8 +61,8 @@ class LoginProvider with ChangeNotifier {
     return _hdToken;
   }
 
-  Future<void> visit(int attractonId) async {
-    // Visit is irrelavent for non-loged in users
+  Future<void> visit(int attractionId) async {
+    // Visit is irrelevant for non-logged in users
     if (_hdToken == null) {
       return;
     }
@@ -71,7 +71,7 @@ class LoginProvider with ChangeNotifier {
       "/attractions/api/visit",
       {
         "token": _hdToken!,
-        "id": attractonId,
+        "id": attractionId,
       },
     );
   }

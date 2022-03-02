@@ -19,26 +19,6 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
   const AttractionScreen({Key? key, required this.attraction})
       : super(key: key);
 
-  // Trim details from url that aren't needed to
-  // identify the site to a human, such as the protocol
-  // used to access it.
-  static String prettyUrl(String original) {
-    if (original.startsWith("http://")) {
-      original = original.substring(7);
-    } else if (original.startsWith("https://")) {
-      original = original.substring(8);
-    }
-
-    // trim www. from begging as well
-    if (original.startsWith("www.")) original = original.substring(4);
-
-    while (original.endsWith("/")) {
-      original = original.substring(0, original.length - 1);
-    }
-
-    return original;
-  }
-
   static void launchUrl(String url) async =>
       await canLaunch(url) ? await launch(url) : throw "Could not launch $url";
 
@@ -132,8 +112,12 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     );
   }
 
-  Widget favoriteIcon(BuildContext context, LoginProvider loginProvider) {
-    //final scaffoldMessanger = ScaffoldMessenger.of(context);
+  static Widget favoriteIcon(
+    BuildContext context,
+    LoginProvider loginProvider,
+    Future<bool> Function(String) initialState,
+    Widget Function(String, bool) widgetFunction,
+  ) {
     if (loginProvider.currentUser == null) {
       return IconButton(
           onPressed: () {
@@ -158,8 +142,8 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
           },
           icon: Icon(Icons.favorite_outline));
     } else {
-      return FutureBuilder(
-        future: Favorites.readFavorite(loginProvider.hdToken!, attraction.id),
+      return FutureBuilder<bool>(
+        future: initialState(loginProvider.hdToken!),
         builder: (_, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasError) {
             //scaffoldMessanger.showSnackBar(SnackBar(content: Text('Failed to read favorite status')));
@@ -168,10 +152,9 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
           } else if (!snapshot.hasData) {
             return CircularProgressIndicator();
           } else {
-            return FavoriteButton(
-              attractionId: attraction.id,
-              initalState: snapshot.data!,
-              token: loginProvider.hdToken!,
+            return widgetFunction(
+              loginProvider.hdToken!,
+              snapshot.data!,
             );
           }
         },
@@ -189,7 +172,16 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
       appBar: AppBar(
         title: Text(attraction.name),
         actions: [
-          favoriteIcon(context, login),
+          AttractionScreen.favoriteIcon(
+            context,
+            login,
+            (hdToken) => Favorites.readFavorite(hdToken, attraction.id),
+            (hdToken, initialState) => FavoriteButton(
+              attractionId: attraction.id,
+              initialState: initialState,
+              token: hdToken,
+            ),
+          ),
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.share),

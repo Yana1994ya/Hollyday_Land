@@ -9,10 +9,13 @@ import "package:hollyday_land/models/filter_tag.dart";
 import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/models/trail/trail.dart";
 import "package:hollyday_land/providers/location_provider.dart";
+import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/providers/trail/cache_key.dart";
+import "package:hollyday_land/screens/attraction.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
+import "package:hollyday_land/widgets/trail/favorite_button.dart";
 import "package:http/http.dart" as http;
 import "package:provider/provider.dart";
 
@@ -74,10 +77,25 @@ class TrailScreen extends StatelessWidget {
     // Ask for permission to get location, ask early to improve user experience
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
     final TrailsCacheKey trailsCacheKey = Provider.of<TrailsCacheKey>(context);
+    final login = Provider.of<LoginProvider>(context);
+
+    Trail.visit(login.hdToken, trail.id);
 
     return Scaffold(
         appBar: AppBar(
           title: Text(trail.name),
+          actions: [
+            AttractionScreen.favoriteIcon(
+              context,
+              login,
+              (hdToken) => Trail.readFavorite(hdToken, trail.id),
+              (hdToken, initialState) => TrailFavoriteButton(
+                trailId: trail.id,
+                initialState: initialState,
+                token: hdToken,
+              ),
+            ),
+          ],
         ),
         body: FutureBuilder(
           future: Trail.readTrail(trail.id, trailsCacheKey.cacheKey)

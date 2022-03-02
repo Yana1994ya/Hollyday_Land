@@ -1,25 +1,25 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/favorites.dart";
+import "package:hollyday_land/models/trail/trail.dart";
 import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:provider/provider.dart";
 
-class FavoriteButton extends StatefulWidget {
-  final int attractionId;
+class TrailFavoriteButton extends StatefulWidget {
+  final String trailId;
   final bool initialState;
   final String token;
 
-  const FavoriteButton({
+  const TrailFavoriteButton({
     Key? key,
-    required this.attractionId,
+    required this.trailId,
     required this.initialState,
     required this.token,
   }) : super(key: key);
 
   @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
+  State<TrailFavoriteButton> createState() => _TrailFavoriteButtonState();
 }
 
-class _FavoriteButtonState extends State<FavoriteButton> {
+class _TrailFavoriteButtonState extends State<TrailFavoriteButton> {
   bool favorite = false;
   bool working = false;
 
@@ -34,8 +34,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       working = true;
     });
 
-    Favorites.setFavorite(widget.token, widget.attractionId, newValue)
-        .then((_) {
+    Trail.setFavorite(widget.token, widget.trailId, newValue).then((_) {
       setState(() {
         working = false;
         favorite = newValue;
