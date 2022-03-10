@@ -20,6 +20,8 @@ class TrailShort with WithLocation {
 
   final ImageAsset? mainImage;
 
+  final String ownerId;
+
   TrailShort({
     required this.id,
     required this.name,
@@ -29,6 +31,7 @@ class TrailShort with WithLocation {
     required this.elevationGain,
     required this.difficulty,
     required this.mainImage,
+    required this.ownerId,
   });
 
   factory TrailShort.fromJson(Map<String, dynamic> json) {
@@ -43,6 +46,7 @@ class TrailShort with WithLocation {
       length: json["length"],
       difficulty: difficultyFromString(json["difficulty"]),
       elevationGain: json["elevation_gain"],
+      ownerId: json["owner_id"],
     );
   }
 

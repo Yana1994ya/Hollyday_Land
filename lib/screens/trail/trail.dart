@@ -16,6 +16,7 @@ import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
 import "package:hollyday_land/widgets/trail/favorite_button.dart";
+import 'package:hollyday_land/widgets/trail/trail_image_upload.dart';
 import "package:http/http.dart" as http;
 import "package:provider/provider.dart";
 
@@ -72,12 +73,83 @@ class TrailScreen extends StatelessWidget {
     }
   }
 
+  /*void pickImage(ImageSource source) {
+    setState(() {
+      imageUploading = true;
+    });
+
+    // Pick an image
+    ImagePicker()
+        .pickImage(
+      source: source,
+      imageQuality: 80,
+      maxWidth: 3840,
+      maxHeight: 2160,
+    )
+        .then((picture) async {
+      if (picture != null) {
+        final imageId = await ImageUpload.uploadImage(picture, widget.hdToken);
+
+        setState(() {
+          images.add(imageId);
+          imageUploading = false;
+        });
+      } else {
+        setState(() {
+          imageUploading = false;
+        });
+      }
+    });
+  }
+
+  Widget actionsMenu() {
+    return PopupMenuButton(
+      onSelected: (index) {
+        if (index == 1) {
+          // pickImage(ImageSource.camera);
+        } else if (index == 2) {
+          // pickImage(ImageSource.gallery);
+        }
+      },
+      itemBuilder: (context) => <PopupMenuEntry<int>>[
+        PopupMenuItem<int>(
+          value: 1,
+          child: Row(
+            children: [
+              SizedBox(
+                child: Image.asset("assets/graphics/camera.png"),
+                width: 24,
+                height: 24,
+              ),
+              Text(" Take a picture"),
+            ],
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Row(
+            children: [
+              SizedBox(
+                child: Image.asset("assets/graphics/photos.png"),
+                width: 24,
+                height: 24,
+              ),
+              Text(" Upload from gallery"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }*/
+
   @override
   Widget build(BuildContext context) {
     // Ask for permission to get location, ask early to improve user experience
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
     final TrailsCacheKey trailsCacheKey = Provider.of<TrailsCacheKey>(context);
     final login = Provider.of<LoginProvider>(context);
+
+    print((login.userId ?? "Guest") + " == " + trail.ownerId);
 
     Trail.visit(login.hdToken, trail.id);
 
@@ -95,6 +167,11 @@ class TrailScreen extends StatelessWidget {
                 token: hdToken,
               ),
             ),
+            if (login.userId == trail.ownerId)
+              TrailImageUpload(
+                trailId: trail.id,
+                hdToken: login.hdToken!,
+              )
           ],
         ),
         body: FutureBuilder(

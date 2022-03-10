@@ -7,7 +7,8 @@ import "package:http/http.dart" as http;
 import "package:image_picker/image_picker.dart";
 
 class ImageUpload {
-  static Future<int> uploadImage(XFile file, String hdToken) async {
+  static Future<http.MultipartRequest> _buildRequest(
+      XFile file, String hdToken) async {
     http.MultipartRequest request = http.MultipartRequest(
       "POST",
       Uri.https(ApiServer.serverName, "attractions/api/upload_image"),
@@ -16,13 +17,38 @@ class ImageUpload {
 
     /*http.MultipartRequest request = http.MultipartRequest(
       "POST",
-      Uri.http("192.168.1.159:8000", "attractions/api/upload_image"),
+      Uri.http("192.168.1.122:8000", "attractions/api/upload_image"),
     );*/
 
     request.fields["token"] = hdToken;
 
     request.files.add(await http.MultipartFile.fromPath("image", file.path,
         filename: "image.jpg"));
+
+    return request;
+  }
+
+  static Future<void> uploadTrailImage(
+      XFile file, String hdToken, String trailId) async {
+    final request = await _buildRequest(file, hdToken);
+    request.fields["trail_id"] = trailId;
+
+    final response = await request.send();
+
+    if (response.statusCode != 200) {
+      final Completer<UploadError> result = Completer();
+
+      response.stream.transform(utf8.decoder).listen((body) {
+        result.complete(UploadError(response.statusCode, body));
+      });
+
+      UploadError error = await result.future;
+      throw error;
+    }
+  }
+
+  static Future<int> uploadImage(XFile file, String hdToken) async {
+    final request = await _buildRequest(file, hdToken);
 
     final response = await request.send();
 
