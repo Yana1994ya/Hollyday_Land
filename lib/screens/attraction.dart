@@ -53,10 +53,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
             ),
             Row(
               children: [
-                Rating(
-                  rating: 4.6,
-                  count: 230,
-                ),
+                Rating(rating: attraction),
                 Distance(
                   location: attraction,
                 ),

@@ -1,10 +1,12 @@
+import 'package:decimal/decimal.dart';
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
+import 'package:hollyday_land/models/rating.dart';
 import "package:hollyday_land/models/trail/difficulty.dart";
 
-class TrailShort with WithLocation {
+class TrailShort with WithLocation, WithRating {
   final String id;
   final String name;
 
@@ -22,6 +24,11 @@ class TrailShort with WithLocation {
 
   final String ownerId;
 
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
   TrailShort({
     required this.id,
     required this.name,
@@ -32,6 +39,8 @@ class TrailShort with WithLocation {
     required this.difficulty,
     required this.mainImage,
     required this.ownerId,
+    required this.avgRating,
+    required this.ratingCount,
   });
 
   factory TrailShort.fromJson(Map<String, dynamic> json) {
@@ -47,6 +56,8 @@ class TrailShort with WithLocation {
       difficulty: difficultyFromString(json["difficulty"]),
       elevationGain: json["elevation_gain"],
       ownerId: json["owner_id"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 
@@ -56,8 +67,7 @@ class TrailShort with WithLocation {
         .toList();
   }
 
-  static Future<List<TrailShort>> readTrails(
-      Map<String, Iterable<String>> parameters) {
+  static Future<List<TrailShort>> readTrails(Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/trails", "trails", parameters)
         .then(_mapTrail);
   }
@@ -70,10 +80,8 @@ class TrailShort with WithLocation {
     ).then(_mapTrail);
   }
 
-  static Future<List<TrailShort>> readFavorites(
-    String token,
-    int cacheKey,
-  ) {
+  static Future<List<TrailShort>> readFavorites(String token,
+      int cacheKey,) {
     return ApiServer.post(
       "/attractions/api/favorites/trails",
       "trails",

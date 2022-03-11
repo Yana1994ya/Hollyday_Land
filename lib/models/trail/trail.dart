@@ -1,13 +1,15 @@
+import "package:decimal/decimal.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/google_user.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
+import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/models/trail/activity.dart";
 import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
 
-class Trail with WithLocation {
+class Trail with WithLocation, WithRating {
   final String id;
   final String name;
   @override
@@ -25,6 +27,11 @@ class Trail with WithLocation {
   final GoogleUser googleUser;
   final String points;
 
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
   Trail({
     required this.id,
     required this.name,
@@ -40,6 +47,8 @@ class Trail with WithLocation {
     required this.suitabilities,
     required this.googleUser,
     required this.points,
+    required this.avgRating,
+    required this.ratingCount,
   });
 
   factory Trail.fromJson(Map<String, dynamic> json) {
@@ -69,6 +78,8 @@ class Trail with WithLocation {
       points: json["points"],
       additionalImages:
           additionalImagesJson.map((m) => ImageAsset.fromJson(m)).toList(),
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 

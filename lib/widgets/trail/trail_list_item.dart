@@ -106,10 +106,7 @@ class TrailListItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Rating(
-                        rating: 4.6,
-                        count: 230,
-                      ),
+                      Rating(rating: trail),
                       Distance(location: trail),
                     ],
                   ),

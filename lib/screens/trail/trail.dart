@@ -280,10 +280,7 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
           Text("by: ${widget.trailAndPoints.trail.googleUser.name}"),
           Row(
             children: [
-              Rating(
-                rating: 4.6,
-                count: 230,
-              ),
+              Rating(rating: widget.trailAndPoints.trail),
               Distance(
                 location: widget.trailAndPoints.trail,
               ),
