@@ -16,7 +16,7 @@ import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
 import "package:hollyday_land/widgets/trail/favorite_button.dart";
-import 'package:hollyday_land/widgets/trail/trail_image_upload.dart';
+import "package:hollyday_land/widgets/trail/trail_image_upload.dart";
 import "package:http/http.dart" as http;
 import "package:provider/provider.dart";
 

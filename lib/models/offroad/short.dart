@@ -1,3 +1,4 @@
+import "package:decimal/decimal.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
@@ -29,17 +30,25 @@ class OffRoadTripShort extends AttractionShort {
   @override
   final String? telephone;
 
-  OffRoadTripShort(
-      {required this.id,
-      required this.name,
-      required this.address,
-      required this.lat,
-      required this.long,
-      required this.mainImage,
-      required this.region,
-      required this.tripType,
-      required this.city,
-      required this.telephone});
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
+  OffRoadTripShort({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.lat,
+    required this.long,
+    required this.mainImage,
+    required this.region,
+    required this.tripType,
+    required this.city,
+    required this.telephone,
+    required this.avgRating,
+    required this.ratingCount,
+  });
 
   factory OffRoadTripShort.fromJson(Map<String, dynamic> json) {
     return OffRoadTripShort(
@@ -55,6 +64,8 @@ class OffRoadTripShort extends AttractionShort {
       lat: json["lat"],
       city: json["city"],
       telephone: json["telephone"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 
@@ -70,8 +81,7 @@ class OffRoadTripShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<OffRoadTripShort>> readTrips(
-      Map<String, Iterable<String>> parameters) {
+  static Future<List<OffRoadTripShort>> readTrips(Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/offroad", "offroad", parameters)
         .then(_mapOffroad);
   }
@@ -84,10 +94,8 @@ class OffRoadTripShort extends AttractionShort {
     ).then(_mapOffroad);
   }
 
-  static Future<List<OffRoadTripShort>> readFavorites(
-    String token,
-    int cacheKey,
-  ) {
+  static Future<List<OffRoadTripShort>> readFavorites(String token,
+      int cacheKey,) {
     return ApiServer.post(
       "/attractions/api/favorites/offroad",
       "offroad",

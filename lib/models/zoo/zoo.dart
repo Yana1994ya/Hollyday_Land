@@ -1,3 +1,4 @@
+import "package:decimal/decimal.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction.dart";
 import "package:hollyday_land/models/image_asset.dart";
@@ -29,19 +30,27 @@ class Zoo extends Attraction {
   @override
   final String? telephone;
 
-  Zoo(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.address,
-      required this.website,
-      required this.lat,
-      required this.long,
-      required this.mainImage,
-      required this.additionalImages,
-      required this.region,
-      required this.city,
-      required this.telephone});
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
+  Zoo({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.address,
+    required this.website,
+    required this.lat,
+    required this.long,
+    required this.mainImage,
+    required this.additionalImages,
+    required this.region,
+    required this.city,
+    required this.telephone,
+    required this.avgRating,
+    required this.ratingCount,
+  });
 
   factory Zoo.fromJson(Map<String, dynamic> json) {
     final List<dynamic> additionalImagesJson = json["additional_images"];
@@ -62,6 +71,8 @@ class Zoo extends Attraction {
       lat: json["lat"],
       city: json["city"],
       telephone: json["telephone"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 

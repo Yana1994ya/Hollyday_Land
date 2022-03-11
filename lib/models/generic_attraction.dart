@@ -1,3 +1,4 @@
+import "package:decimal/decimal.dart";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/api_server.dart";
@@ -18,12 +19,19 @@ class GenericAttraction extends BaseAttraction {
   final String name;
   final String type;
 
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
   GenericAttraction({
     required this.id,
     required this.lat,
     required this.long,
     required this.name,
     required this.type,
+    required this.avgRating,
+    required this.ratingCount,
   });
 
   factory GenericAttraction.fromJson(Map<String, dynamic> json) {
@@ -33,6 +41,8 @@ class GenericAttraction extends BaseAttraction {
       long: json["long"],
       name: json["name"],
       type: json["type"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 
@@ -44,7 +54,7 @@ class GenericAttraction extends BaseAttraction {
     params["lon_max"] = [bounds.northeast.longitude.toStringAsPrecision(10)];
 
     return ApiServer.get("/attractions/api/map", "attractions", params).then(
-        (values) => (values as List<dynamic>)
+            (values) => (values as List<dynamic>)
             .map((value) => GenericAttraction.fromJson(value))
             .toList());
   }

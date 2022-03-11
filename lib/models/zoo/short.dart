@@ -1,3 +1,4 @@
+import "package:decimal/decimal.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
@@ -26,16 +27,24 @@ class ZooShort extends AttractionShort {
   @override
   final String? telephone;
 
-  ZooShort(
-      {required this.id,
-      required this.name,
-      required this.address,
-      required this.lat,
-      required this.long,
-      required this.mainImage,
-      required this.region,
-      required this.city,
-      required this.telephone});
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
+  ZooShort({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.lat,
+    required this.long,
+    required this.mainImage,
+    required this.region,
+    required this.city,
+    required this.telephone,
+    required this.avgRating,
+    required this.ratingCount,
+  });
 
   factory ZooShort.fromJson(Map<String, dynamic> json) {
     return ZooShort(
@@ -50,6 +59,8 @@ class ZooShort extends AttractionShort {
       lat: json["lat"],
       city: json["city"],
       telephone: json["telephone"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 
@@ -65,8 +76,7 @@ class ZooShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<ZooShort>> readZoos(
-      final Map<String, Iterable<String>> parameters) {
+  static Future<List<ZooShort>> readZoos(final Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/zoos", "zoos", parameters)
         .then(_mapZoos);
   }
@@ -79,10 +89,8 @@ class ZooShort extends AttractionShort {
     ).then(_mapZoos);
   }
 
-  static Future<List<ZooShort>> readFavorites(
-    String token,
-    int cacheKey,
-  ) {
+  static Future<List<ZooShort>> readFavorites(String token,
+      int cacheKey,) {
     return ApiServer.post(
       "/attractions/api/favorites/zoos",
       "zoos",

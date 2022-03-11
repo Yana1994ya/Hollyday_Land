@@ -1,3 +1,4 @@
+import "package:decimal/decimal.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
@@ -29,17 +30,25 @@ class MuseumShort extends AttractionShort {
   @override
   final String? telephone;
 
-  MuseumShort(
-      {required this.id,
-      required this.name,
-      required this.address,
-      required this.lat,
-      required this.long,
-      required this.mainImage,
-      required this.region,
-      required this.domain,
-      required this.city,
-      required this.telephone});
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
+  MuseumShort({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.lat,
+    required this.long,
+    required this.mainImage,
+    required this.region,
+    required this.domain,
+    required this.city,
+    required this.telephone,
+    required this.avgRating,
+    required this.ratingCount,
+  });
 
   factory MuseumShort.fromJson(Map<String, dynamic> json) {
     return MuseumShort(
@@ -55,6 +64,8 @@ class MuseumShort extends AttractionShort {
       lat: json["lat"],
       city: json["city"],
       telephone: json["telephone"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 
@@ -70,8 +81,7 @@ class MuseumShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<MuseumShort>> readMuseums(
-      Map<String, Iterable<String>> parameters) {
+  static Future<List<MuseumShort>> readMuseums(Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/museums", "museums", parameters)
         .then(_mapMuseums);
   }
@@ -84,10 +94,8 @@ class MuseumShort extends AttractionShort {
     ).then(_mapMuseums);
   }
 
-  static Future<List<MuseumShort>> readFavorites(
-    String token,
-    int cacheKey,
-  ) {
+  static Future<List<MuseumShort>> readFavorites(String token,
+      int cacheKey,) {
     return ApiServer.post(
       "/attractions/api/favorites/museums",
       "museums",

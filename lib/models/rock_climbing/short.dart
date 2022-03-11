@@ -1,3 +1,4 @@
+import "package:decimal/decimal.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
@@ -29,17 +30,25 @@ class RockClimbingShort extends AttractionShort {
   @override
   final String? telephone;
 
-  RockClimbingShort(
-      {required this.id,
-      required this.name,
-      required this.address,
-      required this.lat,
-      required this.long,
-      required this.mainImage,
-      required this.region,
-      required this.attractionType,
-      required this.city,
-      required this.telephone});
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
+  RockClimbingShort({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.lat,
+    required this.long,
+    required this.mainImage,
+    required this.region,
+    required this.attractionType,
+    required this.city,
+    required this.telephone,
+    required this.avgRating,
+    required this.ratingCount,
+  });
 
   factory RockClimbingShort.fromJson(Map<String, dynamic> json) {
     return RockClimbingShort(
@@ -56,6 +65,8 @@ class RockClimbingShort extends AttractionShort {
       lat: json["lat"],
       city: json["city"],
       telephone: json["telephone"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 
@@ -71,8 +82,7 @@ class RockClimbingShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<RockClimbingShort>> readAttractions(
-      Map<String, Iterable<String>> parameters) {
+  static Future<List<RockClimbingShort>> readAttractions(Map<String, Iterable<String>> parameters) {
     return ApiServer.get(
       "/attractions/api/rock_climbing",
       "rock_climbing",
@@ -88,10 +98,8 @@ class RockClimbingShort extends AttractionShort {
     ).then(_mapAttraction);
   }
 
-  static Future<List<RockClimbingShort>> readFavorites(
-    String token,
-    int cacheKey,
-  ) {
+  static Future<List<RockClimbingShort>> readFavorites(String token,
+      int cacheKey,) {
     return ApiServer.post(
       "/attractions/api/favorites/rock_climbing",
       "rock_climbing",

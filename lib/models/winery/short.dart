@@ -1,3 +1,4 @@
+import "package:decimal/decimal.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
@@ -26,16 +27,24 @@ class WineryShort extends AttractionShort {
   @override
   final String? telephone;
 
-  WineryShort(
-      {required this.id,
-      required this.name,
-      required this.address,
-      required this.lat,
-      required this.long,
-      required this.mainImage,
-      required this.region,
-      required this.city,
-      required this.telephone});
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
+
+  WineryShort({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.lat,
+    required this.long,
+    required this.mainImage,
+    required this.region,
+    required this.city,
+    required this.telephone,
+    required this.avgRating,
+    required this.ratingCount,
+  });
 
   factory WineryShort.fromJson(Map<String, dynamic> json) {
     return WineryShort(
@@ -50,6 +59,8 @@ class WineryShort extends AttractionShort {
       lat: json["lat"],
       city: json["city"],
       telephone: json["telephone"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
   }
 
@@ -65,8 +76,7 @@ class WineryShort extends AttractionShort {
         .toList();
   }
 
-  static Future<List<WineryShort>> readWineries(
-      final Map<String, Iterable<String>> parameters) {
+  static Future<List<WineryShort>> readWineries(final Map<String, Iterable<String>> parameters) {
     return ApiServer.get("/attractions/api/wineries", "wineries", parameters)
         .then(_mapWineries);
   }
@@ -79,10 +89,8 @@ class WineryShort extends AttractionShort {
     ).then(_mapWineries);
   }
 
-  static Future<List<WineryShort>> readFavorites(
-    String token,
-    int cacheKey,
-  ) {
+  static Future<List<WineryShort>> readFavorites(String token,
+      int cacheKey,) {
     return ApiServer.post(
       "/attractions/api/favorites/wineries",
       "wineries",
