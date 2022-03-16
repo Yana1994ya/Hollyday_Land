@@ -1,14 +1,35 @@
 import "dart:async";
 import "dart:convert";
 
+import "package:built_collection/built_collection.dart";
 import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/upload_error.dart";
 import "package:http/http.dart" as http;
 import "package:image_picker/image_picker.dart";
 
 class ImageUpload {
+  final int imageId;
+  final BuiltList<ImageAsset> thumbs;
+
+  const ImageUpload({
+    required this.imageId,
+    required this.thumbs,
+  });
+
+  factory ImageUpload.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> thumbsJson = json["thumbs"];
+
+    return ImageUpload(
+      imageId: json["image_id"],
+      thumbs: BuiltList(thumbsJson.map((m) => ImageAsset.fromJson(m))),
+    );
+  }
+
   static Future<http.MultipartRequest> _buildRequest(
-      XFile file, String hdToken) async {
+    XFile file,
+    String hdToken,
+  ) async {
     http.MultipartRequest request = http.MultipartRequest(
       "POST",
       Uri.https(ApiServer.serverName, "attractions/api/upload_image"),
@@ -29,7 +50,10 @@ class ImageUpload {
   }
 
   static Future<void> uploadTrailImage(
-      XFile file, String hdToken, String trailId) async {
+    XFile file,
+    String hdToken,
+    String trailId,
+  ) async {
     final request = await _buildRequest(file, hdToken);
     request.fields["trail_id"] = trailId;
 
@@ -47,7 +71,10 @@ class ImageUpload {
     }
   }
 
-  static Future<int> uploadImage(XFile file, String hdToken) async {
+  static Future<ImageUpload> uploadImage(
+    XFile file,
+    String hdToken,
+  ) async {
     final request = await _buildRequest(file, hdToken);
 
     final response = await request.send();
@@ -58,14 +85,15 @@ class ImageUpload {
 
       // That's why I'm using Completer to wait for that async process to update
       // me when the id is ready in a future.
-      final Completer<int> imageId = Completer();
+      final Completer<ImageUpload> image = Completer();
 
       response.stream.transform(utf8.decoder).listen((body) {
         final Map<String, dynamic> data = jsonDecode(body);
-        imageId.complete(data["image_id"]);
+
+        image.complete(ImageUpload.fromJson(data["image"]));
       });
 
-      return imageId.future;
+      return image.future;
     } else {
       final Completer<UploadError> result = Completer();
 

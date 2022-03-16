@@ -4,6 +4,7 @@ import "package:hollyday_land/models/base_attraction.dart";
 import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/screens/attraction_comments.dart";
 import "package:hollyday_land/widgets/attraction_map.dart";
 import "package:hollyday_land/widgets/description.dart";
 import "package:hollyday_land/widgets/distance.dart";
@@ -53,7 +54,16 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
             ),
             Row(
               children: [
-                Rating(rating: attraction),
+                GestureDetector(
+                  child: Rating(rating: attraction),
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_ctx) {
+                      return AttractionCommentsScreen(
+                          attractionId: attraction.id);
+                    }));
+                  },
+                ),
                 Distance(
                   location: attraction,
                 ),

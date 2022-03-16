@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/upload_error.dart";
-import "package:hollyday_land/providers/image_upload.dart";
 import "package:hollyday_land/providers/trail/cache_key.dart";
 import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";

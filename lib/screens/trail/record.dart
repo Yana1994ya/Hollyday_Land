@@ -3,9 +3,9 @@ import "dart:async";
 import "package:background_location/background_location.dart";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
+import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/trail/point_collector.dart";
 import "package:hollyday_land/models/upload_error.dart";
-import "package:hollyday_land/providers/image_upload.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/trail/form.dart";
@@ -202,10 +202,10 @@ class _LoggedInTrailRecordScreenState
     )
         .then((picture) async {
       if (picture != null) {
-        final imageId = await ImageUpload.uploadImage(picture, widget.hdToken);
+        final image = await ImageUpload.uploadImage(picture, widget.hdToken);
 
         setState(() {
-          images.add(imageId);
+          images.add(image.imageId);
           imageUploading = false;
         });
       } else {
