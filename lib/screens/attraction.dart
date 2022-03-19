@@ -60,7 +60,8 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (_ctx) {
                       return AttractionReviewsScreen(
-                          attractionId: attraction.id);
+                        attractionId: attraction.id,
+                      );
                     }));
                   },
                 ),

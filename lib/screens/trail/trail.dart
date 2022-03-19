@@ -286,7 +286,8 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_ctx) {
                     return TrailReviewsScreen(
-                        trailId: widget.trailAndPoints.trail.id);
+                      trailId: widget.trailAndPoints.trail.id,
+                    );
                   }));
                 },
               ),
