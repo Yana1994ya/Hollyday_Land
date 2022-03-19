@@ -53,10 +53,17 @@ class AttractionComments {
     required this.comments,
   });
 
-  static Future<AttractionComments> readComments(int attractionId, int page) {
+  static Future<AttractionComments> readComments(
+    int attractionId,
+    int page,
+    int ratingCacheKey,
+  ) {
     return ApiServer.get(
-            "/attractions/api/comments/attraction/$attractionId/$page",
-            "comments")
-        .then((comments) => AttractionComments.fromJson(comments));
+      "/attractions/api/comments/attraction/$attractionId/$page",
+      "comments",
+      {
+        "rating_cache_key": [ratingCacheKey.toString()]
+      },
+    ).then((comments) => AttractionComments.fromJson(comments));
   }
 }

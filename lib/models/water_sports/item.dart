@@ -82,10 +82,14 @@ class WaterSportsItem extends Attraction {
     );
   }
 
-  static Future<WaterSportsItem> readAttraction(int attractionId) {
+  static Future<WaterSportsItem> readAttraction(
+      int attractionId, int ratingCacheKey) {
     return ApiServer.get(
       "/attractions/api/water_sports/$attractionId",
       "water_sports",
+      {
+        "rating_cache_key": [ratingCacheKey.toString()]
+      },
     ).then((data) => WaterSportsItem.fromJson(data));
   }
 

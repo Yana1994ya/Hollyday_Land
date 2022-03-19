@@ -3,6 +3,7 @@ import "package:flutter/services.dart";
 import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/providers/rating.dart";
 import "package:hollyday_land/providers/trail/cache_key.dart";
 import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocationProvider()),
         ChangeNotifierProvider(create: (_) => TrailsCacheKey()),
         ChangeNotifierProvider(create: (_) => FavoritesCacheKey()),
+        ChangeNotifierProvider(create: (_) => RatingCacheKey()),
       ],
       child: MaterialApp(
         title: _title,

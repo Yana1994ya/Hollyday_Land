@@ -81,11 +81,10 @@ class Museum extends Attraction {
     );
   }
 
-  static Future<Museum> readMuseum(int museumId) {
-    return ApiServer.get(
-      "/attractions/api/museums/$museumId",
-      "museum",
-    ).then((data) => Museum.fromJson(data));
+  static Future<Museum> readMuseum(int museumId, int ratingCacheKey) {
+    return ApiServer.get("/attractions/api/museums/$museumId", "museum", {
+      "rating_cache_key": [ratingCacheKey.toString()]
+    }).then((data) => Museum.fromJson(data));
   }
 
   @override

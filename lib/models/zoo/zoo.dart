@@ -76,11 +76,10 @@ class Zoo extends Attraction {
     );
   }
 
-  static Future<Zoo> readZoo(int zooId) {
-    return ApiServer.get(
-      "/attractions/api/zoos/$zooId",
-      "zoo",
-    ).then((data) => Zoo.fromJson(data));
+  static Future<Zoo> readZoo(int zooId, int ratingCacheKey) {
+    return ApiServer.get("/attractions/api/zoos/$zooId", "zoo", {
+      "rating_cache_key": [ratingCacheKey.toString()],
+    }).then((data) => Zoo.fromJson(data));
   }
 
   @override

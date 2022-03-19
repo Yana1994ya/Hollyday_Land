@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/attraction_short.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/providers/location_provider.dart";
+import "package:hollyday_land/providers/rating.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:provider/provider.dart";
 
@@ -26,7 +27,8 @@ abstract class AttractionsScreenState<
   String itemCountText(List<AttractionType> attractions);
 
   Future<List<AttractionType>> readAttractions(
-      Map<String, Iterable<String>> params);
+    Map<String, Iterable<String>> params,
+  );
 
   Widget itemCount(BuildContext context, List<AttractionType> attractions) {
     return Padding(
@@ -44,8 +46,12 @@ abstract class AttractionsScreenState<
 
   @override
   Widget build(BuildContext context) {
-    // Attempt to retirve location at the load of this page
+    // Attempt to retrieve location at the load of this page
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
+    final ratingCacheKey = Provider.of<RatingCacheKey>(context).cacheKey;
+
+    final filterParams = _filter.parameters;
+    filterParams["rating_cache_key"] = [ratingCacheKey.toString()];
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +67,7 @@ abstract class AttractionsScreenState<
         ],
       ),
       body: FutureBuilder(
-        future: readAttractions(_filter.parameters),
+        future: readAttractions(filterParams),
         builder: (_, AsyncSnapshot<List<AttractionType>> snapshot) {
           if (snapshot.hasError) {
             return Center(

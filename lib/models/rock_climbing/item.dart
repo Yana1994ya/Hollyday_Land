@@ -82,11 +82,12 @@ class RockClimbingItem extends Attraction {
     );
   }
 
-  static Future<RockClimbingItem> readAttraction(int attractionId) {
+  static Future<RockClimbingItem> readAttraction(
+      int attractionId, int ratingCacheKey) {
     return ApiServer.get(
-      "/attractions/api/rock_climbing/$attractionId",
-      "rock_climbing",
-    ).then((data) => RockClimbingItem.fromJson(data));
+        "/attractions/api/rock_climbing/$attractionId", "rock_climbing", {
+      "rating_cache_key": [ratingCacheKey.toString()]
+    }).then((data) => RockClimbingItem.fromJson(data));
   }
 
   @override

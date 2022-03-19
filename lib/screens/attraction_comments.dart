@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/comments.dart";
 import "package:hollyday_land/models/date_formatter.dart";
+import 'package:hollyday_land/providers/rating.dart';
 import "package:hollyday_land/screens/attraction_write_comment.dart";
+import 'package:provider/provider.dart';
 
 class AttractionCommentsScreen extends StatefulWidget {
   final int attractionId;
@@ -19,8 +21,11 @@ class _AttractionCommentsScreenState extends State<AttractionCommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ratingCacheKey = Provider.of<RatingCacheKey>(context).cacheKey;
+
     return FutureBuilder<AttractionComments>(
-      future: AttractionComments.readComments(widget.attractionId, page),
+      future: AttractionComments.readComments(
+          widget.attractionId, page, ratingCacheKey),
       builder: (BuildContext _ctx, AsyncSnapshot<AttractionComments> snapshot) {
         if (snapshot.hasError) {
           return Scaffold(

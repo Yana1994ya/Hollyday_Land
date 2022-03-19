@@ -3,6 +3,7 @@ import "package:flutter_rating_bar/flutter_rating_bar.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/providers/login.dart";
+import 'package:hollyday_land/providers/rating.dart';
 import "package:hollyday_land/screens/profile.dart";
 import 'package:hollyday_land/widgets/image_upload.dart';
 import "package:image_picker/image_picker.dart";
@@ -139,6 +140,7 @@ class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
                 keyboardType: TextInputType.multiline,
                 maxLines: 5,
                 controller: bodyController,
+                decoration: InputDecoration(border: OutlineInputBorder()),
               ),
               Text("Add images:"),
               Wrap(
@@ -167,9 +169,15 @@ class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
                     ApiServer.post("attractions/api/comments/attraction",
                             "comment_id", requestBody)
                         .then(
-                      (value) => Navigator.of(context).pop(value),
-                    )
-                        .catchError((err) {
+                      (value) {
+                        // Mark a change in rating cache key,
+                        // for whoever is interested
+                        Provider.of<RatingCacheKey>(context, listen: false)
+                            .refresh();
+
+                        Navigator.of(context).pop(value);
+                      },
+                    ).catchError((err) {
                       setState(() {
                         _publishing = false;
                       });

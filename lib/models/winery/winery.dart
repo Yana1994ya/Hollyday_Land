@@ -77,10 +77,13 @@ class Winery extends Attraction {
     );
   }
 
-  static Future<Winery> readWinery(int wineryId) {
+  static Future<Winery> readWinery(int wineryId, int ratingCacheKey) {
     return ApiServer.get(
       "/attractions/api/wineries/$wineryId",
       "winery",
+      {
+        "rating_cache_key": [ratingCacheKey.toString()],
+      },
     ).then((data) => Winery.fromJson(data));
   }
 

@@ -169,7 +169,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     }
   }
 
-  Future<T> readFull();
+  Future<T> readFull(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +196,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
         ],
       ),
       body: FutureBuilder(
-        future: readFull(),
+        future: readFull(context),
         builder: (_, AsyncSnapshot<T> snapshot) {
           if (snapshot.hasError) {
             return Center(

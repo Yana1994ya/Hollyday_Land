@@ -81,11 +81,10 @@ class OffRoadTrip extends Attraction {
     );
   }
 
-  static Future<OffRoadTrip> readTrip(int offroadId) {
-    return ApiServer.get(
-      "/attractions/api/offroad/$offroadId",
-      "offroad",
-    ).then((data) => OffRoadTrip.fromJson(data));
+  static Future<OffRoadTrip> readTrip(int offroadId, int ratingCacheKey) {
+    return ApiServer.get("/attractions/api/offroad/$offroadId", "offroad", {
+      "rating_cache_key": [ratingCacheKey.toString()]
+    }).then((data) => OffRoadTrip.fromJson(data));
   }
 
   @override
