@@ -1,18 +1,17 @@
 import "package:flutter/material.dart";
 import "package:flutter_rating_bar/flutter_rating_bar.dart";
-import "package:hollyday_land/api_server.dart";
+import 'package:hollyday_land/models/comments.dart';
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/providers/login.dart";
-import 'package:hollyday_land/providers/rating.dart';
 import "package:hollyday_land/screens/profile.dart";
 import 'package:hollyday_land/widgets/image_upload.dart';
 import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
-class WriteComment extends StatelessWidget {
-  final int attractionId;
+class WriteReview extends StatelessWidget {
+  final Future<int> Function(BuildContext, NewReview) newReview;
 
-  const WriteComment({Key? key, required this.attractionId}) : super(key: key);
+  WriteReview({Key? key, required this.newReview}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,28 +24,28 @@ class WriteComment extends StatelessWidget {
             ),
             body: ProfileScreen.loginBody(login),
           )
-        : _LoggedInWriteComment(
-            attractionId: attractionId,
+        : _LoggedInWriteReview(
+            newReview: newReview,
             hdToken: login.hdToken!,
           );
   }
 }
 
-class _LoggedInWriteComment extends StatefulWidget {
-  final int attractionId;
+class _LoggedInWriteReview extends StatefulWidget {
+  final Future<int> Function(BuildContext, NewReview) newReview;
   final String hdToken;
 
-  const _LoggedInWriteComment({
+  const _LoggedInWriteReview({
     Key? key,
-    required this.attractionId,
+    required this.newReview,
     required this.hdToken,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _LoggedInWriteCommentState();
+  State<StatefulWidget> createState() => _LoggedInWriteReviewState();
 }
 
-class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
+class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
   double _ratingValue = 0;
   bool _imageUploading = false;
   bool _publishing = false;
@@ -150,38 +149,23 @@ class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
               if (!_publishing && _ratingValue > 0)
                 TextButton(
                   onPressed: () {
-                    final requestBody = {
-                      "token": widget.hdToken,
-                      "attraction_id": widget.attractionId,
-                      "rating": _ratingValue.toInt(),
-                      "image_ids":
-                          _uploadedImages.map((image) => image.imageId).toList()
-                    };
-
-                    if (bodyController.value.text.trim().isNotEmpty) {
-                      requestBody["text"] = bodyController.value.text.trim();
-                    }
+                    final newReview = NewReview(
+                      rating: _ratingValue.toInt(),
+                      text: bodyController.value.text.trim(),
+                      imageIds: _uploadedImages
+                          .map((image) => image.imageId)
+                          .toList(),
+                      hdToken: widget.hdToken,
+                    );
 
                     setState(() {
                       _publishing = true;
                     });
 
-                    ApiServer.post("attractions/api/comments/attraction",
-                            "comment_id", requestBody)
-                        .then(
-                      (value) {
-                        // Mark a change in rating cache key,
-                        // for whoever is interested
-                        Provider.of<RatingCacheKey>(context, listen: false)
-                            .refresh();
-
-                        Navigator.of(context).pop(value);
-                      },
-                    ).catchError((err) {
-                      setState(() {
-                        _publishing = false;
-                      });
-
+                    widget
+                        .newReview(context, newReview)
+                        .then((reviewId) => Navigator.of(context).pop(reviewId))
+                        .catchError((err) {
                       final snackBar = SnackBar(
                         content: Text(err.toString()),
                       );
@@ -189,6 +173,10 @@ class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
                       // Find the ScaffoldMessenger in the widget tree
                       // and use it to show a SnackBar.
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                      setState(() {
+                        _publishing = false;
+                      });
                     });
                   },
                   child: Text("Publish comment"),

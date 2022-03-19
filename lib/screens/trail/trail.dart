@@ -12,6 +12,7 @@ import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/providers/trail/cache_key.dart";
 import "package:hollyday_land/screens/attraction.dart";
+import 'package:hollyday_land/screens/trail_reviews.dart';
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
@@ -280,7 +281,15 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
           Text("by: ${widget.trailAndPoints.trail.googleUser.name}"),
           Row(
             children: [
-              Rating(rating: widget.trailAndPoints.trail),
+              GestureDetector(
+                child: Rating(rating: widget.trailAndPoints.trail),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_ctx) {
+                    return TrailReviewsScreen(
+                        trailId: widget.trailAndPoints.trail.id);
+                  }));
+                },
+              ),
               Distance(
                 location: widget.trailAndPoints.trail,
               ),

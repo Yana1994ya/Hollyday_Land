@@ -32,28 +32,28 @@ class Comment {
   }
 }
 
-class AttractionComments {
+class Comments {
   final int pages;
   final int page;
   final List<Comment> comments;
 
-  factory AttractionComments.fromJson(Map<String, dynamic> json) {
+  factory Comments.fromJson(Map<String, dynamic> json) {
     final List<dynamic> commentsJson = json["items"];
 
-    return AttractionComments(
+    return Comments(
         pages: json["pages"],
         page: json["page"],
         comments:
             commentsJson.map((comment) => Comment.fromJson(comment)).toList());
   }
 
-  const AttractionComments({
+  const Comments({
     required this.pages,
     required this.page,
     required this.comments,
   });
 
-  static Future<AttractionComments> readComments(
+  static Future<Comments> readAttractionComments(
     int attractionId,
     int page,
     int ratingCacheKey,
@@ -64,6 +64,34 @@ class AttractionComments {
       {
         "rating_cache_key": [ratingCacheKey.toString()]
       },
-    ).then((comments) => AttractionComments.fromJson(comments));
+    ).then((comments) => Comments.fromJson(comments));
   }
+
+  static Future<Comments> readTrailComments(
+    String trailId,
+    int page,
+    int trailsCacheKey,
+  ) {
+    return ApiServer.get(
+      "/attractions/api/comments/trail/$trailId/$page",
+      "comments",
+      {
+        "trails_cache_key": [trailsCacheKey.toString()]
+      },
+    ).then((comments) => Comments.fromJson(comments));
+  }
+}
+
+class NewReview {
+  final int rating;
+  final String text;
+  final List<int> imageIds;
+  final String hdToken;
+
+  const NewReview({
+    required this.rating,
+    required this.text,
+    required this.imageIds,
+    required this.hdToken,
+  });
 }

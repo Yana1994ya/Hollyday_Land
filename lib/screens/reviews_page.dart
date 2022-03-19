@@ -1,68 +1,18 @@
-import "package:flutter/material.dart";
-import "package:hollyday_land/models/comments.dart";
-import "package:hollyday_land/models/date_formatter.dart";
-import 'package:hollyday_land/providers/rating.dart';
-import "package:hollyday_land/screens/attraction_write_comment.dart";
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:hollyday_land/models/comments.dart';
+import 'package:hollyday_land/models/date_formatter.dart';
+import 'package:hollyday_land/screens/write_review.dart';
 
-class AttractionCommentsScreen extends StatefulWidget {
-  final int attractionId;
-
-  const AttractionCommentsScreen({Key? key, required this.attractionId})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _AttractionCommentsScreenState();
-}
-
-class _AttractionCommentsScreenState extends State<AttractionCommentsScreen> {
-  // Always start with the first screen
-  int page = 1;
-
-  @override
-  Widget build(BuildContext context) {
-    final ratingCacheKey = Provider.of<RatingCacheKey>(context).cacheKey;
-
-    return FutureBuilder<AttractionComments>(
-      future: AttractionComments.readComments(
-          widget.attractionId, page, ratingCacheKey),
-      builder: (BuildContext _ctx, AsyncSnapshot<AttractionComments> snapshot) {
-        if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(title: Text("Comments")),
-            body: Center(child: Text("error: ${snapshot.error}")),
-          );
-        } else if (!snapshot.hasData) {
-          return Scaffold(
-            appBar: AppBar(title: Text("Comments")),
-            body: Center(child: CircularProgressIndicator()),
-          );
-        } else {
-          return _CommentsPage(
-            comments: snapshot.data!,
-            openPage: (newPage) {
-              setState(() {
-                page = newPage;
-              });
-            },
-            attractionId: widget.attractionId,
-          );
-        }
-      },
-    );
-  }
-}
-
-class _CommentsPage extends StatelessWidget {
-  final AttractionComments comments;
+class ReviewsPage extends StatelessWidget {
+  final Comments comments;
   final void Function(int) openPage;
-  final int attractionId;
+  final Future<int> Function(BuildContext, NewReview) newReview;
 
-  const _CommentsPage({
+  const ReviewsPage({
     Key? key,
     required this.comments,
     required this.openPage,
-    required this.attractionId,
+    required this.newReview,
   }) : super(key: key);
 
   Widget prevPage() {
@@ -160,7 +110,7 @@ class _CommentsPage extends StatelessWidget {
         label: const Text("Write a review"),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => WriteComment(attractionId: attractionId),
+            builder: (_) => WriteReview(newReview: newReview),
           ));
         },
       ),
