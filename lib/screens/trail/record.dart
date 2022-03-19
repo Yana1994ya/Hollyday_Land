@@ -13,6 +13,8 @@ import "package:image_picker/image_picker.dart";
 import "package:location/location.dart" as loc;
 import "package:provider/provider.dart";
 
+import '../../widgets/image_upload.dart';
+
 class TrailRecordScreen extends StatelessWidget {
   static const routePath = "/trails/record";
 
@@ -187,82 +189,33 @@ class _LoggedInTrailRecordScreenState
     BackgroundLocation.getLocationUpdates(pointCollector.addPoint);
   }
 
-  void pickImage(ImageSource source) {
-    setState(() {
-      imageUploading = true;
-    });
-
-    // Pick an image
-    ImagePicker()
-        .pickImage(
-      source: source,
-      imageQuality: 80,
-      maxWidth: 3840,
-      maxHeight: 2160,
-    )
-        .then((picture) async {
-      if (picture != null) {
-        final image = await ImageUpload.uploadImage(picture, widget.hdToken);
-
-        setState(() {
-          images.add(image.imageId);
-          imageUploading = false;
-        });
-      } else {
-        setState(() {
-          imageUploading = false;
-        });
-      }
-    });
-  }
-
-  Widget actionsMenu() {
-    return PopupMenuButton(
-      onSelected: (index) {
-        if (index == 1) {
-          pickImage(ImageSource.camera);
-        } else if (index == 2) {
-          pickImage(ImageSource.gallery);
-        }
-      },
-      itemBuilder: (context) => <PopupMenuEntry<int>>[
-        PopupMenuItem<int>(
-          value: 1,
-          child: Row(
-            children: [
-              SizedBox(
-                child: Image.asset("assets/graphics/camera.png"),
-                width: 24,
-                height: 24,
-              ),
-              Text(" Take a picture"),
-            ],
-          ),
-        ),
-        PopupMenuItem<int>(
-          value: 2,
-          child: Row(
-            children: [
-              SizedBox(
-                child: Image.asset("assets/graphics/photos.png"),
-                width: 24,
-                height: 24,
-              ),
-              Text(" Upload from gallery"),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Record trail"),
         actions: [
-          actionsMenu(),
+          ImageUploadWidget(
+            abort: () {
+              setState(() {
+                imageUploading = false;
+              });
+            },
+            pickedImage: (XFile picture) async {
+              final image =
+                  await ImageUpload.uploadImage(picture, widget.hdToken);
+
+              setState(() {
+                images.add(image.imageId);
+                imageUploading = false;
+              });
+            },
+            pickingImage: () {
+              setState(() {
+                imageUploading = true;
+              });
+            },
+          ),
         ],
       ),
       body: Padding(

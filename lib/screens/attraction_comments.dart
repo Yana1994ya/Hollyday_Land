@@ -60,6 +60,30 @@ class _CommentsPage extends StatelessWidget {
     required this.attractionId,
   }) : super(key: key);
 
+  Widget prevPage() {
+    if (comments.page > 1) {
+      return TextButton(
+          onPressed: () {
+            openPage(comments.page - 1);
+          },
+          child: Text("<"));
+    } else {
+      return TextButton(onPressed: null, child: Text("<"));
+    }
+  }
+
+  Widget nextPage() {
+    if (comments.page < comments.pages) {
+      return TextButton(
+          onPressed: () {
+            openPage(comments.page + 1);
+          },
+          child: Text(">"));
+    } else {
+      return TextButton(onPressed: null, child: Text(">"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,19 +109,30 @@ class _CommentsPage extends StatelessWidget {
             subtitle: Column(
               children: [
                 Align(
-                  child: Text("rating: ${comment.rating}"),
+                  child: Text(
+                    "rating: ${comment.rating}",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
                   alignment: Alignment.topLeft,
                 ),
                 if (comment.text != null)
                   Padding(
                     child: Align(
                       alignment: Alignment.topLeft,
-                      child: Text(comment.text!),
+                      child: Text(
+                        comment.text!,
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                     padding: EdgeInsets.symmetric(vertical: 5),
                   ),
                 if (comment.images.isNotEmpty)
                   Wrap(
+                    spacing: 8.0,
                     children: comment.images.map((image) {
                       return Image.network(
                         image.url,
@@ -124,6 +159,18 @@ class _CommentsPage extends StatelessWidget {
           ));
         },
       ),
+      bottomNavigationBar: comments.pages <= 1
+          ? null
+          : BottomAppBar(
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  prevPage(),
+                  nextPage(),
+                ],
+              ),
+            ),
     );
   }
 }

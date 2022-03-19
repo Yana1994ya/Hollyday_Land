@@ -50,7 +50,10 @@ class ApiServer {
       if (data["status"] == "ok") {
         return data[field];
       } else {
-        throw HttpException("error was returned:${data["error"]}");
+        throw BadRequest(
+          code: data["code"],
+          message: data["message"],
+        );
       }
     } else {
       throw HttpException(

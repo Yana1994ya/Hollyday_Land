@@ -4,6 +4,7 @@ import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
+import 'package:hollyday_land/widgets/image_upload.dart';
 import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
@@ -16,17 +17,17 @@ class WriteComment extends StatelessWidget {
   Widget build(BuildContext context) {
     final login = Provider.of<LoginProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Write a comment"),
-      ),
-      body: login.hdToken == null
-          ? ProfileScreen.loginBody(login)
-          : _LoggedInWriteComment(
-              attractionId: attractionId,
-              hdToken: login.hdToken!,
+    return login.hdToken == null
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text("Write a review"),
             ),
-    );
+            body: ProfileScreen.loginBody(login),
+          )
+        : _LoggedInWriteComment(
+            attractionId: attractionId,
+            hdToken: login.hdToken!,
+          );
   }
 }
 
@@ -47,37 +48,9 @@ class _LoggedInWriteComment extends StatefulWidget {
 class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
   double _ratingValue = 0;
   bool _imageUploading = false;
+  bool _publishing = false;
   final List<ImageUpload> _uploadedImages = [];
   final bodyController = TextEditingController();
-
-  void pickImage(ImageSource source) {
-    setState(() {
-      _imageUploading = true;
-    });
-
-    // Pick an image
-    ImagePicker()
-        .pickImage(
-      source: source,
-      imageQuality: 80,
-      maxWidth: 3840,
-      maxHeight: 2160,
-    )
-        .then((picture) async {
-      if (picture != null) {
-        final image = await ImageUpload.uploadImage(picture, widget.hdToken);
-
-        setState(() {
-          _uploadedImages.add(image);
-          _imageUploading = false;
-        });
-      } else {
-        setState(() {
-          _imageUploading = false;
-        });
-      }
-    });
-  }
 
   List<Widget> _imagesWrap() {
     List<Widget> result = [];
@@ -94,18 +67,7 @@ class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
       ));
     });
 
-    if (!_imageUploading) {
-      result.add(IconButton(
-          onPressed: () {
-            pickImage(ImageSource.camera);
-          },
-          icon: Icon(Icons.camera)));
-      result.add(IconButton(
-          onPressed: () {
-            pickImage(ImageSource.gallery);
-          },
-          icon: Icon(Icons.drive_folder_upload)));
-    } else {
+    if (_imageUploading) {
       result.add(
         SizedBox(
           width: 64,
@@ -120,65 +82,117 @@ class _LoggedInWriteCommentState extends State<_LoggedInWriteComment> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          RatingBar(
-            initialRating: 0,
-            direction: Axis.horizontal,
-            allowHalfRating: false,
-            itemCount: 5,
-            ratingWidget: RatingWidget(
-                full: const Icon(Icons.star, color: Colors.orange),
-                half: const Icon(
-                  Icons.star_half,
-                  color: Colors.orange,
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Write a review"),
+          actions: [
+            ImageUploadWidget(
+              abort: () {
+                setState(() {
+                  _imageUploading = false;
+                });
+              },
+              pickedImage: (XFile picture) async {
+                final image =
+                    await ImageUpload.uploadImage(picture, widget.hdToken);
+
+                setState(() {
+                  _uploadedImages.add(image);
+                  _imageUploading = false;
+                });
+              },
+              pickingImage: () {
+                setState(() {
+                  _imageUploading = true;
+                });
+              },
+            ),
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              RatingBar(
+                initialRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: false,
+                itemCount: 5,
+                ratingWidget: RatingWidget(
+                    full: const Icon(Icons.star, color: Colors.orange),
+                    half: const Icon(
+                      Icons.star_half,
+                      color: Colors.orange,
+                    ),
+                    empty: const Icon(
+                      Icons.star_outline,
+                      color: Colors.orange,
+                    )),
+                onRatingUpdate: (value) {
+                  setState(() {
+                    _ratingValue = value;
+                  });
+                },
+              ),
+              Text("Add a comment:"),
+              TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: 5,
+                controller: bodyController,
+              ),
+              Text("Add images:"),
+              Wrap(
+                spacing: 8.0,
+                children: _imagesWrap(),
+              ),
+              if (!_publishing && _ratingValue > 0)
+                TextButton(
+                  onPressed: () {
+                    final requestBody = {
+                      "token": widget.hdToken,
+                      "attraction_id": widget.attractionId,
+                      "rating": _ratingValue.toInt(),
+                      "image_ids":
+                          _uploadedImages.map((image) => image.imageId).toList()
+                    };
+
+                    if (bodyController.value.text.trim().isNotEmpty) {
+                      requestBody["text"] = bodyController.value.text.trim();
+                    }
+
+                    setState(() {
+                      _publishing = true;
+                    });
+
+                    ApiServer.post("attractions/api/comments/attraction",
+                            "comment_id", requestBody)
+                        .then(
+                      (value) => Navigator.of(context).pop(value),
+                    )
+                        .catchError((err) {
+                      setState(() {
+                        _publishing = false;
+                      });
+
+                      final snackBar = SnackBar(
+                        content: Text(err.toString()),
+                      );
+
+                      // Find the ScaffoldMessenger in the widget tree
+                      // and use it to show a SnackBar.
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    });
+                  },
+                  child: Text("Publish comment"),
                 ),
-                empty: const Icon(
-                  Icons.star_outline,
-                  color: Colors.orange,
-                )),
-            onRatingUpdate: (value) {
-              setState(() {
-                _ratingValue = value;
-              });
-            },
+              if (_publishing)
+                SizedBox(
+                  width: 64,
+                  height: 64,
+                  child: CircularProgressIndicator(),
+                ),
+            ],
           ),
-          Text("Add a comment:"),
-          TextField(
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            controller: bodyController,
-          ),
-          Text("Add images:"),
-          Wrap(
-            children: _imagesWrap(),
-          ),
-          TextButton(
-            onPressed: () {
-              final requestBody = {
-                "token": widget.hdToken,
-                "attraction_id": widget.attractionId,
-                "rating": _ratingValue.toInt(),
-                "image_ids":
-                    _uploadedImages.map((image) => image.imageId).toList()
-              };
-
-              if (bodyController.value.text.trim().isNotEmpty) {
-                requestBody["text"] = bodyController.value.text.trim();
-              }
-
-              ApiServer.post("attractions/api/comments/attraction",
-                      "comment_id", requestBody)
-                  .then(
-                (value) => Navigator.of(context).pop(value),
-              );
-            },
-            child: Text("Publish comment"),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
