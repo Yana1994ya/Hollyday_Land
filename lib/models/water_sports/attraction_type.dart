@@ -4,7 +4,7 @@ import "package:hollyday_land_dao/filter_dao.dart";
 
 part "attraction_type.objects.filter_tags.dart";
 
-@FilterTagDao("water_sport_types")
+@FilterTagDao("water_sports_attraction_types")
 class WaterSportsAttractionType with FilterTag {
   @override
   final int id;

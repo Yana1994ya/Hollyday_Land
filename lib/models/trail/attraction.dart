@@ -1,6 +1,10 @@
-import "package:hollyday_land/api_server.dart";
+import 'package:hollyday_land/models/dao/model_access.dart';
 import "package:hollyday_land/models/filter_tag.dart";
+import 'package:hollyday_land_dao/filter_dao.dart';
 
+part "attraction.objects.filter_tags.dart";
+
+@FilterTagDao("trail_attractions")
 class TrailAttraction with FilterTag {
   @override
   final int id;
@@ -19,18 +23,5 @@ class TrailAttraction with FilterTag {
   @override
   String toString() {
     return "TrailAttraction{id: $id, name: $name}";
-  }
-
-  static List<TrailAttraction> _mapAttractionTypes(dynamic apiResult) {
-    return (apiResult as List<dynamic>)
-        .map((suitability) => TrailAttraction.fromJson(suitability))
-        .toList();
-  }
-
-  static Future<List<TrailAttraction>> readAttractions() async {
-    return ApiServer.get(
-      "/attractions/api/trails/attractions",
-      "trail_attractions",
-    ).then(_mapAttractionTypes);
   }
 }

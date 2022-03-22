@@ -1,29 +1,30 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/short.dart";
-import "package:hollyday_land/providers/login.dart";
-import "package:hollyday_land/screens/profile.dart";
-import "package:hollyday_land/screens/trail/trails.dart";
-import "package:provider/provider.dart";
+import "package:hollyday_land/screens/user_attractions.dart";
+import "package:hollyday_land/widgets/list_item.dart";
+import "package:hollyday_land/widgets/trail/trail_list_item.dart";
 
-class HistoryTrailsScreen extends StatelessWidget {
+class HistoryTrailsScreen extends UserAttractionsScreen<TrailShort> {
   static const routePath = "/history/trails";
 
   @override
-  Widget build(BuildContext context) {
-    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
+  AttractionListItem<TrailShort> getListItem(TrailShort attraction) {
+    return TrailListItem(attraction: attraction);
+  }
 
-    final Widget body;
-    if (loginProvider.hdToken == null) {
-      body = ProfileScreen.loginBody(loginProvider);
-    } else {
-      body = TrailsScreen.trailsWidget(
-          TrailShort.readHistory(loginProvider.hdToken!));
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Visited trails"),
-      ),
-      body: body,
-    );
+  @override
+  String itemCountText(List<TrailShort> attractions) {
+    return "found ${attractions.length} trails";
+  }
+
+  @override
+  String get pageTitle => "Visited trails";
+
+  @override
+  Future<List<TrailShort>> readAttractions(
+    String hdToken,
+    BuildContext context,
+  ) {
+    return trailShortObjects.readHistory(hdToken);
   }
 }

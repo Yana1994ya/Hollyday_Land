@@ -4,7 +4,7 @@ import "package:hollyday_land_dao/filter_dao.dart";
 
 part "trip_type.objects.filter_tags.dart";
 
-@FilterTagDao("off_road_trip_types")
+@FilterTagDao("offroad_trip_types")
 class OffRoadTripType with FilterTag {
   @override
   final int id;

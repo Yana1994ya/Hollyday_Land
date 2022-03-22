@@ -3,7 +3,7 @@ enum Difficulty { easy, medium, hard }
 Difficulty difficultyFromString(String value) {
   if (value == "E") {
     return Difficulty.easy;
-  } else if (value == "M") {
+  } else if (value == "N") {
     return Difficulty.medium;
   } else if (value == "H") {
     return Difficulty.hard;
@@ -16,7 +16,7 @@ String difficultyToString(Difficulty difficulty) {
   if (difficulty == Difficulty.hard) {
     return "H";
   } else if (difficulty == Difficulty.medium) {
-    return "M";
+    return "N";
   } else if (difficulty == Difficulty.easy) {
     return "E";
   } else {

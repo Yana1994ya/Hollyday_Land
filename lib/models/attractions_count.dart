@@ -33,7 +33,7 @@ class AttractionsCount {
       museums: json["museums"],
       wineries: json["wineries"],
       zoos: json["zoos"],
-      offRoadTrips: json["off_road"],
+      offRoadTrips: json["offroad"],
       trails: json["trails"],
       rockClimbing: json["rock_climbing"],
       waterSports: json["water_sports"],

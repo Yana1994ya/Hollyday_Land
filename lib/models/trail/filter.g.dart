@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "filter.dart";
+part of 'filter.dart';
 
 // **************************************************************************
 // CopyWithGenerator
@@ -174,6 +174,6 @@ class _$TrailsFilterCWProxyImpl implements _$TrailsFilterCWProxy {
 }
 
 extension $TrailsFilterCopyWith on TrailsFilter {
-  /// Returns a callable class that can be used as follows: `instanceOfclass TrailsFilter.name.copyWith(...)` or like so:`instanceOfclass TrailsFilter.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfclass TrailsFilter extends AttractionFilter.name.copyWith(...)` or like so:`instanceOfclass TrailsFilter extends AttractionFilter.name.copyWith.fieldName(...)`.
   _$TrailsFilterCWProxy get copyWith => _$TrailsFilterCWProxyImpl(this);
 }

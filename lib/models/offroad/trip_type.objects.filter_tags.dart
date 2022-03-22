@@ -14,7 +14,7 @@ class _OffRoadTripTypeDao extends FilterTagModelAccess<OffRoadTripType> {
       OffRoadTripType.fromJson(json);
 
   @override
-  String get modelName => "off_road_trip_types";
+  String get modelName => "offroad_trip_types";
 }
 
 const FilterTagModelAccess<OffRoadTripType> offRoadTripTypeObjects =

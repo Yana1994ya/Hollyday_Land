@@ -15,9 +15,9 @@ class TrailTags {
 
   static Future<TrailTags> retrieve() async {
     final results = await Future.wait([
-      TrailSuitability.readSuitabilities(),
-      TrailActivity.readActivities(),
-      TrailAttraction.readAttractions(),
+      trailSuitabilityObjects.readTags(),
+      trailActivityObjects.readTags(),
+      trailAttractionObjects.readTags(),
     ]);
 
     return TrailTags(

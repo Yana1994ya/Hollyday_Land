@@ -1,5 +1,6 @@
 import "package:decimal/decimal.dart";
-import "package:hollyday_land/api_server.dart";
+import 'package:hollyday_land/models/dao/base_attraction.dart';
+import 'package:hollyday_land/models/dao/model_access.dart';
 import "package:hollyday_land/models/google_user.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
@@ -8,9 +9,15 @@ import "package:hollyday_land/models/trail/activity.dart";
 import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
+import 'package:hollyday_land_dao/full_dao.dart';
 
-class Trail with WithLocation, WithRating {
-  final String id;
+part "trail.objects.full.dart";
+
+@FullDao("trails", "trail")
+class Trail with WithLocation, WithRating, Attraction {
+  @override
+  final int id;
+  @override
   final String name;
   @override
   final double lat;
@@ -19,7 +26,9 @@ class Trail with WithLocation, WithRating {
   final int length;
   final int elevationGain;
   final Difficulty difficulty;
+  @override
   final ImageAsset? mainImage;
+  @override
   final List<ImageAsset> additionalImages;
   final List<TrailActivity> activities;
   final List<TrailAttraction> attractions;
@@ -80,49 +89,6 @@ class Trail with WithLocation, WithRating {
           additionalImagesJson.map((m) => ImageAsset.fromJson(m)).toList(),
       avgRating: Decimal.parse(json["avg_rating"]),
       ratingCount: json["rating_count"],
-    );
-  }
-
-  static Future<Trail> readTrail(String trailId, int cacheKey) {
-    return ApiServer.get("/attractions/api/trail/$trailId", "trail", {
-      "cache_key": [cacheKey.toString()]
-    }).then((data) => Trail.fromJson(data));
-  }
-
-  static Future<bool> readFavorite(String token, String trailId) {
-    return ApiServer.post(
-      "/attractions/api/favorite/trail",
-      "value",
-      {
-        "token": token,
-        "id": trailId,
-      },
-    ).then((value) => (value as bool));
-  }
-
-  static Future<void> setFavorite(String token, String trailId, bool value) {
-    return ApiServer.voidPost(
-      "/attractions/api/favorite/trail",
-      {
-        "token": token,
-        "id": trailId,
-        "value": value,
-      },
-    );
-  }
-
-  static Future<void> visit(String? hdToken, String trailId) async {
-    // Visit is irrelevant for non-logged in users
-    if (hdToken == null) {
-      return;
-    }
-
-    return ApiServer.voidPost(
-      "/attractions/api/visit/trail",
-      {
-        "token": hdToken,
-        "id": trailId,
-      },
     );
   }
 }

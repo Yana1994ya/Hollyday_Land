@@ -5,26 +5,21 @@ import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/attraction_reviews.dart";
-import "package:hollyday_land/widgets/attraction_map.dart";
-import "package:hollyday_land/widgets/description.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/favorite_button.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
 import "package:provider/provider.dart";
-import "package:url_launcher/url_launcher.dart";
 
-abstract class AttractionScreen<T extends ManagedAttraction>
-    extends StatelessWidget {
+abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
   final AttractionShort attraction;
 
   const AttractionScreen({Key? key, required this.attraction})
       : super(key: key);
 
-  static void launchUrl(String url) async =>
-      await canLaunch(url) ? await launch(url) : throw "Could not launch $url";
+  List<Widget> pageBody(final T attraction, BuildContext context);
 
-  static void launchPhone(String number) => launchUrl("tel:" + number);
+  List<Widget> extraActionButtons(final T attraction, BuildContext context);
 
   Widget buildAttraction(final T attraction, BuildContext context) {
     LocationProvider location = Provider.of<LocationProvider>(context);
@@ -72,48 +67,7 @@ abstract class AttractionScreen<T extends ManagedAttraction>
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
-            if (attraction.website != null || attraction.telephone != null)
-              Row(
-                children: [
-                  if (attraction.website != null)
-                    TextButton(
-                      onPressed: () {
-                        launchUrl(attraction.website!);
-                      },
-                      child: Row(
-                        children: [
-                          //Icon(Icons.iron),
-                          Text("Visit website")
-                        ],
-                      ),
-                    ),
-                  if (attraction.telephone != null)
-                    TextButton(
-                      onPressed: () {
-                        launchPhone(attraction.telephone!);
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.phone,
-                            size: 16.0,
-                          ),
-                          Text("call")
-                        ],
-                      ),
-                    ),
-                ],
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              ),
-            if (attraction.description.isNotEmpty)
-              Description(text: attraction.description),
-            SizedBox(
-              width: double.infinity,
-              height: 300.0,
-              child: AttractionMap(
-                attraction: attraction,
-              ),
-            )
+            ...pageBody(attraction, context)
             //
           ],
         ),
@@ -121,11 +75,9 @@ abstract class AttractionScreen<T extends ManagedAttraction>
     );
   }
 
-  static Widget favoriteIcon(
+  Widget _favoriteIcon(
     BuildContext context,
     LoginProvider loginProvider,
-    Future<bool> Function(String) initialState,
-    Widget Function(String, bool) widgetFunction,
   ) {
     if (loginProvider.currentUser == null) {
       return IconButton(
@@ -152,7 +104,7 @@ abstract class AttractionScreen<T extends ManagedAttraction>
           icon: Icon(Icons.favorite_outline));
     } else {
       return FutureBuilder<bool>(
-        future: initialState(loginProvider.hdToken!),
+        future: Favorites.readFavorite(loginProvider.hdToken!, attraction.id),
         builder: (_, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasError) {
             //scaffoldMessanger.showSnackBar(SnackBar(content: Text('Failed to read favorite status')));
@@ -161,9 +113,10 @@ abstract class AttractionScreen<T extends ManagedAttraction>
           } else if (!snapshot.hasData) {
             return CircularProgressIndicator();
           } else {
-            return widgetFunction(
-              loginProvider.hdToken!,
-              snapshot.data!,
+            return FavoriteButton(
+              attractionId: attraction.id,
+              initialState: snapshot.data!,
+              token: loginProvider.hdToken!,
             );
           }
         },
@@ -177,48 +130,57 @@ abstract class AttractionScreen<T extends ManagedAttraction>
   Widget build(BuildContext context) {
     final login = Provider.of<LoginProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(attraction.name),
-        actions: [
-          AttractionScreen.favoriteIcon(
-            context,
-            login,
-            (hdToken) => Favorites.readFavorite(hdToken, attraction.id),
-            (hdToken, initialState) => FavoriteButton(
-              attractionId: attraction.id,
-              initialState: initialState,
-              token: hdToken,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.share),
-          )
-        ],
-      ),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: readFull(context),
         builder: (_, AsyncSnapshot<T> snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error.toString(),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(attraction.name),
+              ),
+              body: Center(
+                child: Text(
+                  snapshot.error.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
               ),
             );
           } else if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(attraction.name),
+                actions: [
+                  _favoriteIcon(
+                    context,
+                    login,
+                  ),
+                  //...extraActionButtons(attraction, context)
+                ],
+              ),
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           } else {
+            final T fullModel = snapshot.data!;
             login.visit(snapshot.data!.id);
-            return buildAttraction(snapshot.data!, context);
+
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(attraction.name),
+                actions: [
+                  _favoriteIcon(
+                    context,
+                    login,
+                  ),
+                  ...extraActionButtons(fullModel, context)
+                ],
+              ),
+              body: buildAttraction(fullModel, context),
+            );
           }
-        },
-      ),
-    );
+        });
   }
 }

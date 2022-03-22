@@ -52,10 +52,10 @@ class ImageUpload {
   static Future<void> uploadTrailImage(
     XFile file,
     String hdToken,
-    String trailId,
+    int trailId,
   ) async {
     final request = await _buildRequest(file, hdToken);
-    request.fields["trail_id"] = trailId;
+    request.fields["trail_id"] = trailId.toString();
 
     final response = await request.send();
 

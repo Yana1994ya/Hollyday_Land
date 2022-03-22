@@ -15,7 +15,7 @@ class _WaterSportsAttractionTypeDao
       WaterSportsAttractionType.fromJson(json);
 
   @override
-  String get modelName => "water_sport_types";
+  String get modelName => "water_sports_attraction_types";
 }
 
 const FilterTagModelAccess<WaterSportsAttractionType>

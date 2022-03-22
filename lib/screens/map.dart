@@ -72,7 +72,7 @@ class _MapScreenState extends State<MapScreen> {
                       title: trail.name,
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => TrailScreen(trail: trail)));
+                            builder: (_) => TrailScreen(attraction: trail)));
                       }),
                 ))
             .toSet();

@@ -2,10 +2,10 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/winery/winery.dart";
 import "package:hollyday_land/providers/rating.dart";
-import "package:hollyday_land/screens/attraction.dart";
+import "package:hollyday_land/screens/managed_attraction.dart";
 import "package:provider/provider.dart";
 
-class WineryScreen extends AttractionScreen<Winery> {
+class WineryScreen extends ManagedAttractionScreen<Winery> {
   const WineryScreen({Key? key, required AttractionShort attraction})
       : super(key: key, attraction: attraction);
 

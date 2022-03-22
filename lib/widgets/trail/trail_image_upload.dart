@@ -6,7 +6,7 @@ import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
 class TrailImageUpload extends StatefulWidget {
-  final String trailId;
+  final int trailId;
   final String hdToken;
 
   const TrailImageUpload({
@@ -38,7 +38,10 @@ class _TrailImageUploadState extends State<TrailImageUpload> {
         .then((picture) async {
       if (picture != null) {
         await ImageUpload.uploadTrailImage(
-            picture, widget.hdToken, widget.trailId);
+          picture,
+          widget.hdToken,
+          widget.trailId,
+        );
 
         setState(() {
           uploading = false;

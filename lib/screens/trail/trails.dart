@@ -1,13 +1,10 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/map_objects.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/short.dart";
-import "package:hollyday_land/providers/trail/cache_key.dart";
-import "package:hollyday_land/screens/map.dart";
+import 'package:hollyday_land/screens/attractions.dart';
 import "package:hollyday_land/screens/trail/filter.dart";
-import "package:hollyday_land/screens/trail/record.dart";
+import 'package:hollyday_land/widgets/list_item.dart';
 import "package:hollyday_land/widgets/trail/trail_list_item.dart";
-import "package:provider/provider.dart";
 
 class TrailsScreen extends StatefulWidget {
   static const routePath = "/trails";
@@ -17,7 +14,7 @@ class TrailsScreen extends StatefulWidget {
     return _TrailsScreenState();
   }
 
-  static Widget trailsWidget(Future<List<TrailShort>> future) {
+/*static Widget trailsWidget(Future<List<TrailShort>> future) {
     return FutureBuilder(
       future: future,
       builder: (BuildContext _, AsyncSnapshot<List<TrailShort>> snapshot) {
@@ -34,10 +31,40 @@ class TrailsScreen extends StatefulWidget {
         }
       },
     );
-  }
+  }*/
 }
 
-class _TrailsScreenState extends State<TrailsScreen> {
+class _TrailsScreenState
+    extends AttractionsScreenState<TrailsScreen, TrailShort, TrailsFilter> {
+  @override
+  AttractionListItem<TrailShort> getListItem(TrailShort attraction) {
+    return TrailListItem(attraction: attraction);
+  }
+
+  @override
+  String itemCountText(List<TrailShort> trips) {
+    return "found ${trips.length} trails";
+  }
+
+  @override
+  String get pageTitle => "Trails";
+
+  @override
+  TrailsFilter initFilter() => TrailsFilter.empty();
+
+  @override
+  Future<List<TrailShort>> readAttractions(
+      Map<String, Iterable<String>> params) {
+    return trailShortObjects.readAttractions(params);
+  }
+
+  @override
+  MaterialPageRoute filterPage(TrailsFilter filter) => MaterialPageRoute(
+        builder: (_) => TrailsFilterScreen(initialFilter: filter),
+      );
+}
+
+/*class _TrailsScreenState extends State<TrailsScreen> {
   TrailsFilter trailsFilter = TrailsFilter.empty();
 
   Widget actionsMenu() {
@@ -129,3 +156,4 @@ class _TrailsScreenState extends State<TrailsScreen> {
     );
   }
 }
+*/
