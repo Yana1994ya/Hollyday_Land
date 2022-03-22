@@ -9,12 +9,15 @@ import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/filter_tag.dart";
 import "package:hollyday_land/models/http_exception.dart";
 import "package:hollyday_land/models/image_asset.dart";
+import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/models/trail/trail.dart";
-import 'package:hollyday_land/providers/rating.dart';
+import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/providers/rating.dart";
 import "package:hollyday_land/screens/attraction.dart";
 import "package:http/http.dart" as http;
+import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
 class _TrailWithPoints with WithLocation, WithRating, Attraction {
@@ -155,7 +158,19 @@ class TrailScreen extends AttractionScreen<_TrailWithPoints> {
   @override
   List<Widget> extraActionButtons(
       _TrailWithPoints attraction, BuildContext context) {
-    return [];
+    final LoginProvider loginProvider = Provider.of<LoginProvider>(context);
+
+    if (loginProvider.hdToken == null ||
+        loginProvider.userId != attraction.trail.googleUser.id) {
+      return [];
+    } else {
+      return [
+        _UploadMenu(
+          trailId: attraction.id,
+          hdToken: loginProvider.hdToken!,
+        )
+      ];
+    }
   }
 
   @override
@@ -422,5 +437,102 @@ class _TrailMapState extends State<_TrailMap> {
     }
 
     super.dispose();
+  }
+}
+
+class _UploadMenu extends StatefulWidget {
+  final String hdToken;
+  final int trailId;
+
+  const _UploadMenu({
+    Key? key,
+    required this.hdToken,
+    required this.trailId,
+  }) : super(key: key);
+
+  @override
+  State<_UploadMenu> createState() => _UploadMenuState();
+}
+
+class _UploadMenuState extends State<_UploadMenu> {
+  bool imageUploading = false;
+
+  void pickImage(ImageSource source) {
+    setState(() {
+      imageUploading = true;
+    });
+
+    // Pick an image
+    ImagePicker()
+        .pickImage(
+      source: source,
+      imageQuality: 80,
+      maxWidth: 3840,
+      maxHeight: 2160,
+    )
+        .then((picture) async {
+      if (picture != null) {
+        await ImageUpload.uploadTrailImage(
+            picture, widget.hdToken, widget.trailId);
+
+        setState(() {
+          Provider.of<RatingCacheKey>(context, listen: false).refresh();
+          imageUploading = false;
+        });
+      } else {
+        setState(() {
+          imageUploading = false;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (imageUploading) {
+      return SizedBox(
+        width: 20,
+        height: 20,
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      return PopupMenuButton(
+        onSelected: (index) {
+          if (index == 1) {
+            pickImage(ImageSource.camera);
+          } else if (index == 2) {
+            pickImage(ImageSource.gallery);
+          }
+        },
+        itemBuilder: (context) => <PopupMenuEntry<int>>[
+          PopupMenuItem<int>(
+            value: 1,
+            child: Row(
+              children: [
+                SizedBox(
+                  child: Image.asset("assets/graphics/camera.png"),
+                  width: 24,
+                  height: 24,
+                ),
+                Text(" Take a picture"),
+              ],
+            ),
+          ),
+          PopupMenuItem<int>(
+            value: 2,
+            child: Row(
+              children: [
+                SizedBox(
+                  child: Image.asset("assets/graphics/photos.png"),
+                  width: 24,
+                  height: 24,
+                ),
+                Text(" Upload from gallery"),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
   }
 }

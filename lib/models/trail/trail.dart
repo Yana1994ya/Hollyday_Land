@@ -1,6 +1,6 @@
 import "package:decimal/decimal.dart";
-import 'package:hollyday_land/models/dao/base_attraction.dart';
-import 'package:hollyday_land/models/dao/model_access.dart';
+import "package:hollyday_land/models/dao/base_attraction.dart";
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/google_user.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
@@ -9,7 +9,7 @@ import "package:hollyday_land/models/trail/activity.dart";
 import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
-import 'package:hollyday_land_dao/full_dao.dart';
+import "package:hollyday_land_dao/full_dao.dart";
 
 part "trail.objects.full.dart";
 

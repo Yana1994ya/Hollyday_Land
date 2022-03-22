@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/dao/base_attraction.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
-import 'package:hollyday_land/screens/attraction.dart';
+import "package:hollyday_land/screens/attraction.dart";
 import "package:hollyday_land/widgets/attraction_map.dart";
 import "package:hollyday_land/widgets/description.dart";
 import "package:url_launcher/url_launcher.dart";

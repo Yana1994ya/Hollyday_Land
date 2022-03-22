@@ -1,5 +1,5 @@
 import "package:decimal/decimal.dart";
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/image_asset.dart";

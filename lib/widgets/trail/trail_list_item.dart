@@ -2,8 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/screens/trail/trail.dart";
-
-import '../list_item.dart';
+import "package:hollyday_land/widgets/list_item.dart";
 
 class TrailListItem extends AttractionListItem<TrailShort> {
   const TrailListItem({Key? key, required TrailShort attraction})

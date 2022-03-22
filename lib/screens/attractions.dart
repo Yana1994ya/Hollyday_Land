@@ -44,6 +44,18 @@ abstract class AttractionsScreenState<
 
   String get pageTitle;
 
+  List<Widget> actions(BuildContext context, Filter filter) {
+    return [
+      IconButton(
+          onPressed: () {
+            Navigator.of(context)
+                .push(filterPage(filter))
+                .then(filterSelectionResult);
+          },
+          icon: Icon(Icons.tune)),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     // Attempt to retrieve location at the load of this page
@@ -56,15 +68,7 @@ abstract class AttractionsScreenState<
     return Scaffold(
       appBar: AppBar(
         title: Text(pageTitle),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(filterPage(_filter))
-                    .then(filterSelectionResult);
-              },
-              icon: Icon(Icons.tune)),
-        ],
+        actions: actions(context, _filter),
       ),
       body: FutureBuilder(
         future: readAttractions(filterParams),

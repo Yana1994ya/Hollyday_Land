@@ -1,6 +1,6 @@
-import 'package:hollyday_land/models/dao/model_access.dart';
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/filter_tag.dart";
-import 'package:hollyday_land_dao/filter_dao.dart';
+import "package:hollyday_land_dao/filter_dao.dart";
 
 part "attraction.objects.filter_tags.dart";
 

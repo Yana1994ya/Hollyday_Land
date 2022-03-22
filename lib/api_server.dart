@@ -6,12 +6,13 @@ import "package:http/http.dart" as http;
 class ApiServer {
   static const serverName = "hollyland.iywebs.cloudns.ph";
 
-  /*static Uri getUri(String path, [Map<String, Iterable<String>>? queryParameters]) =>
-    Uri.https(serverName, path, queryParameters);*/
-
   static Uri getUri(String path,
           [Map<String, Iterable<String>>? queryParameters]) =>
-      Uri.http("192.168.1.122:8000", path, queryParameters);
+      Uri.https(serverName, path, queryParameters);
+
+  /*static Uri getUri(String path,
+          [Map<String, Iterable<String>>? queryParameters]) =>
+      Uri.http("192.168.1.122:8000", path, queryParameters);*/
 
   static Future<dynamic> get(String path, String field,
       [Map<String, Iterable<String>>? queryParameters]) async {
