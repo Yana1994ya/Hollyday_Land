@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/attraction_short.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/rating.dart";

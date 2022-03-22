@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/attraction.dart";
-import "package:hollyday_land/models/base_attraction.dart";
+import "package:hollyday_land/models/dao/base_attraction.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
@@ -14,8 +14,9 @@ import "package:hollyday_land/widgets/rating.dart";
 import "package:provider/provider.dart";
 import "package:url_launcher/url_launcher.dart";
 
-abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
-  final BaseAttraction attraction;
+abstract class AttractionScreen<T extends ManagedAttraction>
+    extends StatelessWidget {
+  final AttractionShort attraction;
 
   const AttractionScreen({Key? key, required this.attraction})
       : super(key: key);

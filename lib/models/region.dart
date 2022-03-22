@@ -1,7 +1,11 @@
-import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/filter_tag.dart";
 import "package:hollyday_land/models/image_asset.dart";
+import "package:hollyday_land_dao/filter_dao.dart";
 
+part "region.objects.filter_tags.dart";
+
+@FilterTagDao("regions")
 class Region with FilterTag {
   @override
   final int id;
@@ -23,13 +27,6 @@ class Region with FilterTag {
     );
   }
 
-  static Future<List<Region>> readRegions() async {
-    return ApiServer.get("/attractions/api/regions", "regions").then((data) =>
-        (data as List<dynamic>)
-            .map((region) => Region.fromJson(region))
-            .toList());
-  }
-
   @override
   String toString() {
     return "Region{id: $id, name: $name, image: $image}";
@@ -38,11 +35,11 @@ class Region with FilterTag {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Region &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          name == other.name &&
-          image == other.image;
+          other is Region &&
+              runtimeType == other.runtimeType &&
+              id == other.id &&
+              name == other.name &&
+              image == other.image;
 
   @override
   int get hashCode => id.hashCode ^ name.hashCode ^ image.hashCode;

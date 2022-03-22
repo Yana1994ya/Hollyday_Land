@@ -35,7 +35,7 @@ class _RockClimbingListScreenState extends AttractionsScreenState<
   @override
   Future<List<RockClimbingShort>> readAttractions(
       Map<String, Iterable<String>> params) {
-    return RockClimbingShort.readAttractions(params);
+    return rockClimbingShortObjects.readAttractions(params);
   }
 
   @override

@@ -1,6 +1,10 @@
-import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/filter_tag.dart";
+import "package:hollyday_land_dao/filter_dao.dart";
 
+part "museum_domain.objects.filter_tags.dart";
+
+@FilterTagDao("museum_domains")
 class MuseumDomain with FilterTag {
   @override
   final int id;
@@ -19,18 +23,5 @@ class MuseumDomain with FilterTag {
   @override
   String toString() {
     return "MuseumDomain{id: $id, name: $name}";
-  }
-
-  static List<MuseumDomain> _mapDomains(dynamic apiResult) {
-    return (apiResult as List<dynamic>)
-        .map((domain) => MuseumDomain.fromJson(domain))
-        .toList();
-  }
-
-  static Future<List<MuseumDomain>> readMuseumDomains() async {
-    return ApiServer.get(
-      "/attractions/api/museum_domains",
-      "museum_domains",
-    ).then(_mapDomains);
   }
 }

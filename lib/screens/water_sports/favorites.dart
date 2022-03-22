@@ -27,7 +27,8 @@ class FavoritesWaterSportsScreen
     BuildContext context,
   ) {
     final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
-    return WaterSportsShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
+    return waterSportsShortObjects.readFavorites(
+        hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override

@@ -25,7 +25,7 @@ class FavoritesMuseumsScreen extends UserAttractionsScreen<MuseumShort> {
     BuildContext context,
   ) {
     final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
-    return MuseumShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
+    return museumShortObjects.readFavorites(hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override

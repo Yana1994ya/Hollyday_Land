@@ -25,6 +25,6 @@ class HistoryZoosScreen extends UserAttractionsScreen<ZooShort> {
     String hdToken,
     BuildContext context,
   ) {
-    return ZooShort.readHistory(hdToken);
+    return zooShortObjects.readHistory(hdToken);
   }
 }

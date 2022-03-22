@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/models/comments.dart';
-import 'package:hollyday_land/models/date_formatter.dart';
-import 'package:hollyday_land/screens/write_review.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/models/comments.dart";
+import "package:hollyday_land/models/date_formatter.dart";
+import "package:hollyday_land/screens/write_review.dart";
 
 class ReviewsPage extends StatelessWidget {
   final Comments comments;
@@ -47,7 +47,7 @@ class ReviewsPage extends StatelessWidget {
         itemCount: comments.comments.length,
         itemBuilder: (_ctx, index) {
           final comment = comments.comments[index];
-          final image;
+          final dynamic image;
 
           if (comment.user.picture == null) {
             image = AssetImage("assets/graphics/icon.png");

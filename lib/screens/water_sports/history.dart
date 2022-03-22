@@ -26,6 +26,6 @@ class HistoryWaterSportsScreen extends UserAttractionsScreen<WaterSportsShort> {
     String hdToken,
     BuildContext context,
   ) {
-    return WaterSportsShort.readHistory(hdToken);
+    return waterSportsShortObjects.readHistory(hdToken);
   }
 }

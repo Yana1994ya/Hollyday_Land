@@ -25,6 +25,6 @@ class HistoryWineriesScreen extends UserAttractionsScreen<WineryShort> {
     String hdToken,
     BuildContext context,
   ) {
-    return WineryShort.readHistory(hdToken);
+    return wineryShortObjects.readHistory(hdToken);
   }
 }

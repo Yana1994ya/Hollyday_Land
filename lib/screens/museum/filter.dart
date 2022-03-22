@@ -80,7 +80,7 @@ class _MuseumsFilterState extends State<_MuseumsFilter> {
               items: widget.options.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = filter.withRegionIds(regionIds);
+                filter = filter.copyWith(regionIds: regionIds);
               },
             ),
             Divider(),
@@ -95,7 +95,7 @@ class _MuseumsFilterState extends State<_MuseumsFilter> {
                 items: widget.options.domains,
                 initialSelected: widget.initialFilter.domainIds,
                 onChange: (domainIds) {
-                  filter = filter.withDomainIds(domainIds);
+                  filter = filter.copyWith(domainIds: domainIds);
                 })
           ],
         ),

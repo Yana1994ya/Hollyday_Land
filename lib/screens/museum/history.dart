@@ -25,6 +25,6 @@ class HistoryMuseumsScreen extends UserAttractionsScreen<MuseumShort> {
     String hdToken,
     BuildContext context,
   ) {
-    return MuseumShort.readHistory(hdToken);
+    return museumShortObjects.readHistory(hdToken);
   }
 }

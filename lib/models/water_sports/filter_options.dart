@@ -11,8 +11,8 @@ class WaterSportsFilterOptions {
   });
 
   static Future<WaterSportsFilterOptions> fetch() async {
-    final domains = await WaterSportsAttractionType.readAttractionTypes();
-    final regions = await Region.readRegions();
+    final domains = await waterSportsAttractionTypeObjects.readTags();
+    final regions = await regionObjects.readTags();
 
     return WaterSportsFilterOptions(attractionTypes: domains, regions: regions);
   }

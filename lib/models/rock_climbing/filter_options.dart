@@ -11,10 +11,12 @@ class RockClimbingFilterOptions {
   });
 
   static Future<RockClimbingFilterOptions> fetch() async {
-    final domains = await RockClimbingAttractionType.readAttractionTypes();
-    final regions = await Region.readRegions();
+    final attractionTypes = await rockClimbingAttractionTypeObjects.readTags();
+    final regions = await regionObjects.readTags();
 
     return RockClimbingFilterOptions(
-        attractionTypes: domains, regions: regions);
+      attractionTypes: attractionTypes,
+      regions: regions,
+    );
   }
 }

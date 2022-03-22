@@ -27,6 +27,6 @@ class HistoryRockClimbingScreen
     String hdToken,
     BuildContext context,
   ) {
-    return RockClimbingShort.readHistory(hdToken);
+    return rockClimbingShortObjects.readHistory(hdToken);
   }
 }

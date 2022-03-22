@@ -16,7 +16,7 @@ class RegionFilterScreen
   }) : super(key: key, currentFilter: currentFilter);
 
   @override
-  Future<List<Region>> loadOptions() => Region.readRegions();
+  Future<List<Region>> loadOptions() => regionObjects.readTags();
 
   @override
   Widget selectionWidget(BuildContext context, List<Region> options) =>

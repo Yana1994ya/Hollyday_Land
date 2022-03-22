@@ -2,13 +2,16 @@ import "package:decimal/decimal.dart";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/api_server.dart";
-import "package:hollyday_land/models/base_attraction.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
+import "package:hollyday_land/models/image_asset.dart";
+import "package:hollyday_land/models/location.dart";
+import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
 import "package:hollyday_land/screens/offroad/trip.dart";
 import "package:hollyday_land/screens/winery/winery.dart";
 import "package:hollyday_land/screens/zoo/zoo.dart";
 
-class GenericAttraction extends BaseAttraction {
+class GenericAttraction with WithRating, WithLocation, AttractionShort {
   @override
   final int id;
   @override
@@ -17,12 +20,16 @@ class GenericAttraction extends BaseAttraction {
   final double long;
   @override
   final String name;
+
   final String type;
 
   @override
   final Decimal avgRating;
   @override
   final int ratingCount;
+
+  @override
+  final ImageAsset? mainImage;
 
   GenericAttraction({
     required this.id,
@@ -32,6 +39,7 @@ class GenericAttraction extends BaseAttraction {
     required this.type,
     required this.avgRating,
     required this.ratingCount,
+    required this.mainImage,
   });
 
   factory GenericAttraction.fromJson(Map<String, dynamic> json) {
@@ -43,6 +51,9 @@ class GenericAttraction extends BaseAttraction {
       type: json["type"],
       avgRating: Decimal.parse(json["avg_rating"]),
       ratingCount: json["rating_count"],
+      mainImage: json["main_image"] == null
+          ? null
+          : ImageAsset.fromJson(json["main_image"]),
     );
   }
 

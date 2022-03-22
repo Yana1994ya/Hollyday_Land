@@ -27,6 +27,6 @@ class HistoryOffRoadTripsScreen
     String hdToken,
     BuildContext context,
   ) {
-    return OffRoadTripShort.readHistory(hdToken);
+    return offRoadTripShortObjects.readHistory(hdToken);
   }
 }

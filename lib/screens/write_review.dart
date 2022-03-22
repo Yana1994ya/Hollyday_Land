@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
 import "package:flutter_rating_bar/flutter_rating_bar.dart";
-import 'package:hollyday_land/models/comments.dart';
+import "package:hollyday_land/models/comments.dart";
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
-import 'package:hollyday_land/widgets/image_upload.dart';
+import "package:hollyday_land/widgets/image_upload.dart";
 import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
@@ -55,7 +55,7 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
   List<Widget> _imagesWrap() {
     List<Widget> result = [];
 
-    _uploadedImages.forEach((image) {
+    for (var image in _uploadedImages) {
       final thumb = image.thumbs.firstWhere(
         (t) => t.width == 64 || t.height == 64,
       );
@@ -65,7 +65,7 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
         width: thumb.width.toDouble(),
         height: thumb.height.toDouble(),
       ));
-    });
+    }
 
     if (_imageUploading) {
       result.add(

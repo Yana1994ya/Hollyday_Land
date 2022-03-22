@@ -1,9 +1,9 @@
-import 'package:decimal/decimal.dart';
+import "package:decimal/decimal.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
-import 'package:hollyday_land/models/rating.dart';
+import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 
 class TrailShort with WithLocation, WithRating {

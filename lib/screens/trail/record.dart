@@ -9,11 +9,10 @@ import "package:hollyday_land/models/upload_error.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/trail/form.dart";
+import "package:hollyday_land/widgets/image_upload.dart";
 import "package:image_picker/image_picker.dart";
 import "package:location/location.dart" as loc;
 import "package:provider/provider.dart";
-
-import '../../widgets/image_upload.dart';
 
 class TrailRecordScreen extends StatelessWidget {
   static const routePath = "/trails/record";

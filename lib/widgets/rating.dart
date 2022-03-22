@@ -1,6 +1,6 @@
-import 'package:decimal/decimal.dart';
+import "package:decimal/decimal.dart";
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/rating.dart';
+import "package:hollyday_land/models/rating.dart";
 
 class Rating extends StatelessWidget {
   final WithRating rating;

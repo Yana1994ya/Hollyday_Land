@@ -27,7 +27,8 @@ class FavoritesRockClimbingScreen
     BuildContext context,
   ) {
     final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
-    return RockClimbingShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
+    return rockClimbingShortObjects.readFavorites(
+        hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override

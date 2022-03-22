@@ -94,7 +94,7 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
             Container(
               height: 5,
             ),
-            FilterChips<TripType>(
+            FilterChips<OffRoadTripType>(
                 items: widget.options.tripTypes,
                 initialSelected: widget.initialFilter.tripTypeIds,
                 onChange: (tripTypeIds) {

@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/museum/short.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
-import "package:hollyday_land/widgets/list_item.dart";
+import "package:hollyday_land/widgets/managed_list_item.dart";
 
-class MuseumListItem extends AttractionListItem<MuseumShort> {
+class MuseumListItem extends ManagedAttractionListItem<MuseumShort> {
   const MuseumListItem({Key? key, required MuseumShort museum})
       : super(key: key, attraction: museum);
 

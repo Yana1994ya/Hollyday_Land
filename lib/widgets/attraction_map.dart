@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
-import "package:hollyday_land/models/attraction.dart";
+import "package:hollyday_land/models/dao/base_attraction.dart";
 import "package:maps_launcher/maps_launcher.dart";
 
 class AttractionMap extends StatefulWidget {
-  final Attraction attraction;
+  final ManagedAttraction attraction;
 
   const AttractionMap({Key? key, required this.attraction}) : super(key: key);
 

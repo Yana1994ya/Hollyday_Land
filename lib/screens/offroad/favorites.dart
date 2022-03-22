@@ -27,7 +27,8 @@ class FavoritesOffRoadTripsScreen
     BuildContext context,
   ) {
     final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
-    return OffRoadTripShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
+    return offRoadTripShortObjects.readFavorites(
+        hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override
