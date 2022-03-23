@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RatingCacheKey()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: _title,
         home: ExploreScreen(),
         theme: ThemeData(
