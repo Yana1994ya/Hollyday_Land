@@ -9,6 +9,20 @@ import "package:hollyday_land/widgets/categories_grid.dart";
 import "package:provider/provider.dart";
 
 class ExploreScreen extends StatelessWidget {
+  DecorationImage userImage(String? imageUrl) {
+    if (imageUrl == null) {
+      return DecorationImage(
+        image: ExactAssetImage("assets/graphics/icon.png"),
+        fit: BoxFit.fill,
+      );
+    } else {
+      return DecorationImage(
+        image: NetworkImage(imageUrl),
+        fit: BoxFit.fill,
+      );
+    }
+  }
+
   Widget drawer(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final login = Provider.of<LoginProvider>(context);
@@ -19,34 +33,28 @@ class ExploreScreen extends StatelessWidget {
           children: [
             login.currentUser == null || login.currentUser!.photoUrl == null
                 ? ListTile(
-                    leading: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: ExactAssetImage("assets/graphics/icon.png"),
-                          fit: BoxFit.fill,
-                        ),
+              leading: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                        image: userImage(null),
                       ),
-                    ),
-                    title: Text("Hello Guest"),
-                  )
+              ),
+              title: Text("Hello Guest"),
+            )
                 : ListTile(
-                    leading: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(login.currentUser!.photoUrl!),
-                          fit: BoxFit.fill,
-                        ),
+              leading: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                        image: userImage(login.currentUser!.photoUrl),
                       ),
-                    ),
-                    title: Text("Hello " + login.currentUser!.displayName!),
-                    subtitle: Text(login.currentUser!.email),
-                  ),
+              ),
+              title: Text("Hello " + login.currentUser!.displayName!),
+              subtitle: Text(login.currentUser!.email),
+            ),
             Divider(),
             InkWell(
               highlightColor: colorScheme.secondary,

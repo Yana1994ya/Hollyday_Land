@@ -4,9 +4,7 @@ import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/generic_attraction.dart";
 import "package:hollyday_land/models/map_objects.dart";
-import "package:hollyday_land/models/trail/short.dart";
 import "package:hollyday_land/providers/location_provider.dart";
-import "package:hollyday_land/screens/trail/trail.dart";
 import "package:provider/provider.dart";
 
 class MapScreen extends StatefulWidget {
@@ -47,37 +45,21 @@ class _MapScreenState extends State<MapScreen> {
   void _loadData() {
     final Future<Set<Marker>> markerLoading;
 
-    if (objects == MapObjects.attractions) {
-      markerLoading = GenericAttraction.forBounds(bounds!).then((attractions) {
-        return attractions
-            .map((attraction) => Marker(
-                  markerId: MarkerId(attraction.id.toString()),
-                  position: attraction.latLng,
-                  infoWindow: InfoWindow(
-                      title: attraction.name,
-                      onTap: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => attraction.page));
-                      }),
-                ))
-            .toSet();
-      });
-    } else {
-      markerLoading = TrailShort.forBounds(bounds!).then((trails) {
-        return trails
-            .map((trail) => Marker(
-                  markerId: MarkerId(trail.id.toString()),
-                  position: trail.latLng,
-                  infoWindow: InfoWindow(
-                      title: trail.name,
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => TrailScreen(attraction: trail)));
-                      }),
-                ))
-            .toSet();
-      });
-    }
+    markerLoading =
+        GenericAttraction.forBounds(bounds!, objects).then((attractions) {
+      return attractions
+          .map((attraction) => Marker(
+                markerId: MarkerId(attraction.id.toString()),
+                position: attraction.latLng,
+                infoWindow: InfoWindow(
+                    title: attraction.name,
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => attraction.page));
+                    }),
+              ))
+          .toSet();
+    });
 
     markerLoading.then((newMarkers) {
       setState(() {
