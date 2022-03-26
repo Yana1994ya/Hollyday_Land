@@ -31,30 +31,30 @@ class ExploreScreen extends StatelessWidget {
       child: SafeArea(
         child: ListView(
           children: [
-            login.currentUser == null || login.currentUser!.photoUrl == null
+            login.currentUser == null
                 ? ListTile(
-              leading: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                    leading: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
                         image: userImage(null),
                       ),
-              ),
-              title: Text("Hello Guest"),
-            )
+                    ),
+                    title: Text("Hello Guest"),
+                  )
                 : ListTile(
-              leading: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                    leading: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
                         image: userImage(login.currentUser!.photoUrl),
                       ),
-              ),
-              title: Text("Hello " + login.currentUser!.displayName!),
-              subtitle: Text(login.currentUser!.email),
-            ),
+                    ),
+                    title: Text("Hello " + login.currentUser!.displayName!),
+                    subtitle: Text(login.currentUser!.email),
+                  ),
             Divider(),
             InkWell(
               highlightColor: colorScheme.secondary,
