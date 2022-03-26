@@ -15,8 +15,10 @@ const minElevationGain = 100;
 class TrailsFilterScreen extends StatelessWidget {
   final TrailsFilter initialFilter;
 
-  const TrailsFilterScreen({Key? key, required this.initialFilter})
-      : super(key: key);
+  const TrailsFilterScreen({
+    Key? key,
+    required this.initialFilter,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,9 @@ class TrailsFilterScreen extends StatelessWidget {
           );
         } else {
           return LoadedTrailsFilterScreen(
-              initialFilter: initialFilter, tags: snapshot.data!);
+            initialFilter: initialFilter,
+            tags: snapshot.data!,
+          );
         }
       },
     );
@@ -46,9 +50,11 @@ class LoadedTrailsFilterScreen extends StatefulWidget {
   final TrailsFilter initialFilter;
   final TrailTags tags;
 
-  const LoadedTrailsFilterScreen(
-      {Key? key, required this.initialFilter, required this.tags})
-      : super(key: key);
+  const LoadedTrailsFilterScreen({
+    Key? key,
+    required this.initialFilter,
+    required this.tags,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LoadedTrailsFilterScreenState();
