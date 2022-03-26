@@ -1,4 +1,3 @@
-// import "package:hollyday_land/models/dao/annotations.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/museum/museum_domain.dart";
