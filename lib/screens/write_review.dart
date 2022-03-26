@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter_rating_bar/flutter_rating_bar.dart";
+import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/comments.dart";
 import "package:hollyday_land/models/image_upload.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/image_upload.dart";
@@ -9,9 +11,12 @@ import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
 class WriteReview extends StatelessWidget {
-  final Future<int> Function(BuildContext, NewReview) newReview;
+  final int attractionId;
 
-  WriteReview({Key? key, required this.newReview}) : super(key: key);
+  WriteReview({
+    Key? key,
+    required this.attractionId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +30,19 @@ class WriteReview extends StatelessWidget {
             body: ProfileScreen.loginBody(login),
           )
         : _LoggedInWriteReview(
-            newReview: newReview,
+      attractionId: attractionId,
             hdToken: login.hdToken!,
           );
   }
 }
 
 class _LoggedInWriteReview extends StatefulWidget {
-  final Future<int> Function(BuildContext, NewReview) newReview;
+  final int attractionId;
   final String hdToken;
 
   const _LoggedInWriteReview({
     Key? key,
-    required this.newReview,
+    required this.attractionId,
     required this.hdToken,
   }) : super(key: key);
 
@@ -78,6 +83,29 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
     }
 
     return result;
+  }
+
+  Future<int> publishReview(NewReview review) {
+    final requestBody = {
+      "token": review.hdToken,
+      "attraction_id": widget.attractionId,
+      "rating": review.rating,
+      "image_ids": review.imageIds
+    };
+
+    if (review.text.isNotEmpty) {
+      requestBody["text"] = review.text;
+    }
+
+    return ApiServer.post(
+      "attractions/api/comments/attraction",
+      "comment_id",
+      requestBody,
+    ).then((commentId) {
+      Provider.of<CacheKey>(context, listen: false).refresh();
+
+      return commentId as int;
+    });
   }
 
   @override
@@ -141,11 +169,13 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
                 controller: bodyController,
                 decoration: InputDecoration(border: OutlineInputBorder()),
               ),
-              Text("Add images:"),
-              Wrap(
-                spacing: 8.0,
-                children: _imagesWrap(),
-              ),
+              if (_uploadedImages.isNotEmpty || _imageUploading)
+                Text("images:"),
+              if (_uploadedImages.isNotEmpty || _imageUploading)
+                Wrap(
+                  spacing: 8.0,
+                  children: _imagesWrap(),
+                ),
               if (!_publishing && _ratingValue > 0)
                 TextButton(
                   onPressed: () {
@@ -162,8 +192,7 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
                       _publishing = true;
                     });
 
-                    widget
-                        .newReview(context, newReview)
+                    publishReview(newReview)
                         .then((reviewId) => Navigator.of(context).pop(reviewId))
                         .catchError((err) {
                       final snackBar = SnackBar(

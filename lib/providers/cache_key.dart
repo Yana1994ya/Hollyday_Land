@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-class RatingCacheKey extends ChangeNotifier {
+class CacheKey extends ChangeNotifier {
   int _cacheKey = 0;
 
   int get cacheKey {

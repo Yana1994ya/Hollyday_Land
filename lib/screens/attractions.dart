@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/location_provider.dart";
-import "package:hollyday_land/providers/rating.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:provider/provider.dart";
 
@@ -60,7 +60,7 @@ abstract class AttractionsScreenState<
   Widget build(BuildContext context) {
     // Attempt to retrieve location at the load of this page
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
-    final ratingCacheKey = Provider.of<RatingCacheKey>(context).cacheKey;
+    final ratingCacheKey = Provider.of<CacheKey>(context).cacheKey;
 
     final filterParams = _filter.parameters;
     filterParams["rating_cache_key"] = [ratingCacheKey.toString()];

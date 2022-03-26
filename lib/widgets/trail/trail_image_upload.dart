@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/upload_error.dart";
-import "package:hollyday_land/providers/trail/cache_key.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
@@ -48,7 +48,7 @@ class _TrailImageUploadState extends State<TrailImageUpload> {
         });
 
         // Notify parent it needs to refresh the list of available images
-        Provider.of<TrailsCacheKey>(context, listen: false).refresh();
+        Provider.of<CacheKey>(context, listen: false).refresh();
       } else {
         setState(() {
           uploading = false;

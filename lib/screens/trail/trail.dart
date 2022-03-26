@@ -13,8 +13,8 @@ import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/models/trail/trail.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/login.dart";
-import "package:hollyday_land/providers/rating.dart";
 import "package:hollyday_land/screens/attraction.dart";
 import "package:http/http.dart" as http;
 import "package:image_picker/image_picker.dart";
@@ -104,23 +104,29 @@ class TrailScreen extends AttractionScreen<_TrailWithPoints> {
         SizedBox(
           height: 5,
         ),
-        Text(label),
-        Wrap(
-          spacing: 5,
-          children: tags
-              .map((tag) => Chip(
-                    label: Text(
-                      tag.name,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    shape: StadiumBorder(
-                      side: BorderSide(
-                        color: theme.colorScheme.primary,
+        Align(
+          child: Text(label),
+          alignment: Alignment.topLeft,
+        ),
+        Align(
+          child: Wrap(
+            spacing: 5,
+            children: tags
+                .map((tag) => Chip(
+                      label: Text(
+                        tag.name,
+                        style: TextStyle(color: Colors.white),
                       ),
-                    ),
-                    backgroundColor: theme.colorScheme.primary,
-                  ))
-              .toList(),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      backgroundColor: theme.colorScheme.primary,
+                    ))
+                .toList(),
+          ),
+          alignment: Alignment.topLeft,
         ),
       ];
     }
@@ -174,12 +180,8 @@ class TrailScreen extends AttractionScreen<_TrailWithPoints> {
   }
 
   @override
-  Future<_TrailWithPoints> readFull(BuildContext context) {
-    final RatingCacheKey ratingCacheKey = Provider.of<RatingCacheKey>(context);
-
-    return trailObjects
-        .read(attraction.id, ratingCacheKey.cacheKey)
-        .then(_resolvePoints);
+  Future<_TrailWithPoints> readFull(BuildContext context, int cacheKey) {
+    return trailObjects.read(attraction.id, cacheKey).then(_resolvePoints);
   }
 }
 
@@ -287,7 +289,7 @@ class _UploadMenuState extends State<_UploadMenu> {
             picture, widget.hdToken, widget.trailId);
 
         setState(() {
-          Provider.of<RatingCacheKey>(context, listen: false).refresh();
+          Provider.of<CacheKey>(context, listen: false).refresh();
           imageUploading = false;
         });
       } else {

@@ -6,13 +6,13 @@ import "package:hollyday_land/screens/write_review.dart";
 class ReviewsPage extends StatelessWidget {
   final Comments comments;
   final void Function(int) openPage;
-  final Future<int> Function(BuildContext, NewReview) newReview;
+  final int attractionId;
 
   const ReviewsPage({
     Key? key,
     required this.comments,
     required this.openPage,
-    required this.newReview,
+    required this.attractionId,
   }) : super(key: key);
 
   Widget prevPage() {
@@ -110,7 +110,9 @@ class ReviewsPage extends StatelessWidget {
         label: const Text("Write a review"),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => WriteReview(newReview: newReview),
+            builder: (_) => WriteReview(
+              attractionId: attractionId,
+            ),
           ));
         },
       ),

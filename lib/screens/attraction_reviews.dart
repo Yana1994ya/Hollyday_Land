@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/comments.dart";
-import "package:hollyday_land/providers/rating.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/screens/reviews_page.dart";
 import "package:provider/provider.dart";
 
@@ -21,7 +20,7 @@ class _AttractionReviewsScreenState extends State<AttractionReviewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ratingCacheKey = Provider.of<RatingCacheKey>(context).cacheKey;
+    final ratingCacheKey = Provider.of<CacheKey>(context).cacheKey;
 
     return FutureBuilder<Comments>(
       future: Comments.readAttractionComments(
@@ -48,28 +47,7 @@ class _AttractionReviewsScreenState extends State<AttractionReviewsScreen> {
                 page = newPage;
               });
             },
-            newReview: (ctx, review) {
-              final requestBody = {
-                "token": review.hdToken,
-                "attraction_id": widget.attractionId,
-                "rating": review.rating,
-                "image_ids": review.imageIds
-              };
-
-              if (review.text.isNotEmpty) {
-                requestBody["text"] = review.text;
-              }
-
-              return ApiServer.post(
-                "attractions/api/comments/attraction",
-                "comment_id",
-                requestBody,
-              ).then((commentId) {
-                Provider.of<RatingCacheKey>(context, listen: false).refresh();
-
-                return commentId as int;
-              });
-            },
+            attractionId: widget.attractionId,
           );
         }
       },

@@ -1,10 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
-import "package:hollyday_land/providers/rating.dart";
-import "package:hollyday_land/providers/trail/cache_key.dart";
 import "package:hollyday_land/screens/explore.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
@@ -57,9 +56,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => LocationProvider()),
-        ChangeNotifierProvider(create: (_) => TrailsCacheKey()),
         ChangeNotifierProvider(create: (_) => FavoritesCacheKey()),
-        ChangeNotifierProvider(create: (_) => RatingCacheKey()),
+        ChangeNotifierProvider(create: (_) => CacheKey()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -5,13 +5,13 @@ import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
-import 'package:hollyday_land/models/map_objects.dart';
+import "package:hollyday_land/models/map_objects.dart";
 import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
 import "package:hollyday_land/screens/offroad/trip.dart";
-import 'package:hollyday_land/screens/rock_climbing/item.dart';
-import 'package:hollyday_land/screens/trail/trail.dart';
-import 'package:hollyday_land/screens/water_sports/item.dart';
+import "package:hollyday_land/screens/rock_climbing/item.dart";
+import "package:hollyday_land/screens/trail/trail.dart";
+import "package:hollyday_land/screens/water_sports/item.dart";
 import "package:hollyday_land/screens/winery/winery.dart";
 import "package:hollyday_land/screens/zoo/zoo.dart";
 

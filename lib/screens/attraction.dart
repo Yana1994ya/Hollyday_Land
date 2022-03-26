@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/dao/base_attraction.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/favorites.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/attraction_reviews.dart";
@@ -124,14 +125,15 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     }
   }
 
-  Future<T> readFull(BuildContext context);
+  Future<T> readFull(BuildContext context, int cacheKey);
 
   @override
   Widget build(BuildContext context) {
     final login = Provider.of<LoginProvider>(context);
+    final cacheKey = Provider.of<CacheKey>(context).cacheKey;
 
     return FutureBuilder(
-        future: readFull(context),
+        future: readFull(context, cacheKey),
         builder: (_, AsyncSnapshot<T> snapshot) {
           if (snapshot.hasError) {
             return Scaffold(

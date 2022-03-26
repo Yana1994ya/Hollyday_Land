@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/map_objects.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/short.dart";
-import "package:hollyday_land/providers/rating.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/screens/attractions.dart";
 import "package:hollyday_land/screens/map.dart";
 import "package:hollyday_land/screens/trail/filter.dart";
@@ -56,7 +56,7 @@ class _TrailsScreenState
               // If upload was successful, true is returned via pop
               if (value == true) {
                 // Trigger refresh
-                Provider.of<RatingCacheKey>(context, listen: false).refresh();
+                Provider.of<CacheKey>(context, listen: false).refresh();
               }
             });
           } else if (index == 2) {
