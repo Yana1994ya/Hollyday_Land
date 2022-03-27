@@ -1,5 +1,4 @@
 import "package:decimal/decimal.dart";
-import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/image_asset.dart";
@@ -67,14 +66,5 @@ class TrailShort with WithLocation, WithRating, AttractionShort {
       avgRating: Decimal.parse(json["avg_rating"]),
       ratingCount: json["rating_count"],
     );
-  }
-
-  static Future<List<TrailShort>> forBounds(LatLngBounds bounds) {
-    return trailShortObjects.readAttractions({
-      "lat_min": [bounds.southwest.latitude.toStringAsPrecision(10)],
-      "lon_min": [bounds.southwest.longitude.toStringAsPrecision(10)],
-      "lat_max": [bounds.northeast.latitude.toStringAsPrecision(10)],
-      "lon_max": [bounds.northeast.longitude.toStringAsPrecision(10)]
-    });
   }
 }
