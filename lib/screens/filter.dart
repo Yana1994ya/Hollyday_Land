@@ -47,4 +47,27 @@ abstract class AttractionFilterScreen<Filter extends AttractionFilter, Options>
           }
         });
   }
+
+  static AppBar filterAppBar(
+    BuildContext context,
+    String title,
+    AttractionFilter filter,
+  ) {
+    return AppBar(
+      title: Text(title),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(filter);
+          },
+          child: const Text(
+            "Save",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

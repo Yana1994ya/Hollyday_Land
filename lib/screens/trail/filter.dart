@@ -4,6 +4,7 @@ import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
 import "package:hollyday_land/models/trail/tags.dart";
+import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
 import "package:hollyday_land/widgets/filter/difficulty_chips.dart";
 
@@ -75,21 +76,10 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
     final titleTheme = Theme.of(context).textTheme.headline6;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Trails filter"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Trails filter",
+        filter,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

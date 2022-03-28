@@ -52,21 +52,10 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Off Road Trips"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Off Road Trips",
+        filter,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

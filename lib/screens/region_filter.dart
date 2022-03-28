@@ -55,16 +55,10 @@ class _RegionFilterScreenState extends State<_RegionFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.pageTitle),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: Text("Save"),
-          ),
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        widget.pageTitle,
+        filter,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

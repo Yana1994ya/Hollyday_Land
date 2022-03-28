@@ -60,10 +60,10 @@ abstract class AttractionsScreenState<
   Widget build(BuildContext context) {
     // Attempt to retrieve location at the load of this page
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
-    final ratingCacheKey = Provider.of<CacheKey>(context).cacheKey;
+    final cacheKey = Provider.of<CacheKey>(context).cacheKey;
 
     final filterParams = _filter.parameters;
-    filterParams["rating_cache_key"] = [ratingCacheKey.toString()];
+    filterParams["cache_key"] = [cacheKey.toString()];
 
     return Scaffold(
       appBar: AppBar(

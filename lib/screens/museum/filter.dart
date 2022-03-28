@@ -49,21 +49,10 @@ class _MuseumsFilterState extends State<_MuseumsFilter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Museums"),
-        actions: [
-          TextButton(
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-          ),
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Museums",
+        filter,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

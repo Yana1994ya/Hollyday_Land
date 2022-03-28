@@ -52,21 +52,10 @@ class _WaterSportsFilterScreenState extends State<_WaterSportsFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Water sports"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Water sports",
+        filter,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
