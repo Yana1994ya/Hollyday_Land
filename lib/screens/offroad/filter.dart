@@ -72,7 +72,9 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
               items: widget.options.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = filter.withRegionIds(regionIds);
+                setState(() {
+                  filter = filter.withRegionIds(regionIds);
+                });
               },
             ),
             Divider(),
@@ -87,7 +89,9 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
                 items: widget.options.tripTypes,
                 initialSelected: widget.initialFilter.tripTypeIds,
                 onChange: (tripTypeIds) {
-                  filter = filter.withTripTypeIds(tripTypeIds);
+                  setState(() {
+                    filter = filter.withTripTypeIds(tripTypeIds);
+                  });
                 })
           ],
         ),

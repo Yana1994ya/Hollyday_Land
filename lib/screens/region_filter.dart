@@ -75,7 +75,9 @@ class _RegionFilterScreenState extends State<_RegionFilterScreen> {
               items: widget.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = RegionFilter(regionIds);
+                setState(() {
+                  filter = RegionFilter(regionIds);
+                });
               },
             ),
           ],

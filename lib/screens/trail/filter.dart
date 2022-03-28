@@ -211,7 +211,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
             DifficultyFilterChips(
               initialSelected: filter.difficulty,
               onChange: (newDifficulties) {
-                filter = filter.copyWith(difficulty: newDifficulties);
+                setState(() {
+                  filter = filter.copyWith(difficulty: newDifficulties);
+                });
               },
             ),
             Divider(),
@@ -223,7 +225,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               items: widget.tags.activities,
               initialSelected: filter.activities,
               onChange: (newActivities) {
-                filter = filter.copyWith(activities: newActivities);
+                setState(() {
+                  filter = filter.copyWith(activities: newActivities);
+                });
               },
             ),
             Divider(),
@@ -235,7 +239,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               items: widget.tags.attractions,
               initialSelected: filter.attractions,
               onChange: (newAttractions) {
-                filter = filter.copyWith(attractions: newAttractions);
+                setState(() {
+                  filter = filter.copyWith(attractions: newAttractions);
+                });
               },
             ),
             Divider(),
@@ -247,7 +253,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               items: widget.tags.suitabilities,
               initialSelected: filter.suitabilities,
               onChange: (newSuitabilities) {
-                filter = filter.copyWith(suitabilities: newSuitabilities);
+                setState(() {
+                  filter = filter.copyWith(suitabilities: newSuitabilities);
+                });
               },
             ),
           ],

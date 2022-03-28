@@ -72,7 +72,9 @@ class _WaterSportsFilterScreenState extends State<_WaterSportsFilterScreen> {
               items: widget.options.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = filter.copyWith(regionIds: regionIds);
+                setState(() {
+                  filter = filter.copyWith(regionIds: regionIds);
+                });
               },
             ),
             Divider(),
@@ -87,8 +89,10 @@ class _WaterSportsFilterScreenState extends State<_WaterSportsFilterScreen> {
                 items: widget.options.attractionTypes,
                 initialSelected: widget.initialFilter.attractionTypeIds,
                 onChange: (attractionTypeIds) {
-                  filter =
-                      filter.copyWith(attractionTypeIds: attractionTypeIds);
+                  setState(() {
+                    filter =
+                        filter.copyWith(attractionTypeIds: attractionTypeIds);
+                  });
                 })
           ],
         ),
