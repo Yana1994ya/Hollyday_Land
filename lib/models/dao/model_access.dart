@@ -66,13 +66,13 @@ abstract class AttractionModelAccess<Full extends Attraction> {
 
   Future<Full> read(
     int attractionId,
-    int ratingCacheKey,
+    int cacheKey,
   ) {
     return ApiServer.get(
       "/attractions/api/$pluralName/$attractionId",
       singularName,
       {
-        "rating_cache_key": [ratingCacheKey.toString()]
+        "cache_key": [cacheKey.toString()]
       },
     ).then((data) => fromJson(data));
   }
