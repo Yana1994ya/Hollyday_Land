@@ -9,12 +9,13 @@ class MuseumListItem extends ManagedAttractionListItem<MuseumShort> {
 
   @override
   List<Widget> extraInformation(BuildContext context) {
-    return [
-      Align(
-        child: Text(attraction.domain.name),
-        alignment: Alignment.topLeft,
-      )
-    ];
+    return super.extraInformation(context) +
+        [
+          Align(
+            child: Text(attraction.domain.name),
+            alignment: Alignment.topLeft,
+          )
+        ];
   }
 
   @override

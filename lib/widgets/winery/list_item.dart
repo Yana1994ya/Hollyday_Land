@@ -1,16 +1,11 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/winery/short.dart";
 import "package:hollyday_land/screens/winery/winery.dart";
-import "package:hollyday_land/widgets/list_item.dart";
+import "package:hollyday_land/widgets/managed_list_item.dart";
 
-class WineryListItem extends AttractionListItem<WineryShort> {
+class WineryListItem extends ManagedAttractionListItem<WineryShort> {
   const WineryListItem({Key? key, required WineryShort winery})
       : super(key: key, attraction: winery);
-
-  @override
-  List<Widget> extraInformation(BuildContext context) {
-    return [];
-  }
 
   @override
   MaterialPageRoute get pageRoute =>
