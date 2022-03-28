@@ -17,7 +17,7 @@ class MuseumShort extends ManagedAttractionShort {
   factory MuseumShort.fromJson(Map<String, dynamic> json) {
     return MuseumShort(
       base: BaseAttractionShort.fromJson(json),
-      domain: MuseumDomain.fromJson(json),
+      domain: MuseumDomain.fromJson(json["domain"]),
     );
   }
 
