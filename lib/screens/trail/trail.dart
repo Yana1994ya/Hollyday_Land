@@ -105,7 +105,7 @@ class TrailScreen extends AttractionScreen<_TrailWithPoints> {
           height: 5,
         ),
         Align(
-          child: Text(label),
+          child: Text(label + ":"),
           alignment: Alignment.topLeft,
         ),
         Align(
