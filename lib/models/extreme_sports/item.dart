@@ -17,7 +17,7 @@ class ExtremeSports extends ManagedAttraction {
   factory ExtremeSports.fromJson(Map<String, dynamic> json) {
     return ExtremeSports(
       base: BaseAttraction.fromJson(json),
-      sportsType: ExtremeSportsType.fromJson(json["attraction_type"]),
+      sportsType: ExtremeSportsType.fromJson(json["sport_type"]),
     );
   }
 

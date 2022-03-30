@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attractions_count.dart";
+import "package:hollyday_land/screens/extreme_sports/list.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
@@ -66,6 +67,14 @@ class CategoriesGrid extends StatelessWidget {
     );
   }
 
+  static CategoryItem _extremeSportsItem(String path) {
+    return CategoryItem(
+      image: "assets/graphics/extreme_sports.jpg",
+      title: "Extreme sports",
+      path: path,
+    );
+  }
+
   static List<CategoryItem> optionalCategoryItems({
     required AttractionsCount attractionsCount,
     required String museumsPath,
@@ -75,6 +84,7 @@ class CategoriesGrid extends StatelessWidget {
     required String trailsPath,
     required String waterSportsPath,
     required String rockClimbingPath,
+    required String extremeSportsPath,
   }) {
     return [
       if (attractionsCount.museums > 0) _museumsItem(museumsPath),
@@ -85,6 +95,8 @@ class CategoriesGrid extends StatelessWidget {
       if (attractionsCount.waterSports > 0) _waterSportsItem(waterSportsPath),
       if (attractionsCount.rockClimbing > 0)
         _rockClimbingItem(rockClimbingPath),
+      if (attractionsCount.extremeSports > 0)
+        _extremeSportsItem(extremeSportsPath),
     ];
   }
 
@@ -98,6 +110,7 @@ class CategoriesGrid extends StatelessWidget {
       _trailsItem(TrailsScreen.routePath),
       _rockClimbingItem(RockClimbingListScreen.routePath),
       _waterSportsItem(WaterSportsListScreen.routePath),
+      _extremeSportsItem(ExtremeSportsListScreen.routePath),
     ];
 
     return GridView.builder(

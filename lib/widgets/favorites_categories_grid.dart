@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attractions_count.dart";
+import "package:hollyday_land/screens/extreme_sports/favorites.dart";
 import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/offroad/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/favorites.dart";
@@ -27,6 +28,7 @@ class FavoritesCategoriesGrid extends StatelessWidget {
       trailsPath: FavoritesTrailsScreen.routePath,
       waterSportsPath: FavoritesWaterSportsScreen.routePath,
       rockClimbingPath: FavoritesRockClimbingScreen.routePath,
+      extremeSportsPath: FavoritesExtremeSportsScreen.routePath,
     );
 
     return GridView.builder(

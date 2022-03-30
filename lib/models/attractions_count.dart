@@ -6,16 +6,17 @@ class AttractionsCount {
   final int trails;
   final int rockClimbing;
   final int waterSports;
+  final int extremeSports;
 
-  const AttractionsCount({
-    required this.museums,
-    required this.wineries,
-    required this.zoos,
-    required this.offRoadTrips,
-    required this.trails,
-    required this.rockClimbing,
-    required this.waterSports,
-  });
+  const AttractionsCount(
+      {required this.museums,
+      required this.wineries,
+      required this.zoos,
+      required this.offRoadTrips,
+      required this.trails,
+      required this.rockClimbing,
+      required this.waterSports,
+      required this.extremeSports});
 
   bool get isEmpty {
     return museums +
@@ -24,7 +25,8 @@ class AttractionsCount {
             offRoadTrips +
             trails +
             rockClimbing +
-            waterSports ==
+            waterSports +
+            extremeSports ==
         0;
   }
 
@@ -37,6 +39,7 @@ class AttractionsCount {
       trails: json["trails"],
       rockClimbing: json["rock_climbing"],
       waterSports: json["water_sports"],
+      extremeSports: json["extreme_sports"],
     );
   }
 
@@ -49,6 +52,7 @@ class AttractionsCount {
       trails: 0,
       rockClimbing: 0,
       waterSports: 0,
+      extremeSports: 0,
     );
   }
 }
