@@ -21,6 +21,7 @@ import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/rock_climbing/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
+import 'package:hollyday_land/screens/search.dart';
 import "package:hollyday_land/screens/trail/favorites.dart";
 import "package:hollyday_land/screens/trail/history.dart";
 import "package:hollyday_land/screens/trail/record.dart";
@@ -110,6 +111,7 @@ class MyApp extends StatelessWidget {
               HistoryExtremeSportsScreen(),
           FavoritesExtremeSportsScreen.routePath: (_) =>
               FavoritesExtremeSportsScreen(),
+          SearchScreen.routePath: (_) => SearchScreen(),
         },
       ),
     );

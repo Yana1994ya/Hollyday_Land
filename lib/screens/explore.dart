@@ -5,6 +5,7 @@ import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
 import "package:hollyday_land/screens/map.dart";
 import "package:hollyday_land/screens/profile.dart";
+import 'package:hollyday_land/screens/search.dart';
 import "package:hollyday_land/widgets/categories_grid.dart";
 import "package:provider/provider.dart";
 
@@ -123,7 +124,11 @@ class ExploreScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Explore"),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(SearchScreen.routePath);
+              },
+              icon: Icon(Icons.search)),
         ],
       ),
       body: CategoriesGrid(),
