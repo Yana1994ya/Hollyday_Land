@@ -161,15 +161,7 @@ class TrailScreen extends AttractionScreen<_TrailWithPoints> {
       ),
       Align(
         child: Text("Difficulty: " +
-                difficultyToDescription(attraction.trail
-                    .difficulty) /*+
-              " ,distance: " +
-              (attraction.length.toDouble() / 1000.0).toStringAsFixed(2) +
-              "km" +
-              " ,elv gain: " +
-              attraction.elevationGain.toString() +
-              "m",*/
-            ),
+                difficultyToDescription(attraction.trail.difficulty)),
         alignment: Alignment.topLeft,
       ),
       SizedBox(
