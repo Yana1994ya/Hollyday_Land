@@ -10,6 +10,9 @@ import "package:hollyday_land/screens/extreme_sports/history.dart";
 import "package:hollyday_land/screens/extreme_sports/list.dart";
 import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
+import "package:hollyday_land/screens/hot_air/favorites.dart";
+import "package:hollyday_land/screens/hot_air/history.dart";
+import "package:hollyday_land/screens/hot_air/hot_air_list.dart";
 import "package:hollyday_land/screens/map.dart";
 import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/museum/history.dart";
@@ -21,7 +24,7 @@ import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/rock_climbing/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
-import 'package:hollyday_land/screens/search.dart';
+import "package:hollyday_land/screens/search.dart";
 import "package:hollyday_land/screens/trail/favorites.dart";
 import "package:hollyday_land/screens/trail/history.dart";
 import "package:hollyday_land/screens/trail/record.dart";
@@ -112,6 +115,9 @@ class MyApp extends StatelessWidget {
           FavoritesExtremeSportsScreen.routePath: (_) =>
               FavoritesExtremeSportsScreen(),
           SearchScreen.routePath: (_) => SearchScreen(),
+          HotAirListScreen.routePath: (_) => HotAirListScreen(),
+          FavoritesHotAirScreen.routePath: (_) => FavoritesHotAirScreen(),
+          HistoryHotAirScreen.routePath: (_) => HistoryHotAirScreen(),
         },
       ),
     );

@@ -67,7 +67,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       });
                     },
                   ),
-                  hintText: "Search...",
+                  hintText: "Search by name",
                   border: InputBorder.none,
                 ),
                 onSubmitted: (value) {
