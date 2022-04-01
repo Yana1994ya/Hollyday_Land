@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hollyday_land/api_server.dart';
 import 'package:hollyday_land/models/generic_attraction.dart';
+import 'package:hollyday_land/widgets/generic_list_item.dart';
 
 class SearchResults {
   final int numPages;
@@ -66,13 +67,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       });
                     },
                   ),
-                  hintText: 'Search...',
+                  hintText: "Search...",
                   border: InputBorder.none,
                 ),
                 onSubmitted: (value) {
                   setState(() {
                     query = value;
-                    print(query);
                   });
                 },
               ),
@@ -95,7 +95,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   } else {
                     SearchResults results = snapshot.data!;
 
-                    return Text(results.items.length.toString());
+                    return ListView.builder(
+                      itemBuilder: (_, index) =>
+                          GenericListItem(attraction: results.items[index]),
+                      itemCount: results.items.length,
+                    );
                   }
                 },
               ));
