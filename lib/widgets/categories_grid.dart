@@ -75,6 +75,22 @@ class CategoriesGrid extends StatelessWidget {
     );
   }
 
+  static CategoryItem _toursItem(String path) {
+    return CategoryItem(
+      image: "assets/graphics/tours.jpg",
+      title: "Tours",
+      path: path,
+    );
+  }
+
+  static CategoryItem _hotAirItem(String path) {
+    return CategoryItem(
+      image: "assets/graphics/hot-air.jpg",
+      title: "Hot air balloons",
+      path: path,
+    );
+  }
+
   static List<CategoryItem> optionalCategoryItems({
     required AttractionsCount attractionsCount,
     required String museumsPath,
@@ -111,6 +127,8 @@ class CategoriesGrid extends StatelessWidget {
       _rockClimbingItem(RockClimbingListScreen.routePath),
       _waterSportsItem(WaterSportsListScreen.routePath),
       _extremeSportsItem(ExtremeSportsListScreen.routePath),
+      _toursItem(MuseumsScreen.routePath),
+      _hotAirItem(MuseumsScreen.routePath),
     ];
 
     return GridView.builder(
@@ -119,7 +137,7 @@ class CategoriesGrid extends StatelessWidget {
         maxCrossAxisExtent: 200,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+        mainAxisSpacing: 15,
       ),
       itemBuilder: (_, index) => items[index],
       itemCount: items.length,
