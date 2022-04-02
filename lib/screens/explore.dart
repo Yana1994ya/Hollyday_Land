@@ -5,25 +5,11 @@ import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
 import "package:hollyday_land/screens/map.dart";
 import "package:hollyday_land/screens/profile.dart";
-import 'package:hollyday_land/screens/search.dart';
+import "package:hollyday_land/screens/search.dart";
 import "package:hollyday_land/widgets/categories_grid.dart";
 import "package:provider/provider.dart";
 
 class ExploreScreen extends StatelessWidget {
-  DecorationImage userImage(String? imageUrl) {
-    if (imageUrl == null) {
-      return DecorationImage(
-        image: ExactAssetImage("assets/graphics/icon.png"),
-        fit: BoxFit.fill,
-      );
-    } else {
-      return DecorationImage(
-        image: NetworkImage(imageUrl),
-        fit: BoxFit.fill,
-      );
-    }
-  }
-
   Widget drawer(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final login = Provider.of<LoginProvider>(context);
@@ -46,7 +32,7 @@ class ExploreScreen extends StatelessWidget {
                         height: 32,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: userImage(null),
+                          image: ProfileScreen.userImage(null),
                         ),
                       ),
                       title: Text("Hello Guest"),
@@ -57,7 +43,8 @@ class ExploreScreen extends StatelessWidget {
                         height: 32,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: userImage(login.currentUser!.photoUrl),
+                          image: ProfileScreen.userImage(
+                              login.currentUser!.photoUrl),
                         ),
                       ),
                       title: Text("Hello " + login.currentUser!.displayName!),

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attractions_count.dart";
 import "package:hollyday_land/screens/extreme_sports/list.dart";
-import 'package:hollyday_land/screens/hot_air/hot_air_list.dart';
+import "package:hollyday_land/screens/hot_air/hot_air_list.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
@@ -12,6 +12,8 @@ import "package:hollyday_land/screens/zoo/zoos.dart";
 import "package:hollyday_land/widgets/category_item.dart";
 
 class CategoriesGrid extends StatelessWidget {
+  static const double mainAxisSpacing = 15;
+
   static CategoryItem _museumsItem(String path) {
     return CategoryItem(
       image: "assets/graphics/museums.jpg",
@@ -130,8 +132,8 @@ class CategoriesGrid extends StatelessWidget {
       _rockClimbingItem(RockClimbingListScreen.routePath),
       _waterSportsItem(WaterSportsListScreen.routePath),
       _extremeSportsItem(ExtremeSportsListScreen.routePath),
-      _toursItem(MuseumsScreen.routePath),
       _hotAirItem(HotAirListScreen.routePath),
+      _toursItem(MuseumsScreen.routePath),
     ];
 
     return GridView.builder(
@@ -140,7 +142,7 @@ class CategoriesGrid extends StatelessWidget {
         maxCrossAxisExtent: 200,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 20,
-        mainAxisSpacing: 15,
+        mainAxisSpacing: mainAxisSpacing,
       ),
       itemBuilder: (_, index) => items[index],
       itemCount: items.length,

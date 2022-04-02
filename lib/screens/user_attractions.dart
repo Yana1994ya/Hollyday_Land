@@ -3,6 +3,7 @@ import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/list_item.dart";
+import 'package:hollyday_land/widgets/no_results.dart';
 import "package:provider/provider.dart";
 
 abstract class UserAttractionsScreen<Attraction extends AttractionShort>
@@ -44,12 +45,16 @@ abstract class UserAttractionsScreen<Attraction extends AttractionShort>
             } else {
               List<Attraction> attractions = snapshot.data!;
 
-              return ListView.builder(
-                itemBuilder: (_, index) => index == 0
-                    ? itemCount(context, attractions)
-                    : getListItem(attractions[index - 1]),
-                itemCount: attractions.length + 1,
-              );
+              if (attractions.isEmpty) {
+                return const NoResults(text: "No attractions to display");
+              } else {
+                return ListView.builder(
+                  itemBuilder: (_, index) => index == 0
+                      ? itemCount(context, attractions)
+                      : getListItem(attractions[index - 1]),
+                  itemCount: attractions.length + 1,
+                );
+              }
             }
           });
     }

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:hollyday_land/api_server.dart';
-import 'package:hollyday_land/models/generic_attraction.dart';
-import 'package:hollyday_land/widgets/generic_list_item.dart';
+import "package:flutter/material.dart";
+import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/generic_attraction.dart";
+import "package:hollyday_land/widgets/generic_list_item.dart";
+import "package:hollyday_land/widgets/no_results.dart";
 
 class SearchResults {
   final int numPages;
@@ -55,8 +56,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 color: Colors.white, borderRadius: BorderRadius.circular(5)),
             child: Center(
               child: TextField(
+                textAlignVertical: TextAlignVertical.center,
                 controller: _controller,
                 decoration: InputDecoration(
+                  isCollapsed: true,
                   prefixIcon: Icon(Icons.search),
                   suffixIcon: IconButton(
                     icon: Icon(Icons.clear),
@@ -80,7 +83,11 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         body: query.isEmpty
-            ? Container()
+            ? Center(
+                child: Image(
+                  image: AssetImage("assets/graphics/search.png"),
+                ),
+              )
             : FutureBuilder(
                 future: SearchResults.search(query, 1),
                 builder: (_, AsyncSnapshot<SearchResults> snapshot) {
@@ -93,13 +100,17 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: CircularProgressIndicator(),
                     );
                   } else {
-                    SearchResults results = snapshot.data!;
+              SearchResults results = snapshot.data!;
 
-                    return ListView.builder(
-                      itemBuilder: (_, index) =>
-                          GenericListItem(attraction: results.items[index]),
-                      itemCount: results.items.length,
-                    );
+                    if (results.items.isEmpty) {
+                      return NoResults(text: "No search results for: $query");
+                    } else {
+                      return ListView.builder(
+                        itemBuilder: (_, index) =>
+                            GenericListItem(attraction: results.items[index]),
+                        itemCount: results.items.length,
+                      );
+                    }
                   }
                 },
               ));
