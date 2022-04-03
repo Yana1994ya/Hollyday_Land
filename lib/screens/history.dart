@@ -4,7 +4,7 @@ import "package:hollyday_land/models/history.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/history_categories_grid.dart";
-import 'package:hollyday_land/widgets/no_results.dart';
+import "package:hollyday_land/widgets/no_results.dart";
 import "package:provider/provider.dart";
 
 class _LoggedInHistoryScreen extends StatefulWidget {

@@ -5,7 +5,7 @@ import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/favorites_categories_grid.dart";
-import 'package:hollyday_land/widgets/no_results.dart';
+import "package:hollyday_land/widgets/no_results.dart";
 import "package:provider/provider.dart";
 
 class _LoggedInFavoritesScreen extends StatelessWidget {

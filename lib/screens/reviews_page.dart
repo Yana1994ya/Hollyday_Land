@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/comments.dart";
 import "package:hollyday_land/models/date_formatter.dart";
 import "package:hollyday_land/screens/write_review.dart";
-import 'package:hollyday_land/widgets/no_results.dart';
+import "package:hollyday_land/widgets/no_results.dart";
 
 class ReviewsPage extends StatelessWidget {
   final Comments comments;

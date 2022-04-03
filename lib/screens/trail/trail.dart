@@ -12,7 +12,7 @@ import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/rating.dart";
-import 'package:hollyday_land/models/trail/difficulty.dart';
+import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/trail.dart";
 import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/login.dart";

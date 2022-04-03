@@ -1,5 +1,5 @@
-import 'package:hollyday_land/models/dao/base_attraction.dart';
-import 'package:hollyday_land/models/dao/model_access.dart';
+import "package:hollyday_land/models/dao/base_attraction.dart";
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land_dao/full_dao.dart";
 
 part "hot_air.objects.full.dart";

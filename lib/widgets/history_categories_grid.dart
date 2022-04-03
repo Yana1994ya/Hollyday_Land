@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attractions_count.dart";
 import "package:hollyday_land/screens/extreme_sports/history.dart";
-import 'package:hollyday_land/screens/hot_air/history.dart';
+import "package:hollyday_land/screens/hot_air/history.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/offroad/history.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";

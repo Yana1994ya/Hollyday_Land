@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/generic_attraction.dart';
+import "package:hollyday_land/models/generic_attraction.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 
 class GenericListItem extends AttractionListItem<GenericAttraction> {

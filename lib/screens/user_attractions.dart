@@ -3,7 +3,7 @@ import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/list_item.dart";
-import 'package:hollyday_land/widgets/no_results.dart';
+import "package:hollyday_land/widgets/no_results.dart";
 import "package:provider/provider.dart";
 
 abstract class UserAttractionsScreen<Attraction extends AttractionShort>

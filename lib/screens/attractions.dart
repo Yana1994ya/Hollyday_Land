@@ -4,7 +4,7 @@ import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/widgets/list_item.dart";
-import 'package:hollyday_land/widgets/no_results.dart';
+import "package:hollyday_land/widgets/no_results.dart";
 import "package:provider/provider.dart";
 
 abstract class AttractionsScreenState<
