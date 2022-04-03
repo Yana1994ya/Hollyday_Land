@@ -56,6 +56,7 @@ class _RockClimbingFilterScreenState extends State<_RockClimbingFilterScreen> {
         context,
         "Rock climbing",
         filter,
+        RockClimbingFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

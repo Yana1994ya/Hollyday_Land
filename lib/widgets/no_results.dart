@@ -2,8 +2,10 @@ import "package:flutter/material.dart";
 
 class NoResults extends StatelessWidget {
   final String text;
+  final String? subTitle;
 
-  const NoResults({Key? key, required this.text}) : super(key: key);
+  const NoResults({Key? key, required this.text, this.subTitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +17,18 @@ class NoResults extends StatelessWidget {
           ),
         ),
         Center(
+          child: Text(
+            text,
+            style: TextStyle(color: Color.fromARGB(255, 128, 122, 158)),
+          ),
+        ),
+        if (subTitle != null)
+          Center(
             child: Text(
-          text,
-          style: TextStyle(color: Color.fromARGB(255, 128, 122, 158)),
-        )),
+              subTitle!,
+              style: TextStyle(color: Color.fromARGB(255, 128, 122, 158)),
+            ),
+          ),
       ],
       mainAxisAlignment: MainAxisAlignment.center,
     );

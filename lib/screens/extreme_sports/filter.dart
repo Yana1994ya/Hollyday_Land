@@ -57,6 +57,7 @@ class _ExtremeSportsFilterScreenState
         context,
         "Extreme sports",
         filter,
+        ExtremeSportsFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

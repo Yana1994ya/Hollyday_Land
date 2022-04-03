@@ -52,10 +52,22 @@ abstract class AttractionFilterScreen<Filter extends AttractionFilter, Options>
     BuildContext context,
     String title,
     AttractionFilter filter,
+    AttractionFilter empty,
   ) {
     return AppBar(
       title: Text(title),
       actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(empty);
+          },
+          child: const Text(
+            "Reset",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop(filter);

@@ -53,6 +53,7 @@ class _MuseumsFilterState extends State<_MuseumsFilter> {
         context,
         "Museums",
         filter,
+        MuseumFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
