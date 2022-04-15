@@ -269,6 +269,7 @@ class _LoggedInTrailRecordScreenState
                   "m"),
               Text("Time: " + elapsedTime.toString() + "s"),
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text("Images: " + images.length.toString()),
                   SizedBox(
