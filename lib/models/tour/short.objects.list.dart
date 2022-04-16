@@ -1,4 +1,4 @@
-part of 'short.dart';
+part of "short.dart";
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 

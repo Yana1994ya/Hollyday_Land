@@ -8,7 +8,7 @@ import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/map_objects.dart";
 import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/screens/extreme_sports/item.dart";
-import 'package:hollyday_land/screens/hot_air/hot_air.dart';
+import "package:hollyday_land/screens/hot_air/hot_air.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
 import "package:hollyday_land/screens/offroad/trip.dart";
 import "package:hollyday_land/screens/rock_climbing/item.dart";
