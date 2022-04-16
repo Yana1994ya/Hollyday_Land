@@ -1,10 +1,10 @@
-part of "overnight.dart";
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
 // FilterTagDaoGenerator
 // **************************************************************************
+
+part of "overnight.dart";
 
 class _OvernightDao extends FilterTagModelAccess<Overnight> {
   const _OvernightDao();
