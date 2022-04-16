@@ -11,4 +11,16 @@ class WaterSportsItemScreen extends ManagedAttractionScreen<WaterSportsItem> {
   Future<WaterSportsItem> readFull(BuildContext context, int cacheKey) {
     return waterSportsItemObjects.read(attraction.id, cacheKey);
   }
+
+  @override
+  List<Widget> extraInformation(
+      WaterSportsItem attraction, BuildContext context) {
+    return [
+      SizedBox(height: 5),
+      Align(
+        child: Text(attraction.attractionType.name),
+        alignment: Alignment.topLeft,
+      ),
+    ];
+  }
 }

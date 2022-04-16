@@ -8,30 +8,32 @@ abstract class ManagedAttractionListItem<
   const ManagedAttractionListItem({Key? key, required Attraction attraction})
       : super(key: key, attraction: attraction);
 
-  List<Widget> get _city {
-    if (attraction.city == null) {
+  static List<Widget> _city(String? city) {
+    if (city == null) {
       return [];
     } else {
       return [
         Icon(Icons.arrow_right_rounded, size: 16.0),
         Text(
-          attraction.city!,
+          city,
         ),
       ];
     }
   }
 
+  static Widget locationWidget(String region, String? city) {
+    return Row(
+      children: [
+        Text(
+          region,
+        ),
+        ..._city(city)
+      ],
+    );
+  }
+
   @override
   List<Widget> extraInformation(BuildContext context) {
-    return [
-      Row(
-        children: [
-          Text(
-            attraction.region.name,
-          ),
-          ..._city
-        ],
-      )
-    ];
+    return [locationWidget(attraction.region.name, attraction.city)];
   }
 }

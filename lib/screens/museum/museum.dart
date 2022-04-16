@@ -13,4 +13,15 @@ class MuseumScreen extends ManagedAttractionScreen<Museum> {
   Future<Museum> readFull(BuildContext context, int cacheKey) {
     return museumObjects.read(attraction.id, cacheKey);
   }
+
+  @override
+  List<Widget> extraInformation(Museum attraction, BuildContext context) {
+    return [
+      SizedBox(height: 5),
+      Align(
+        child: Text(attraction.domain.name),
+        alignment: Alignment.topLeft,
+      ),
+    ];
+  }
 }

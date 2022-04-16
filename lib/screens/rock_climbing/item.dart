@@ -11,4 +11,16 @@ class RockClimbingItemScreen extends ManagedAttractionScreen<RockClimbingItem> {
   Future<RockClimbingItem> readFull(BuildContext context, int cacheKey) {
     return rockClimbingItemObjects.read(attraction.id, cacheKey);
   }
+
+  @override
+  List<Widget> extraInformation(
+      RockClimbingItem attraction, BuildContext context) {
+    return [
+      SizedBox(height: 5),
+      Align(
+        child: Text(attraction.attractionType.name),
+        alignment: Alignment.topLeft,
+      ),
+    ];
+  }
 }
