@@ -59,6 +59,7 @@ class _RegionFilterScreenState extends State<_RegionFilterScreen> {
         context,
         widget.pageTitle,
         filter,
+        RegionFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

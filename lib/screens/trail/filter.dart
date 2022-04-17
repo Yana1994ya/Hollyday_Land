@@ -80,6 +80,7 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
         context,
         "Trails filter",
         filter,
+        TrailsFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/comments.dart";
 import "package:hollyday_land/models/date_formatter.dart";
 import "package:hollyday_land/screens/write_review.dart";
+import "package:hollyday_land/widgets/no_results.dart";
 
 class ReviewsPage extends StatelessWidget {
   final Comments comments;
@@ -42,19 +43,21 @@ class ReviewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Comments")),
-      body: ListView.builder(
-        itemCount: comments.comments.length,
-        itemBuilder: (_ctx, index) {
-          final comment = comments.comments[index];
-          final dynamic image;
+      appBar: AppBar(title: Text("Reviews")),
+      body: comments.comments.isEmpty
+          ? const NoResults(text: "No reviews yet.")
+          : ListView.builder(
+              itemCount: comments.comments.length,
+              itemBuilder: (_ctx, index) {
+                final comment = comments.comments[index];
+                final dynamic image;
 
-          if (comment.user.picture == null) {
-            image = AssetImage("assets/graphics/icon.png");
-          } else {
-            image = NetworkImage(comment.user.picture!);
-          }
-          final dateString =
+                if (comment.user.picture == null) {
+                  image = AssetImage("assets/graphics/icon.png");
+                } else {
+                  image = NetworkImage(comment.user.picture!);
+                }
+                final dateString =
               DateFormatter.getVerboseDateTimeRepresentation(comment.created);
           return ListTile(
             title: Text(comment.user.name),

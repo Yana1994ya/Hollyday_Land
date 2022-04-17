@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of "filter.dart";
+part of 'filter.dart';
 
 // **************************************************************************
 // CopyWithGenerator

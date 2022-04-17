@@ -12,6 +12,7 @@ import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/rating.dart";
+import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/trail.dart";
 import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/login.dart";
@@ -155,6 +156,35 @@ class TrailScreen extends AttractionScreen<_TrailWithPoints> {
     final theme = Theme.of(context);
 
     return [
+      SizedBox(
+        height: 3,
+      ),
+      Align(
+        child: Text("Difficulty: " +
+                difficultyToDescription(attraction.trail.difficulty)),
+        alignment: Alignment.topLeft,
+      ),
+      SizedBox(
+        height: 3,
+      ),
+      Align(
+        child: Text("Distance: " +
+            (attraction.trail.length.toDouble() / 1000.0).toStringAsFixed(2) +
+            "km"),
+        alignment: Alignment.topLeft,
+      ),
+      SizedBox(
+        height: 3,
+      ),
+      Align(
+        child: Text("Elevation Gain: " +
+            attraction.trail.elevationGain.toString() +
+            "m"),
+        alignment: Alignment.topLeft,
+      ),
+      SizedBox(
+        height: 3,
+      ),
       ...getChips(
         theme,
         "Activities",
@@ -232,6 +262,12 @@ class _TrailMapState extends State<_TrailMap> {
           },
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
+          markers: {
+            Marker(
+              markerId: MarkerId("first"),
+              position: widget.trailAndPoints.points.first,
+            )
+          },
           polylines: {
             Polyline(
               polylineId: PolylineId("trail"),

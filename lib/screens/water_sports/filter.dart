@@ -56,6 +56,7 @@ class _WaterSportsFilterScreenState extends State<_WaterSportsFilterScreen> {
         context,
         "Water sports",
         filter,
+        WaterSportsFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

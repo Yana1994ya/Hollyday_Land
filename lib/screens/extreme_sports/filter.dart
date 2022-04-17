@@ -1,47 +1,48 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/extreme_sports/filter.dart";
+import "package:hollyday_land/models/extreme_sports/filter_options.dart";
+import "package:hollyday_land/models/extreme_sports/types.dart";
 import "package:hollyday_land/models/region.dart";
-import "package:hollyday_land/models/rock_climbing/attraction_type.dart";
-import "package:hollyday_land/models/rock_climbing/filter.dart";
-import "package:hollyday_land/models/rock_climbing/filter_options.dart";
 import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
 
-class RockClimbingFilterScreen extends AttractionFilterScreen<
-    RockClimbingFilter, RockClimbingFilterOptions> {
-  const RockClimbingFilterScreen(
-      {Key? key, required RockClimbingFilter currentFilter})
+class ExtremeSportsFilterScreen extends AttractionFilterScreen<
+    ExtremeSportsFilter, ExtremeSportsFilterOptions> {
+  const ExtremeSportsFilterScreen(
+      {Key? key, required ExtremeSportsFilter currentFilter})
       : super(key: key, currentFilter: currentFilter);
 
   @override
-  String get pageTitle => "Rock climbing";
+  String get pageTitle => "Extreme sports";
 
   @override
-  Future<RockClimbingFilterOptions> loadOptions() =>
-      RockClimbingFilterOptions.fetch();
+  Future<ExtremeSportsFilterOptions> loadOptions() =>
+      ExtremeSportsFilterOptions.fetch();
 
   @override
   Widget selectionWidget(
-          BuildContext context, RockClimbingFilterOptions options) =>
-      _RockClimbingFilterScreen(
+          BuildContext context, ExtremeSportsFilterOptions options) =>
+      _ExtremeSportsFilterScreen(
         options: options,
         initialFilter: currentFilter,
       );
 }
 
-class _RockClimbingFilterScreen extends StatefulWidget {
-  final RockClimbingFilterOptions options;
-  final RockClimbingFilter initialFilter;
+class _ExtremeSportsFilterScreen extends StatefulWidget {
+  final ExtremeSportsFilterOptions options;
+  final ExtremeSportsFilter initialFilter;
 
-  const _RockClimbingFilterScreen(
+  const _ExtremeSportsFilterScreen(
       {Key? key, required this.options, required this.initialFilter})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RockClimbingFilterScreenState();
+  State<StatefulWidget> createState() => _ExtremeSportsFilterScreenState();
 }
 
-class _RockClimbingFilterScreenState extends State<_RockClimbingFilterScreen> {
-  late RockClimbingFilter filter;
+class _ExtremeSportsFilterScreenState
+    extends State<_ExtremeSportsFilterScreen> {
+  late ExtremeSportsFilter filter;
 
   @override
   void initState() {
@@ -54,9 +55,9 @@ class _RockClimbingFilterScreenState extends State<_RockClimbingFilterScreen> {
     return Scaffold(
       appBar: AttractionFilterScreen.filterAppBar(
         context,
-        "Rock climbing",
+        "Extreme sports",
         filter,
-        RockClimbingFilter.empty(),
+        ExtremeSportsFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -86,13 +87,12 @@ class _RockClimbingFilterScreenState extends State<_RockClimbingFilterScreen> {
             Container(
               height: 5,
             ),
-            FilterChips<RockClimbingAttractionType>(
-                items: widget.options.attractionTypes,
-                initialSelected: widget.initialFilter.attractionTypeIds,
+            FilterChips<ExtremeSportsType>(
+                items: widget.options.types,
+                initialSelected: widget.initialFilter.typeIds,
                 onChange: (attractionTypeIds) {
                   setState(() {
-                    filter =
-                        filter.copyWith(attractionTypeIds: attractionTypeIds);
+                    filter = filter.copyWith(typeIds: attractionTypeIds);
                   });
                 })
           ],

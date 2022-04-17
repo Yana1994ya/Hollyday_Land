@@ -6,6 +6,7 @@ import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/image_upload.dart";
 import "package:hollyday_land/models/trail/point_collector.dart";
 import "package:hollyday_land/models/upload_error.dart";
+import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/trail/form.dart";
@@ -188,108 +189,150 @@ class _LoggedInTrailRecordScreenState
     BackgroundLocation.getLocationUpdates(pointCollector.addPoint);
   }
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Are you sure?"),
+            content: Text("Do you want to discard this recording?"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text("No"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text("Yes"),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Record trail"),
-        actions: [
-          ImageUploadWidget(
-            abort: () {
-              setState(() {
-                imageUploading = false;
-              });
-            },
-            pickedImage: (XFile picture) async {
-              final image =
-                  await ImageUpload.uploadImage(picture, widget.hdToken);
+    final LocationProvider locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
 
-              setState(() {
-                images.add(image.imageId);
-                imageUploading = false;
-              });
-            },
-            pickingImage: () {
-              setState(() {
-                imageUploading = true;
-              });
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            isRecording ? Text("Recording trail") : Text("Waiting"),
-            Text("Distance: " +
-                pointCollector.distance.toStringAsFixed(2) +
-                "m"),
-            Text("Elevation Gain: " +
-                pointCollector.elevationGain.toStringAsFixed(2) +
-                "m"),
-            Text("Time: " + elapsedTime.toString() + "s"),
-            Row(
-              children: [
-                Text("Images: " + images.length.toString()),
-                SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: imageUploading
-                      ? Padding(
-                          padding: EdgeInsets.all(3),
-                          child: CircularProgressIndicator(),
-                        )
-                      : Container(),
-                ),
-              ],
+    final LatLng initialPosition;
+
+    if (locationProvider.lastSnapshot != null &&
+        locationProvider.lastSnapshot!.location != null) {
+      initialPosition = LatLng(
+        locationProvider.lastSnapshot!.location!.latitude!,
+        locationProvider.lastSnapshot!.location!.longitude!,
+      );
+    } else {
+      initialPosition = LatLng(31.768, 35.213);
+    }
+
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Record trail"),
+          actions: [
+            ImageUploadWidget(
+              abort: () {
+                setState(() {
+                  imageUploading = false;
+                });
+              },
+              pickedImage: (XFile picture) async {
+                final image =
+                    await ImageUpload.uploadImage(picture, widget.hdToken);
+
+                setState(() {
+                  images.add(image.imageId);
+                  imageUploading = false;
+                });
+              },
+              pickingImage: () {
+                setState(() {
+                  imageUploading = true;
+                });
+              },
             ),
-            Container(
-              width: double.infinity,
-              height: 300.0,
-              child: GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition:
-                    CameraPosition(target: LatLng(0, 0), zoom: 15),
-                onMapCreated: (GoogleMapController controller) {
-                  this.controller = controller;
-                },
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                polylines: {
-                  Polyline(
-                    polylineId: PolylineId("trail"),
-                    visible: true,
-                    color: Colors.lightGreen,
-                    points: pointCollector.latLng,
-                    width: 3,
-                  ),
-                },
-              ),
-            ),
-            if (!isRecording && !uploading)
-              TextButton(onPressed: upload, child: Text("Upload"))
           ],
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          height: 50.0,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              isRecording ? Text("Recording trail") : Text("Waiting"),
+              Text("Distance: " +
+                  pointCollector.distance.toStringAsFixed(2) +
+                  "m"),
+              Text("Elevation Gain: " +
+                  pointCollector.elevationGain.toStringAsFixed(2) +
+                  "m"),
+              Text("Time: " + elapsedTime.toString() + "s"),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Images: " + images.length.toString()),
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: imageUploading
+                        ? Padding(
+                            padding: EdgeInsets.all(3),
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container(),
+                  ),
+                ],
+              ),
+              Container(
+                width: double.infinity,
+                height: 300.0,
+                child: uploading
+                    ? Container()
+                    : GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition:
+                            CameraPosition(target: initialPosition, zoom: 15),
+                        onMapCreated: (GoogleMapController controller) {
+                          this.controller = controller;
+                        },
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        polylines: {
+                          Polyline(
+                            polylineId: PolylineId("trail"),
+                            visible: true,
+                            color: Colors.lightGreen,
+                            points: pointCollector.latLng,
+                            width: 3,
+                          ),
+                        },
+                      ),
+              ),
+              if (!isRecording && !uploading)
+                TextButton(onPressed: upload, child: Text("Upload"))
+            ],
+          ),
         ),
+        bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          child: Container(
+            height: 50.0,
+          ),
+        ),
+        floatingActionButton: !isRecording
+            ? FloatingActionButton(
+                onPressed: startRecording,
+                tooltip: "Record",
+                child: const Icon(Icons.fiber_manual_record),
+              )
+            : FloatingActionButton(
+                onPressed: pauseRecording,
+                tooltip: "Pause",
+                child: const Icon(Icons.pause),
+              ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButton: !isRecording
-          ? FloatingActionButton(
-              onPressed: startRecording,
-              tooltip: "Record",
-              child: const Icon(Icons.fiber_manual_record),
-            )
-          : FloatingActionButton(
-              onPressed: pauseRecording,
-              tooltip: "Pause",
-              child: const Icon(Icons.pause),
-            ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

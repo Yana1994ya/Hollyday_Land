@@ -5,6 +5,20 @@ import "package:provider/provider.dart";
 class ProfileScreen extends StatelessWidget {
   static const routePath = "/profile";
 
+  static DecorationImage userImage(String? imageUrl) {
+    if (imageUrl == null) {
+      return DecorationImage(
+        image: ExactAssetImage("assets/graphics/icon.png"),
+        fit: BoxFit.fill,
+      );
+    } else {
+      return DecorationImage(
+        image: NetworkImage(imageUrl),
+        fit: BoxFit.fill,
+      );
+    }
+  }
+
   const ProfileScreen({Key? key}) : super(key: key);
 
   static Widget loginBody(LoginProvider loginProvider) {
@@ -47,7 +61,22 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("welcome ${loginProvider.currentUser!.displayName}"),
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: ProfileScreen.userImage(
+                      loginProvider.currentUser!.photoUrl),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Welcome ${loginProvider.currentUser!.displayName}"),
+              SizedBox(
+                height: 6,
+              ),
               ElevatedButton(
                 onPressed: () {
                   loginProvider.signOut();

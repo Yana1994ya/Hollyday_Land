@@ -56,7 +56,7 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
         context,
         "Off Road Trips",
         filter,
-      ),
+        OffRoadTripFilter.empty()),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView(

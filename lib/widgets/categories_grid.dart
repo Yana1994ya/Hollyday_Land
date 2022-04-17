@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/attractions_count.dart";
+import "package:hollyday_land/screens/extreme_sports/list.dart";
+import "package:hollyday_land/screens/hot_air/hot_air_list.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
@@ -10,6 +12,8 @@ import "package:hollyday_land/screens/zoo/zoos.dart";
 import "package:hollyday_land/widgets/category_item.dart";
 
 class CategoriesGrid extends StatelessWidget {
+  static const double mainAxisSpacing = 15;
+
   static CategoryItem _museumsItem(String path) {
     return CategoryItem(
       image: "assets/graphics/museums.jpg",
@@ -66,6 +70,30 @@ class CategoriesGrid extends StatelessWidget {
     );
   }
 
+  static CategoryItem _extremeSportsItem(String path) {
+    return CategoryItem(
+      image: "assets/graphics/extreme_sports.jpg",
+      title: "Extreme sports",
+      path: path,
+    );
+  }
+
+  static CategoryItem _toursItem(String path) {
+    return CategoryItem(
+      image: "assets/graphics/tours.jpg",
+      title: "Tours",
+      path: path,
+    );
+  }
+
+  static CategoryItem _hotAirItem(String path) {
+    return CategoryItem(
+      image: "assets/graphics/hot-air.jpg",
+      title: "Hot air balloons",
+      path: path,
+    );
+  }
+
   static List<CategoryItem> optionalCategoryItems({
     required AttractionsCount attractionsCount,
     required String museumsPath,
@@ -75,6 +103,8 @@ class CategoriesGrid extends StatelessWidget {
     required String trailsPath,
     required String waterSportsPath,
     required String rockClimbingPath,
+    required String extremeSportsPath,
+    required String hotAirPath,
   }) {
     return [
       if (attractionsCount.museums > 0) _museumsItem(museumsPath),
@@ -85,6 +115,9 @@ class CategoriesGrid extends StatelessWidget {
       if (attractionsCount.waterSports > 0) _waterSportsItem(waterSportsPath),
       if (attractionsCount.rockClimbing > 0)
         _rockClimbingItem(rockClimbingPath),
+      if (attractionsCount.extremeSports > 0)
+        _extremeSportsItem(extremeSportsPath),
+      if (attractionsCount.hotAirAttractions > 0) _hotAirItem(hotAirPath),
     ];
   }
 
@@ -98,6 +131,9 @@ class CategoriesGrid extends StatelessWidget {
       _trailsItem(TrailsScreen.routePath),
       _rockClimbingItem(RockClimbingListScreen.routePath),
       _waterSportsItem(WaterSportsListScreen.routePath),
+      _extremeSportsItem(ExtremeSportsListScreen.routePath),
+      _hotAirItem(HotAirListScreen.routePath),
+      _toursItem(MuseumsScreen.routePath),
     ];
 
     return GridView.builder(
@@ -106,7 +142,7 @@ class CategoriesGrid extends StatelessWidget {
         maxCrossAxisExtent: 200,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+        mainAxisSpacing: mainAxisSpacing,
       ),
       itemBuilder: (_, index) => items[index],
       itemCount: items.length,
