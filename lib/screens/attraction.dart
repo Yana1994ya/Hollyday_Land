@@ -158,7 +158,6 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
                     context,
                     login,
                   ),
-                  //...extraActionButtons(attraction, context)
                 ],
               ),
               body: Center(
