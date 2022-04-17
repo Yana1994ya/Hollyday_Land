@@ -185,7 +185,6 @@ class TrailScreen extends AttractionScreen<_TrailWithPoints> {
   }
 }
 
-// Everything is loaded
 class _TrailMap extends StatefulWidget {
   final _TrailWithPoints trailAndPoints;
 
@@ -224,7 +223,9 @@ class _TrailMapState extends State<_TrailMap> {
         child: GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition: CameraPosition(
-              target: widget.trailAndPoints.points.first, zoom: 13),
+            target: widget.trailAndPoints.points.first,
+            zoom: 13,
+          ),
           onMapCreated: (GoogleMapController controller) {
             this.controller = controller;
             controller.animateCamera(trailCamera());

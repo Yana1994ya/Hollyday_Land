@@ -12,7 +12,7 @@ class ApiServer {
 
   /*static Uri getUri(String path,
           [Map<String, Iterable<String>>? queryParameters]) =>
-      Uri.http("192.168.1.122:8000", path, queryParameters);*/
+      Uri.http("192.168.1.106:8000", path, queryParameters);*/
 
   static Future<dynamic> get(String path, String field,
       [Map<String, Iterable<String>>? queryParameters]) async {
@@ -41,8 +41,7 @@ class ApiServer {
       String path, String field, Map<String, dynamic> body) async {
     final uri = getUri(path);
 
-    print("fetching: $uri");
-    print(body);
+    print("fetching: $uri, body: " + jsonEncode(body));
 
     final response = await http.post(
       uri,
@@ -73,7 +72,7 @@ class ApiServer {
   static Future<void> voidPost(String path, Map<String, dynamic> body) async {
     final uri = getUri(path);
 
-    print("fetching: $uri");
+    print("fetching: $uri, body: " + jsonEncode(body));
 
     final response = await http.post(
       uri,
