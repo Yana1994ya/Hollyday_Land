@@ -78,9 +78,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
     return Scaffold(
       appBar: AttractionFilterScreen.filterAppBar(
         context,
-        "Trails filter",
-        filter,
-        TrailsFilter.empty(),
+        "Trails filter", // Title
+        filter, // Current filter
+        TrailsFilter.empty(), // Empty filter for reset button
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

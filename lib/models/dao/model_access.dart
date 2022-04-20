@@ -88,9 +88,7 @@ abstract class FilterTagModelAccess<Tag extends FilterTag> {
   String get modelName;
 
   List<Tag> _mapResponse(dynamic apiResponse) {
-    return (apiResponse as List<dynamic>)
-        .map((attraction) => fromJson(attraction))
-        .toList();
+    return (apiResponse as List<dynamic>).map((tag) => fromJson(tag)).toList();
   }
 
   Future<List<Tag>> readTags() async {
