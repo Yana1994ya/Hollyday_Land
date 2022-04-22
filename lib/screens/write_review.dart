@@ -178,7 +178,7 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
                     children: _imagesWrap(),
                   ),
                 if (!_publishing && _ratingValue > 0)
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       final newReview = NewReview(
                         rating: _ratingValue.toInt(),
