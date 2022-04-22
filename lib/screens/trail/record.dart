@@ -27,7 +27,7 @@ class TrailRecordScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Record trail"),
         ),
-        body: ProfileScreen.loginBody(loginProvider),
+        body: ProfileScreen.loginBody(context, loginProvider),
       );
     } else {
       return _LoggedInTrailRecordScreen(
@@ -227,12 +227,22 @@ class _LoggedInTrailRecordScreenState
       initialPosition = LatLng(31.768, 35.213);
     }
 
+    final textTheme = Theme.of(context).textTheme.bodyText2;
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
           title: Text("Record trail"),
           actions: [
+            if (!isRecording && !uploading && !pointCollector.isEmpty)
+              TextButton(
+                onPressed: upload,
+                child: Text(
+                  "Upload",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ImageUploadWidget(
               abort: () {
                 setState(() {
@@ -256,82 +266,88 @@ class _LoggedInTrailRecordScreenState
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              isRecording ? Text("Recording trail") : Text("Waiting"),
-              Text("Distance: " +
-                  pointCollector.distance.toStringAsFixed(2) +
-                  "m"),
-              Text("Elevation Gain: " +
-                  pointCollector.elevationGain.toStringAsFixed(2) +
-                  "m"),
-              Text("Time: " + elapsedTime.toString() + "s"),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("Images: " + images.length.toString()),
-                  SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: imageUploading
-                        ? Padding(
-                            padding: EdgeInsets.all(3),
-                            child: CircularProgressIndicator(),
-                          )
-                        : Container(),
-                  ),
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                height: 300.0,
-                child: uploading
-                    ? Container()
-                    : GoogleMap(
-                        mapType: MapType.normal,
-                        initialCameraPosition:
-                            CameraPosition(target: initialPosition, zoom: 15),
-                        onMapCreated: (GoogleMapController controller) {
-                          this.controller = controller;
-                        },
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: true,
-                        polylines: {
-                          Polyline(
-                            polylineId: PolylineId("trail"),
-                            visible: true,
-                            color: Colors.lightGreen,
-                            points: pointCollector.latLng,
-                            width: 3,
-                          ),
-                        },
+        body: Container(
+          decoration: BoxDecoration(
+            image: const DecorationImage(
+                image: AssetImage("assets/graphics/record_background.jpg"),
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.bottomCenter),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 300.0,
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition:
+                        CameraPosition(target: initialPosition, zoom: 15),
+                    onMapCreated: (GoogleMapController controller) {
+                      this.controller = controller;
+                    },
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    polylines: {
+                      Polyline(
+                        polylineId: PolylineId("trail"),
+                        visible: true,
+                        color: Colors.lightGreen,
+                        points: pointCollector.latLng,
+                        width: 3,
                       ),
-              ),
-              if (!isRecording && !uploading)
-                TextButton(onPressed: upload, child: Text("Upload"))
-            ],
+                    },
+                  ),
+                ),
+                Text(
+                  isRecording ? "Recording trail" : "Waiting",
+                  style: textTheme,
+                ),
+                Text(
+                  "Distance: " +
+                      pointCollector.distance.toStringAsFixed(2) +
+                      "m",
+                  style: textTheme,
+                ),
+                Text(
+                  "Elevation Gain: " +
+                      pointCollector.elevationGain.toStringAsFixed(2) +
+                      "m",
+                  style: textTheme,
+                ),
+                Text(
+                  "Time: " + elapsedTime.toString() + "s",
+                  style: textTheme,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Images: " + images.length.toString(),
+                      style: textTheme,
+                    ),
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: imageUploading
+                          ? Padding(
+                              padding: EdgeInsets.all(3),
+                              child: CircularProgressIndicator(),
+                            )
+                          : Container(),
+                    ),
+                  ],
+                ),
+                isRecording
+                    ? ElevatedButton(
+                        onPressed: pauseRecording, child: Text("Pause"))
+                    : ElevatedButton(
+                        onPressed: startRecording, child: Text("Record")),
+              ],
+            ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          child: Container(
-            height: 50.0,
-          ),
-        ),
-        floatingActionButton: !isRecording
-            ? FloatingActionButton(
-                onPressed: startRecording,
-                tooltip: "Record",
-                child: const Icon(Icons.fiber_manual_record),
-              )
-            : FloatingActionButton(
-                onPressed: pauseRecording,
-                tooltip: "Pause",
-                child: const Icon(Icons.pause),
-              ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

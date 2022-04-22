@@ -33,7 +33,7 @@ abstract class UserAttractionsScreen<Attraction extends AttractionShort>
     final loginProvider = Provider.of<LoginProvider>(context);
 
     if (loginProvider.currentUser == null) {
-      return ProfileScreen.loginBody(loginProvider);
+      return ProfileScreen.loginBody(context, loginProvider);
     } else {
       return FutureBuilder<List<Attraction>>(
           future: readAttractions(loginProvider.hdToken!, context),

@@ -27,7 +27,7 @@ class WriteReview extends StatelessWidget {
             appBar: AppBar(
               title: Text("Write a review"),
             ),
-            body: ProfileScreen.loginBody(login),
+            body: ProfileScreen.loginBody(context, login),
           )
         : _LoggedInWriteReview(
             attractionId: attractionId,
