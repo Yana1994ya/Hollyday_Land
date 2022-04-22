@@ -56,34 +56,42 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Profile"),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: ProfileScreen.userImage(
-                      loginProvider.currentUser!.photoUrl),
+        body: Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: ProfileScreen.userImage(
+                        loginProvider.currentUser!.photoUrl),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text("Welcome ${loginProvider.currentUser!.displayName}"),
-              SizedBox(
-                height: 6,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  loginProvider.signOut();
-                },
-                child: Text("Log out"),
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Welcome ${loginProvider.currentUser!.displayName}"),
+                SizedBox(
+                  height: 6,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    loginProvider.signOut();
+                  },
+                  child: Text("Log out"),
+                ),
+              ],
+            ),
+          ),
+          decoration: BoxDecoration(
+            image: const DecorationImage(
+                image: AssetImage("assets/graphics/profile.jpg"),
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.bottomCenter),
           ),
         ),
       );

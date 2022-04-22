@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/comments.dart";
 import "package:hollyday_land/models/date_formatter.dart";
+import 'package:hollyday_land/screens/full_screen_image.dart';
 import "package:hollyday_land/screens/write_review.dart";
 import "package:hollyday_land/widgets/no_results.dart";
 
@@ -92,12 +93,24 @@ class ReviewsPage extends StatelessWidget {
                   Wrap(
                     spacing: 8.0,
                     children: comment.images.map((image) {
-                      return Image.network(
-                        image.url,
-                        width: image.width.toDouble(),
-                        height: image.height.toDouble(),
-                      );
-                    }).toList(),
+                            return GestureDetector(
+                              child: Image.network(
+                                image.url,
+                                width: image.width.toDouble(),
+                                height: image.height.toDouble(),
+                              ),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (_ctx) {
+                                  return FullScreenImage(
+                                    image: image.parent == null
+                                        ? image
+                                        : image.parent!,
+                                  );
+                                }));
+                              },
+                            );
+                          }).toList(),
                   ),
                 Align(
                   child: Text(dateString),

@@ -19,7 +19,7 @@ class ExploreScreen extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: const DecorationImage(
-                image: AssetImage("assets/graphics/drawer-background.png"),
+                image: AssetImage("assets/graphics/drawer2.jpg"),
                 fit: BoxFit.fitWidth,
                 alignment: Alignment.bottomCenter),
           ),

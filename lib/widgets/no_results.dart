@@ -19,14 +19,14 @@ class NoResults extends StatelessWidget {
         Center(
           child: Text(
             text,
-            style: TextStyle(color: Color.fromARGB(255, 128, 122, 158)),
+            style: TextStyle(color: Color.fromARGB(255, 63, 81, 181)),
           ),
         ),
         if (subTitle != null)
           Center(
             child: Text(
               subTitle!,
-              style: TextStyle(color: Color.fromARGB(255, 128, 122, 158)),
+              style: TextStyle(color: Color.fromARGB(255, 63, 81, 181)),
             ),
           ),
       ],
