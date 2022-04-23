@@ -80,7 +80,7 @@ class CategoriesGrid extends StatelessWidget {
 
   static CategoryItem _toursItem(String path) {
     return CategoryItem(
-      image: "assets/graphics/tours.jpg",
+      image: "assets/graphics/tour.jpg",
       title: "Tours",
       path: path,
     );
