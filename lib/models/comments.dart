@@ -56,27 +56,13 @@ class Comments {
   static Future<Comments> readAttractionComments(
     int attractionId,
     int page,
-    int ratingCacheKey,
+    int cacheKey,
   ) {
     return ApiServer.get(
       "/attractions/api/comments/attraction/$attractionId/$page",
       "comments",
       {
-        "rating_cache_key": [ratingCacheKey.toString()]
-      },
-    ).then((comments) => Comments.fromJson(comments));
-  }
-
-  static Future<Comments> readTrailComments(
-    String trailId,
-    int page,
-    int trailsCacheKey,
-  ) {
-    return ApiServer.get(
-      "/attractions/api/comments/trail/$trailId/$page",
-      "comments",
-      {
-        "trails_cache_key": [trailsCacheKey.toString()]
+        "cache_key": [cacheKey.toString()]
       },
     ).then((comments) => Comments.fromJson(comments));
   }

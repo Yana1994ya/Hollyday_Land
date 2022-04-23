@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/comments.dart";
 import "package:hollyday_land/models/date_formatter.dart";
-import 'package:hollyday_land/screens/full_screen_image.dart';
+import "package:hollyday_land/screens/full_screen_image.dart";
 import "package:hollyday_land/screens/write_review.dart";
 import "package:hollyday_land/widgets/no_results.dart";
 
@@ -23,9 +23,9 @@ class ReviewsPage extends StatelessWidget {
           onPressed: () {
             openPage(comments.page - 1);
           },
-          child: Text("<"));
+          child: Text("< Newer"));
     } else {
-      return TextButton(onPressed: null, child: Text("<"));
+      return TextButton(onPressed: null, child: Text("< Newer"));
     }
   }
 
@@ -35,9 +35,9 @@ class ReviewsPage extends StatelessWidget {
           onPressed: () {
             openPage(comments.page + 1);
           },
-          child: Text(">"));
+          child: Text("Older >"));
     } else {
-      return TextButton(onPressed: null, child: Text(">"));
+      return TextButton(onPressed: null, child: Text("Older >"));
     }
   }
 
@@ -51,48 +51,49 @@ class ReviewsPage extends StatelessWidget {
               itemCount: comments.comments.length,
               itemBuilder: (_ctx, index) {
                 final comment = comments.comments[index];
-                final dynamic image;
+                final dynamic userImage;
 
                 if (comment.user.picture == null) {
-                  image = AssetImage("assets/graphics/icon.png");
+                  userImage = AssetImage("assets/graphics/icon.png");
                 } else {
-                  image = NetworkImage(comment.user.picture!);
+                  userImage = NetworkImage(comment.user.picture!);
                 }
                 final dateString =
-              DateFormatter.getVerboseDateTimeRepresentation(comment.created);
-          return ListTile(
-            title: Text(comment.user.name),
-            leading: CircleAvatar(
-              backgroundImage: image,
-            ),
-            subtitle: Column(
-              children: [
-                Align(
-                  child: Text(
-                    "rating: ${comment.rating}",
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
+                    DateFormatter.getVerboseDateTimeRepresentation(
+                        comment.created);
+                return ListTile(
+                  title: Text(comment.user.name),
+                  leading: CircleAvatar(
+                    backgroundImage: userImage,
                   ),
-                  alignment: Alignment.topLeft,
-                ),
-                if (comment.text != null)
-                  Padding(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        comment.text!,
-                        style: TextStyle(
-                          color: Colors.black,
+                  subtitle: Column(
+                    children: [
+                      Align(
+                        child: Text(
+                          "rating: ${comment.rating}",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
+                        alignment: Alignment.topLeft,
                       ),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                  ),
-                if (comment.images.isNotEmpty)
-                  Wrap(
-                    spacing: 8.0,
-                    children: comment.images.map((image) {
+                      if (comment.text != null)
+                        Padding(
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              comment.text!,
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                        ),
+                      if (comment.images.isNotEmpty)
+                        Wrap(
+                          spacing: 8.0,
+                          children: comment.images.map((image) {
                             return GestureDetector(
                               child: Image.network(
                                 image.url,
@@ -111,16 +112,16 @@ class ReviewsPage extends StatelessWidget {
                               },
                             );
                           }).toList(),
+                        ),
+                      Align(
+                        child: Text(dateString),
+                        alignment: Alignment.topLeft,
+                      )
+                    ],
                   ),
-                Align(
-                  child: Text(dateString),
-                  alignment: Alignment.topLeft,
-                )
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.edit),
         label: const Text("Write a review"),

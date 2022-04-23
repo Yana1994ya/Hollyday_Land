@@ -75,8 +75,8 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
     if (_imageUploading) {
       result.add(
         SizedBox(
-          width: 64,
-          height: 64,
+          width: 58,
+          height: 58,
           child: CircularProgressIndicator(),
         ),
       );
@@ -210,7 +210,7 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
                         });
                       });
                     },
-                    child: Text("Publish comment"),
+                    child: Text("Publish review"),
                   ),
                 if (_publishing)
                   SizedBox(
