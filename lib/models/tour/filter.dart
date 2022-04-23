@@ -10,23 +10,25 @@ class TourFilter extends AttractionFilter {
   final BuiltSet<int> tourThemeIds;
   final BuiltSet<int> tourTypeIds;
 
-  const TourFilter(
-      {required this.overnightIds,
-      required this.packageIds,
-      required this.startLocationIds,
-      required this.tourDestinationIds,
-      required this.tourLanguageIds,
-      required this.tourThemeIds,
-      required this.tourTypeIds});
+  const TourFilter({
+    required this.overnightIds,
+    required this.packageIds,
+    required this.startLocationIds,
+    required this.tourDestinationIds,
+    required this.tourLanguageIds,
+    required this.tourThemeIds,
+    required this.tourTypeIds,
+  });
 
-  factory TourFilter.create(
-      {BuiltSet<int>? overnightIds,
-      BuiltSet<int>? packageIds,
-      BuiltSet<int>? startLocationIds,
-      BuiltSet<int>? tourDestinationIds,
-      BuiltSet<int>? tourLanguageIds,
-      BuiltSet<int>? tourThemeIds,
-      BuiltSet<int>? tourTypeIds}) {
+  factory TourFilter.create({
+    BuiltSet<int>? overnightIds,
+    BuiltSet<int>? packageIds,
+    BuiltSet<int>? startLocationIds,
+    BuiltSet<int>? tourDestinationIds,
+    BuiltSet<int>? tourLanguageIds,
+    BuiltSet<int>? tourThemeIds,
+    BuiltSet<int>? tourTypeIds,
+  }) {
     BuiltSet<int> empty = BuiltSet.of([]);
 
     return TourFilter(
