@@ -37,7 +37,7 @@ class _MapScreenState extends State<MapScreen> {
     super.didChangeDependencies();
   }
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
+  static final CameraPosition _jerusalem = CameraPosition(
     target: LatLng(31.7945578, 35.2392122),
     zoom: 14.4746,
   );
@@ -95,7 +95,7 @@ class _MapScreenState extends State<MapScreen> {
       ),
       body: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
+        initialCameraPosition: _jerusalem,
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
         },
