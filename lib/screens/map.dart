@@ -1,5 +1,3 @@
-import "dart:async";
-
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:hollyday_land/models/generic_attraction.dart";
@@ -16,8 +14,6 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   GoogleMapController? _controller;
-  Timer? refreshTimer;
-  LatLngBounds? bounds;
   Set<Marker> markers = {};
   bool initiated = false;
   late MapObjects objects;
@@ -39,49 +35,29 @@ class _MapScreenState extends State<MapScreen> {
 
   static final CameraPosition _jerusalem = CameraPosition(
     target: LatLng(31.7945578, 35.2392122),
-    zoom: 14.4746,
+    zoom: 12.4,
   );
 
-  void _loadData() {
-    final Future<Set<Marker>> markerLoading;
-
-    markerLoading =
-        GenericAttraction.forBounds(bounds!, objects).then((attractions) {
-      return attractions
-          .map((attraction) => Marker(
-                markerId: MarkerId(attraction.id.toString()),
-                position: attraction.latLng,
-                infoWindow: InfoWindow(
-                    title: attraction.name,
-                    onTap: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => attraction.page));
-                    }),
-              ))
-          .toSet();
-    });
-
-    markerLoading.then((newMarkers) {
-      setState(() {
-        markers = newMarkers;
-      });
-    });
-  }
-
-  void _onGeoChanged(CameraPosition position) {
-    if (refreshTimer != null) {
-      refreshTimer!.cancel();
-      refreshTimer = null;
-    }
-
+  void _onCameraIdle() {
     _controller!.getVisibleRegion().then((bounds) {
-      this.bounds = bounds;
+      GenericAttraction.forBounds(bounds, objects).then((attractions) {
+        final newAttractions = attractions
+            .map((attraction) => Marker(
+                  markerId: MarkerId(attraction.id.toString()),
+                  position: attraction.latLng,
+                  infoWindow: InfoWindow(
+                      title: attraction.name,
+                      onTap: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => attraction.page));
+                      }),
+                ))
+            .toSet();
 
-      if (refreshTimer != null) {
-        refreshTimer!.cancel();
-      }
-
-      refreshTimer = Timer(Duration(milliseconds: 1200), _loadData);
+        setState(() {
+          markers = newAttractions;
+        });
+      });
     });
   }
 
@@ -99,9 +75,9 @@ class _MapScreenState extends State<MapScreen> {
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
         },
+        onCameraIdle: _onCameraIdle,
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
-        onCameraMove: _onGeoChanged,
         markers: markers,
       ),
     );
