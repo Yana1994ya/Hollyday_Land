@@ -1,10 +1,10 @@
-part of "short.dart";
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
 // ListDaoGenerator
 // **************************************************************************
+
+part of "short.dart";
 
 class _TourShortDao extends ShortModelAccess<TourShort> {
   const _TourShortDao();
