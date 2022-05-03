@@ -64,14 +64,14 @@ class GenericAttraction with WithRating, WithLocation, AttractionShort {
   }
 
   static Future<List<GenericAttraction>> forBounds(
-      LatLngBounds bounds, MapObjects objects) {
+      LatLngBounds bounds, MapObjectTypes objects) {
     final Map<String, Iterable<String>> params = {};
     params["lat_min"] = [bounds.southwest.latitude.toStringAsPrecision(10)];
     params["lon_min"] = [bounds.southwest.longitude.toStringAsPrecision(10)];
     params["lat_max"] = [bounds.northeast.latitude.toStringAsPrecision(10)];
     params["lon_max"] = [bounds.northeast.longitude.toStringAsPrecision(10)];
 
-    if (objects == MapObjects.attractions) {
+    if (objects == MapObjectTypes.attractions) {
       params["objects"] = ["attractions"];
     } else {
       params["objects"] = ["trails"];

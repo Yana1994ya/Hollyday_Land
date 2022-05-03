@@ -12,7 +12,6 @@ import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/screens/trail/form.dart";
 import "package:hollyday_land/widgets/image_upload.dart";
 import "package:image_picker/image_picker.dart";
-import "package:location/location.dart" as loc;
 import "package:provider/provider.dart";
 
 class TrailRecordScreen extends StatelessWidget {
@@ -84,6 +83,10 @@ class _LoggedInTrailRecordScreenState
   void updateScreen(Timer timer) {
     elapsedTime += 1;
 
+    // Invoke setState only if the widget is mounted
+    // this basically means if the screen is turned on.
+
+    // Invoking setState on unmounted widget throws an exception.
     if (mounted) {
       setState(() {});
     }
@@ -172,20 +175,14 @@ class _LoggedInTrailRecordScreenState
     });
   }
 
-  _getLocation() async {
-    final location = loc.Location();
-    final currentLocation = await location.getLocation();
-
-    print("locationLatitude: ${currentLocation.latitude}");
-    print("locationLongitude: ${currentLocation.longitude}");
-    //rebuild the widget after getting the current location of the user
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
-    _getLocation();
+
+    LocationProvider.fetchSnapshot().then((value) {
+      setState(() {});
+    });
+
     BackgroundLocation.getLocationUpdates(pointCollector.addPoint);
   }
 
@@ -217,11 +214,10 @@ class _LoggedInTrailRecordScreenState
 
     final LatLng initialPosition;
 
-    if (locationProvider.lastSnapshot != null &&
-        locationProvider.lastSnapshot!.location != null) {
+    if (locationProvider.lastLocation != null) {
       initialPosition = LatLng(
-        locationProvider.lastSnapshot!.location!.latitude!,
-        locationProvider.lastSnapshot!.location!.longitude!,
+        locationProvider.lastLocation!.latitude!,
+        locationProvider.lastLocation!.longitude!,
       );
     } else {
       initialPosition = LatLng(31.768, 35.213);

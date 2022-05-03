@@ -91,7 +91,7 @@ abstract class AttractionListItem<T extends AttractionShort>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Rating(rating: attraction),
-                      Distance(location: attraction),
+                      Distance(attractionLocation: attraction),
                     ],
                   ),
                   ...extraInformation(context),
