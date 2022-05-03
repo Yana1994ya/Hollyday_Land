@@ -1,24 +1,27 @@
-import "dart:async";
-import "dart:io";
 import "dart:math" as math;
 
 import "package:csv/csv.dart";
+import "package:decimal/decimal.dart";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
-import "package:hollyday_land/models/trail/activity.dart";
-import "package:hollyday_land/models/trail/attraction.dart";
-import "package:hollyday_land/models/trail/short.dart";
-import "package:hollyday_land/models/trail/suitability.dart";
+import "package:hollyday_land/models/dao/base_attraction.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
+import "package:hollyday_land/models/filter_tag.dart";
+import "package:hollyday_land/models/http_exception.dart";
+import "package:hollyday_land/models/image_asset.dart";
+import "package:hollyday_land/models/image_upload.dart";
+import "package:hollyday_land/models/location.dart";
+import "package:hollyday_land/models/rating.dart";
+import "package:hollyday_land/models/trail/difficulty.dart";
 import "package:hollyday_land/models/trail/trail.dart";
-import "package:hollyday_land/providers/location_provider.dart";
-import 'package:hollyday_land/providers/trail/cache_key.dart';
-import "package:hollyday_land/widgets/distance.dart";
-import "package:hollyday_land/widgets/image_carousel.dart";
-import "package:hollyday_land/widgets/rating.dart";
+import "package:hollyday_land/providers/cache_key.dart";
+import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/screens/attraction.dart";
 import "package:http/http.dart" as http;
+import "package:image_picker/image_picker.dart";
 import "package:provider/provider.dart";
 
-class _TrailWithPoints {
+class _TrailWithPoints with WithLocation, WithRating, Attraction {
   final Trail trail;
   final List<LatLng> points;
 
@@ -26,12 +29,35 @@ class _TrailWithPoints {
     required this.trail,
     required this.points,
   });
+
+  @override
+  List<ImageAsset> get additionalImages => trail.additionalImages;
+
+  @override
+  Decimal get avgRating => trail.avgRating;
+
+  @override
+  int get id => trail.id;
+
+  @override
+  double get lat => trail.lat;
+
+  @override
+  double get long => trail.long;
+
+  @override
+  ImageAsset? get mainImage => trail.mainImage;
+
+  @override
+  String get name => trail.name;
+
+  @override
+  int get ratingCount => trail.ratingCount;
 }
 
-class TrailScreen extends StatelessWidget {
-  final TrailShort trail;
-
-  const TrailScreen({Key? key, required this.trail}) : super(key: key);
+class TrailScreen extends AttractionScreen<_TrailWithPoints> {
+  const TrailScreen({Key? key, required AttractionShort attraction})
+      : super(key: key, attraction: attraction);
 
   static Future<_TrailWithPoints> _resolvePoints(Trail trail) async {
     final uri = Uri.parse(trail.points);
@@ -71,46 +97,137 @@ class TrailScreen extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // Ask for permission to get location, ask early to improve user experience
-    Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
-    final TrailsCacheKey trailsCacheKey = Provider.of<TrailsCacheKey>(context);
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(trail.name),
+  List<Widget> getChips(ThemeData theme, String label, List<FilterTag> tags) {
+    if (tags.isEmpty) {
+      return [];
+    } else {
+      return [
+        SizedBox(
+          height: 5,
         ),
-        body: FutureBuilder(
-          future: Trail.readTrail(trail.id, trailsCacheKey.cacheKey)
-              .then(_resolvePoints),
-          builder: (BuildContext _, AsyncSnapshot<_TrailWithPoints> snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text(snapshot.error!.toString()));
-            } else if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return _TrailScreenBody(trailAndPoints: snapshot.data!);
-            }
-          },
-        ));
+        Align(
+          child: Text(label + ":"),
+          alignment: Alignment.topLeft,
+        ),
+        Align(
+          child: Wrap(
+            spacing: 5,
+            children: tags
+                .map((tag) => Chip(
+                      label: Text(
+                        tag.name,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      backgroundColor: theme.colorScheme.primary,
+                    ))
+                .toList(),
+          ),
+          alignment: Alignment.topLeft,
+        ),
+      ];
+    }
+  }
+
+  @override
+  List<Widget> extraActionButtons(
+      _TrailWithPoints attraction, BuildContext context) {
+    final LoginProvider loginProvider = Provider.of<LoginProvider>(context);
+
+    if (loginProvider.hdToken == null ||
+        loginProvider.userId != attraction.trail.googleUser.id) {
+      return [];
+    } else {
+      return [
+        _UploadMenu(
+          trailId: attraction.id,
+          hdToken: loginProvider.hdToken!,
+        )
+      ];
+    }
+  }
+
+  @override
+  List<Widget> pageBody(_TrailWithPoints attraction, BuildContext context) {
+    final theme = Theme.of(context);
+
+    return [
+      SizedBox(
+        height: 3,
+      ),
+      Align(
+        child: Text("Difficulty: " +
+                difficultyToDescription(attraction.trail.difficulty)),
+        alignment: Alignment.topLeft,
+      ),
+      SizedBox(
+        height: 3,
+      ),
+      Align(
+        child: Text("Distance: " +
+            (attraction.trail.length.toDouble() / 1000.0).toStringAsFixed(2) +
+            "km"),
+        alignment: Alignment.topLeft,
+      ),
+      SizedBox(
+        height: 3,
+      ),
+      Align(
+        child: Text("Elevation Gain: " +
+            attraction.trail.elevationGain.toString() +
+            "m"),
+        alignment: Alignment.topLeft,
+      ),
+      SizedBox(
+        height: 3,
+      ),
+      ...getChips(
+        theme,
+        "Activities",
+        attraction.trail.activities,
+      ),
+      ...getChips(
+        theme,
+        "Attractions",
+        attraction.trail.attractions,
+      ),
+      ...getChips(
+        theme,
+        "Suitabilities",
+        attraction.trail.suitabilities,
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      _TrailMap(
+        trailAndPoints: attraction,
+      )
+    ];
+  }
+
+  @override
+  Future<_TrailWithPoints> readFull(BuildContext context, int cacheKey) {
+    return trailObjects.read(attraction.id, cacheKey).then(_resolvePoints);
   }
 }
 
-// Everything is loaded
-class _TrailScreenBody extends StatefulWidget {
+class _TrailMap extends StatefulWidget {
   final _TrailWithPoints trailAndPoints;
 
-  const _TrailScreenBody({
+  const _TrailMap({
     Key? key,
     required this.trailAndPoints,
   }) : super(key: key);
 
   @override
-  State<_TrailScreenBody> createState() => _TrailScreenBodyState();
+  State<_TrailMap> createState() => _TrailMapState();
 }
 
-class _TrailScreenBodyState extends State<_TrailScreenBody> {
+class _TrailMapState extends State<_TrailMap> {
   GoogleMapController? controller;
 
   CameraUpdate trailCamera() {
@@ -128,159 +245,39 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
     return CameraUpdate.newLatLngBounds(bound, 50);
   }
 
-  List<Widget> getChips<T>(
-    ThemeData theme,
-    String label,
-    List<T> tags,
-    String Function(T) tagName,
-  ) {
-    if (tags.isEmpty) {
-      return [];
-    } else {
-      return [
-        SizedBox(
-          height: 5,
-        ),
-        Text(label),
-        Wrap(
-          spacing: 5,
-          children: tags
-              .map((tag) => Chip(
-                    label: Text(
-                      tagName(tag),
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    shape: StadiumBorder(
-                      side: BorderSide(
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                    backgroundColor: theme.colorScheme.primary,
-                  ))
-              .toList(),
-        ),
-      ];
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: ListView(
-        children: [
-          ImageCarousel(
-            images: ImageCarousel.collectImages(
-              widget.trailAndPoints.trail.mainImage,
-              widget.trailAndPoints.trail.additionalImages,
-            ),
+    return SizedBox(
+        width: double.infinity,
+        height: 200,
+        child: GoogleMap(
+          mapType: MapType.normal,
+          initialCameraPosition: CameraPosition(
+            target: widget.trailAndPoints.points.first,
+            zoom: 13,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: Text(
-                widget.trailAndPoints.trail.name,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          Text("by: ${widget.trailAndPoints.trail.googleUser.name}"),
-          Row(
-            children: [
-              Rating(
-                rating: 4.6,
-                count: 230,
-              ),
-              Distance(
-                location: widget.trailAndPoints.trail,
-              ),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    "Length",
-                    style: theme.textTheme.subtitle1!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  Text((widget.trailAndPoints.trail.length.toDouble() / 1000)
-                          .toStringAsFixed(2) +
-                      "km"),
-                ],
-              ),
-              /*SizedBox(
-                width: 10,
-              ),*/
-              Column(
-                children: [
-                  Text(
-                    "Elevation Gain",
-                    style: theme.textTheme.subtitle1!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  Text(widget.trailAndPoints.trail.elevationGain.toString() +
-                      "m"),
-                ],
-              ),
-            ],
-          ),
-          ...getChips<TrailActivity>(
-            theme,
-            "Activities",
-            widget.trailAndPoints.trail.activities,
-            (tag) => tag.name,
-          ),
-          ...getChips<TrailAttraction>(
-            theme,
-            "Attractions",
-            widget.trailAndPoints.trail.attractions,
-            (tag) => tag.name,
-          ),
-          ...getChips<TrailSuitability>(
-            theme,
-            "Suitabilities",
-            widget.trailAndPoints.trail.suitabilities,
-            (tag) => tag.name,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          SizedBox(
-            width: double.infinity,
-            height: 200,
-            child: GoogleMap(
-              mapType: MapType.normal,
-              initialCameraPosition: CameraPosition(
-                  target: widget.trailAndPoints.points.first, zoom: 13),
-              onMapCreated: (GoogleMapController controller) {
-                this.controller = controller;
-                controller.animateCamera(trailCamera());
-              },
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              polylines: {
-                Polyline(
-                  polylineId: PolylineId("trail"),
-                  visible: true,
-                  color: Colors.lightGreen,
-                  points: widget.trailAndPoints.points,
-                  width: 3,
-                )
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+          onMapCreated: (GoogleMapController controller) {
+            this.controller = controller;
+            controller.animateCamera(trailCamera());
+          },
+          myLocationEnabled: true,
+          myLocationButtonEnabled: true,
+          markers: {
+            Marker(
+              markerId: MarkerId("first"),
+              position: widget.trailAndPoints.points.first,
+            )
+          },
+          polylines: {
+            Polyline(
+              polylineId: PolylineId("trail"),
+              visible: true,
+              color: Colors.lightGreen,
+              points: widget.trailAndPoints.points,
+              width: 3,
+            )
+          },
+        ));
   }
 
   @override
@@ -290,5 +287,102 @@ class _TrailScreenBodyState extends State<_TrailScreenBody> {
     }
 
     super.dispose();
+  }
+}
+
+class _UploadMenu extends StatefulWidget {
+  final String hdToken;
+  final int trailId;
+
+  const _UploadMenu({
+    Key? key,
+    required this.hdToken,
+    required this.trailId,
+  }) : super(key: key);
+
+  @override
+  State<_UploadMenu> createState() => _UploadMenuState();
+}
+
+class _UploadMenuState extends State<_UploadMenu> {
+  bool imageUploading = false;
+
+  void pickImage(ImageSource source) {
+    setState(() {
+      imageUploading = true;
+    });
+
+    // Pick an image
+    ImagePicker()
+        .pickImage(
+      source: source,
+      imageQuality: 80,
+      maxWidth: 3840,
+      maxHeight: 2160,
+    )
+        .then((picture) async {
+      if (picture != null) {
+        await ImageUpload.uploadTrailImage(
+            picture, widget.hdToken, widget.trailId);
+
+        setState(() {
+          Provider.of<CacheKey>(context, listen: false).refresh();
+          imageUploading = false;
+        });
+      } else {
+        setState(() {
+          imageUploading = false;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (imageUploading) {
+      return SizedBox(
+        width: 20,
+        height: 20,
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      return PopupMenuButton(
+        onSelected: (index) {
+          if (index == 1) {
+            pickImage(ImageSource.camera);
+          } else if (index == 2) {
+            pickImage(ImageSource.gallery);
+          }
+        },
+        itemBuilder: (context) => <PopupMenuEntry<int>>[
+          PopupMenuItem<int>(
+            value: 1,
+            child: Row(
+              children: [
+                SizedBox(
+                  child: Image.asset("assets/graphics/camera.png"),
+                  width: 24,
+                  height: 24,
+                ),
+                Text(" Take a picture"),
+              ],
+            ),
+          ),
+          PopupMenuItem<int>(
+            value: 2,
+            child: Row(
+              children: [
+                SizedBox(
+                  child: Image.asset("assets/graphics/photos.png"),
+                  width: 24,
+                  height: 24,
+                ),
+                Text(" Upload from gallery"),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
   }
 }

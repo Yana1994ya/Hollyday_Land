@@ -1,6 +1,10 @@
 import "package:built_collection/built_collection.dart";
+import "package:copy_with_extension/copy_with_extension.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 
+part "filter.g.dart";
+
+@CopyWith()
 class MuseumFilter extends AttractionFilter {
   final BuiltSet<int> regionIds;
   final BuiltSet<int> domainIds;
@@ -24,13 +28,5 @@ class MuseumFilter extends AttractionFilter {
     }
 
     return params;
-  }
-
-  MuseumFilter withRegionIds(BuiltSet<int> newRegionIds) {
-    return MuseumFilter(regionIds: newRegionIds, domainIds: domainIds);
-  }
-
-  MuseumFilter withDomainIds(BuiltSet<int> newDomainIds) {
-    return MuseumFilter(regionIds: regionIds, domainIds: newDomainIds);
   }
 }

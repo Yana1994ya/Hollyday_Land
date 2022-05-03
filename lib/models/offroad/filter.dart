@@ -1,6 +1,10 @@
 import "package:built_collection/built_collection.dart";
+import "package:copy_with_extension/copy_with_extension.dart";
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 
+part "filter.g.dart";
+
+@CopyWith()
 class OffRoadTripFilter extends AttractionFilter {
   final BuiltSet<int> regionIds;
   final BuiltSet<int> tripTypeIds;

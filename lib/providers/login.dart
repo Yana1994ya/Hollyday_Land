@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:google_sign_in/google_sign_in.dart";
 import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/login_response.dart";
 
 class LoginProvider with ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -9,13 +10,15 @@ class LoginProvider with ChangeNotifier {
 
   GoogleSignInAccount? _currentUser;
   String? _hdToken;
+  String? _userId;
 
   LoginProvider() {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       if (account != null) {
-        _hdLogin(account).then((token) {
+        _hdLogin(account).then((response) {
           _currentUser = account;
-          _hdToken = token;
+          _hdToken = response.token;
+          _userId = response.userId;
 
           notifyListeners();
         });
@@ -27,16 +30,16 @@ class LoginProvider with ChangeNotifier {
     _googleSignIn.signInSilently();
   }
 
-  Future<String> _hdLogin(GoogleSignInAccount account) async {
+  Future<LoginResponse> _hdLogin(GoogleSignInAccount account) async {
     final auth = await account.authentication;
 
     return ApiServer.post(
       "/attractions/api/login",
-      "token",
+      "user",
       {
         "token": auth.idToken!,
       },
-    ).then((value) => (value as String));
+    ).then((value) => LoginResponse.fromJson(value));
   }
 
   GoogleSignInAccount? get currentUser {
@@ -54,14 +57,20 @@ class LoginProvider with ChangeNotifier {
   Future<void> signOut() => _googleSignIn.disconnect().then((_) {
         _currentUser = null;
         _hdToken = null;
+        _userId = null;
+        notifyListeners();
       });
 
   String? get hdToken {
     return _hdToken;
   }
 
-  Future<void> visit(int attractonId) async {
-    // Visit is irrelavent for non-loged in users
+  String? get userId {
+    return _userId;
+  }
+
+  Future<void> visit(int attractionId) async {
+    // Visit is irrelevant for non-logged in users
     if (_hdToken == null) {
       return;
     }
@@ -70,7 +79,7 @@ class LoginProvider with ChangeNotifier {
       "/attractions/api/visit",
       {
         "token": _hdToken!,
-        "id": attractonId,
+        "id": attractionId,
       },
     );
   }

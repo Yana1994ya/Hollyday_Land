@@ -1,48 +1,26 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/attraction.dart";
-import "package:hollyday_land/models/base_attraction.dart";
+import "package:hollyday_land/models/dao/base_attraction.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/favorites.dart";
+import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/providers/location_provider.dart";
 import "package:hollyday_land/providers/login.dart";
-import "package:hollyday_land/widgets/attraction_map.dart";
-import "package:hollyday_land/widgets/description.dart";
+import "package:hollyday_land/screens/attraction_reviews.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/favorite_button.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
 import "package:provider/provider.dart";
-import "package:url_launcher/url_launcher.dart";
 
 abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
-  final BaseAttraction attraction;
+  final AttractionShort attraction;
 
   const AttractionScreen({Key? key, required this.attraction})
       : super(key: key);
 
-  // Trim details from url that aren't needed to
-  // identify the site to a human, such as the protocol
-  // used to access it.
-  static String prettyUrl(String original) {
-    if (original.startsWith("http://")) {
-      original = original.substring(7);
-    } else if (original.startsWith("https://")) {
-      original = original.substring(8);
-    }
+  List<Widget> pageBody(final T attraction, BuildContext context);
 
-    // trim www. from begging as well
-    if (original.startsWith("www.")) original = original.substring(4);
-
-    while (original.endsWith("/")) {
-      original = original.substring(0, original.length - 1);
-    }
-
-    return original;
-  }
-
-  static void launchWebsite(String url) async =>
-      await canLaunch(url) ? await launch(url) : throw "Could not launch $url";
-
-  static void launchPhone(String number) => launchWebsite("tel:" + number);
+  List<Widget> extraActionButtons(final T attraction, BuildContext context);
 
   Widget buildAttraction(final T attraction, BuildContext context) {
     LocationProvider location = Provider.of<LocationProvider>(context);
@@ -73,9 +51,16 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
             ),
             Row(
               children: [
-                Rating(
-                  rating: 4.6,
-                  count: 230,
+                GestureDetector(
+                  child: Rating(rating: attraction),
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_ctx) {
+                      return AttractionReviewsScreen(
+                        attractionId: attraction.id,
+                      );
+                    }));
+                  },
                 ),
                 Distance(
                   location: attraction,
@@ -83,48 +68,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
-            if (attraction.website != null || attraction.telephone != null)
-              Row(
-                children: [
-                  if (attraction.website != null)
-                    TextButton(
-                      onPressed: () {
-                        launchWebsite(attraction.website!);
-                      },
-                      child: Row(
-                        children: [
-                          //Icon(Icons.iron),
-                          Text("Visit website")
-                        ],
-                      ),
-                    ),
-                  if (attraction.telephone != null)
-                    TextButton(
-                      onPressed: () {
-                        launchPhone(attraction.telephone!);
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.phone,
-                            size: 16.0,
-                          ),
-                          Text("call")
-                        ],
-                      ),
-                    ),
-                ],
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              ),
-            if (attraction.description.isNotEmpty)
-              Description(text: attraction.description),
-            SizedBox(
-              width: double.infinity,
-              height: 300.0,
-              child: AttractionMap(
-                attraction: attraction,
-              ),
-            )
+            ...pageBody(attraction, context)
             //
           ],
         ),
@@ -132,8 +76,10 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     );
   }
 
-  Widget favoriteIcon(BuildContext context, LoginProvider loginProvider) {
-    //final scaffoldMessanger = ScaffoldMessenger.of(context);
+  Widget _favoriteIcon(
+    BuildContext context,
+    LoginProvider loginProvider,
+  ) {
     if (loginProvider.currentUser == null) {
       return IconButton(
           onPressed: () {
@@ -141,9 +87,9 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: const Text("You are currently not logged in"),
+                title: const Text("You are currently not logged in."),
                 content: const Text(
-                    "Do you wish to login to mark this museum as favorite?"),
+                    "Do you wish to login to mark this attraction as favorite?"),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -158,7 +104,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
           },
           icon: Icon(Icons.favorite_outline));
     } else {
-      return FutureBuilder(
+      return FutureBuilder<bool>(
         future: Favorites.readFavorite(loginProvider.hdToken!, attraction.id),
         builder: (_, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasError) {
@@ -170,7 +116,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
           } else {
             return FavoriteButton(
               attractionId: attraction.id,
-              initalState: snapshot.data!,
+              initialState: snapshot.data!,
               token: loginProvider.hdToken!,
             );
           }
@@ -179,45 +125,63 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     }
   }
 
-  Future<T> readFull();
+  Future<T> readFull(BuildContext context, int cacheKey);
 
   @override
   Widget build(BuildContext context) {
     final login = Provider.of<LoginProvider>(context);
+    final cacheKey = Provider.of<CacheKey>(context).cacheKey;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(attraction.name),
-        actions: [
-          favoriteIcon(context, login),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.share),
-          )
-        ],
-      ),
-      body: FutureBuilder(
-        future: readFull(),
+    return FutureBuilder(
+        future: readFull(context, cacheKey),
         builder: (_, AsyncSnapshot<T> snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error.toString(),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(attraction.name),
+              ),
+              body: Center(
+                child: Text(
+                  snapshot.error.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
               ),
             );
           } else if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(attraction.name),
+                actions: [
+                  _favoriteIcon(
+                    context,
+                    login,
+                  ),
+                ],
+              ),
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           } else {
+            final T fullModel = snapshot.data!;
             login.visit(snapshot.data!.id);
-            return buildAttraction(snapshot.data!, context);
+
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(attraction.name),
+                actions: [
+                  _favoriteIcon(
+                    context,
+                    login,
+                  ),
+                  ...extraActionButtons(fullModel, context)
+                ],
+              ),
+              body: buildAttraction(fullModel, context),
+            );
           }
-        },
-      ),
-    );
+        });
   }
 }

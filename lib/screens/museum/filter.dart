@@ -19,25 +19,25 @@ class MuseumsFilterScreen
 
   @override
   Widget selectionWidget(BuildContext context, MuseumFilterOptions options) =>
-      _MuseumsFilterScreen(
+      _MuseumsFilter(
         options: options,
         initialFilter: currentFilter,
       );
 }
 
-class _MuseumsFilterScreen extends StatefulWidget {
+class _MuseumsFilter extends StatefulWidget {
   final MuseumFilterOptions options;
   final MuseumFilter initialFilter;
 
-  const _MuseumsFilterScreen(
+  const _MuseumsFilter(
       {Key? key, required this.options, required this.initialFilter})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MuseumsFilterScreenState();
+  State<StatefulWidget> createState() => _MuseumsFilterState();
 }
 
-class _MuseumsFilterScreenState extends State<_MuseumsFilterScreen> {
+class _MuseumsFilterState extends State<_MuseumsFilter> {
   late MuseumFilter filter;
 
   @override
@@ -49,21 +49,11 @@ class _MuseumsFilterScreenState extends State<_MuseumsFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Museums"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Museums",
+        filter,
+        MuseumFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -80,7 +70,9 @@ class _MuseumsFilterScreenState extends State<_MuseumsFilterScreen> {
               items: widget.options.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = filter.withRegionIds(regionIds);
+                setState(() {
+                  filter = filter.copyWith(regionIds: regionIds);
+                });
               },
             ),
             Divider(),
@@ -95,7 +87,9 @@ class _MuseumsFilterScreenState extends State<_MuseumsFilterScreen> {
                 items: widget.options.domains,
                 initialSelected: widget.initialFilter.domainIds,
                 onChange: (domainIds) {
-                  filter = filter.withDomainIds(domainIds);
+                  setState(() {
+                    filter = filter.copyWith(domainIds: domainIds);
+                  });
                 })
           ],
         ),

@@ -26,8 +26,6 @@ class CategoryItem extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  //Colors.grey.shade400.withOpacity(0.9),
-                  //Colors.grey.shade400.withOpacity(0)
                   Colors.white.withOpacity(0.7),
                   Colors.white.withOpacity(0),
                 ],

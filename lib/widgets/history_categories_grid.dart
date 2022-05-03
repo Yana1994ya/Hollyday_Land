@@ -1,45 +1,37 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/history.dart";
+import "package:hollyday_land/models/attractions_count.dart";
+import "package:hollyday_land/screens/extreme_sports/history.dart";
+import "package:hollyday_land/screens/hot_air/history.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/offroad/history.dart";
+import "package:hollyday_land/screens/rock_climbing/history.dart";
+import "package:hollyday_land/screens/trail/history.dart";
+import "package:hollyday_land/screens/water_sports/history.dart";
 import "package:hollyday_land/screens/winery/history.dart";
 import "package:hollyday_land/screens/zoo/history.dart";
+import "package:hollyday_land/widgets/categories_grid.dart";
 import "package:hollyday_land/widgets/category_item.dart";
 
 class HistoryCategoriesGrid extends StatelessWidget {
-  final History history;
+  final AttractionsCount history;
 
   const HistoryCategoriesGrid({Key? key, required this.history})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<CategoryItem> items = [
-      if (history.museums > 0)
-        CategoryItem(
-          image: "assets/graphics/museums.jpg",
-          title: "Museums",
-          path: HistoryMuseumsScreen.routePath,
-        ),
-      if (history.wineries > 0)
-        CategoryItem(
-          image: "assets/graphics/wineries.jpg",
-          title: "Wineries",
-          path: HistoryWineriesScreen.routePath,
-        ),
-      if (history.zoos > 0)
-        CategoryItem(
-          image: "assets/graphics/zoos.jpg",
-          title: "Zoos",
-          path: HistoryZoosScreen.routePath,
-        ),
-      if (history.offRoadTrips > 0)
-        CategoryItem(
-          image: "assets/graphics/offroad.jpg",
-          title: "Off Road Trips",
-          path: HistoryOffRoadTripsScreen.routePath,
-        ),
-    ];
+    final List<CategoryItem> items = CategoriesGrid.optionalCategoryItems(
+      attractionsCount: history,
+      museumsPath: HistoryMuseumsScreen.routePath,
+      wineriesPath: HistoryWineriesScreen.routePath,
+      zoosPath: HistoryZoosScreen.routePath,
+      offRoadTripsPath: HistoryOffRoadTripsScreen.routePath,
+      trailsPath: HistoryTrailsScreen.routePath,
+      waterSportsPath: HistoryWaterSportsScreen.routePath,
+      rockClimbingPath: HistoryRockClimbingScreen.routePath,
+      extremeSportsPath: HistoryExtremeSportsScreen.routePath,
+      hotAirPath: HistoryHotAirScreen.routePath,
+    );
 
     return GridView.builder(
       padding: const EdgeInsets.all(15),
@@ -47,7 +39,7 @@ class HistoryCategoriesGrid extends StatelessWidget {
         maxCrossAxisExtent: 200,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+        mainAxisSpacing: CategoriesGrid.mainAxisSpacing,
       ),
       itemBuilder: (_, index) => items[index],
       itemCount: items.length,

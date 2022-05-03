@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/attraction_short.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/widgets/distance.dart";
 import "package:hollyday_land/widgets/rating.dart";
 
@@ -14,19 +14,6 @@ abstract class AttractionListItem<T extends AttractionShort>
   MaterialPageRoute get pageRoute;
 
   List<Widget> extraInformation(BuildContext context);
-
-  List<Widget> get city {
-    if (attraction.city == null) {
-      return [];
-    } else {
-      return [
-        Icon(Icons.arrow_right_rounded, size: 16.0),
-        Text(
-          attraction.city!,
-        ),
-      ];
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +57,6 @@ abstract class AttractionListItem<T extends AttractionShort>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        //Colors.grey.shade400.withOpacity(0.9),
-                        //Colors.grey.shade400.withOpacity(0)
                         Colors.black.withOpacity(0.4),
                         Colors.white.withOpacity(0),
                       ],
@@ -105,19 +90,8 @@ abstract class AttractionListItem<T extends AttractionShort>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Rating(
-                        rating: 4.6,
-                        count: 230,
-                      ),
+                      Rating(rating: attraction),
                       Distance(location: attraction),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        attraction.region.name,
-                      ),
-                      ...city
                     ],
                   ),
                   ...extraInformation(context),

@@ -52,21 +52,11 @@ class _RockClimbingFilterScreenState extends State<_RockClimbingFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Rock climbing"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Rock climbing",
+        filter,
+        RockClimbingFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -83,7 +73,9 @@ class _RockClimbingFilterScreenState extends State<_RockClimbingFilterScreen> {
               items: widget.options.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = filter.copyWith(regionIds: regionIds);
+                setState(() {
+                  filter = filter.copyWith(regionIds: regionIds);
+                });
               },
             ),
             Divider(),
@@ -98,8 +90,10 @@ class _RockClimbingFilterScreenState extends State<_RockClimbingFilterScreen> {
                 items: widget.options.attractionTypes,
                 initialSelected: widget.initialFilter.attractionTypeIds,
                 onChange: (attractionTypeIds) {
-                  filter =
-                      filter.copyWith(attractionTypeIds: attractionTypeIds);
+                  setState(() {
+                    filter =
+                        filter.copyWith(attractionTypeIds: attractionTypeIds);
+                  });
                 })
           ],
         ),

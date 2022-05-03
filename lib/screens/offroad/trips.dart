@@ -34,7 +34,7 @@ class _OffRoadTripsScreenState extends AttractionsScreenState<
   @override
   Future<List<OffRoadTripShort>> readAttractions(
       Map<String, Iterable<String>> params) {
-    return OffRoadTripShort.readTrips(params);
+    return offRoadTripShortObjects.readAttractions(params);
   }
 
   @override

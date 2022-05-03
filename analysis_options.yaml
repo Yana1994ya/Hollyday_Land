@@ -1,8 +1,12 @@
 include: package:lints/recommended.yaml
 
 analyzer:
-  exclude: [lib/generated_plugin_registrant.dart]
+  exclude:
+    - 'lib/generated_plugin_registrant.dart'
+    - 'lib/**/*.g.dart'
+
 linter:
   rules:
     - prefer_double_quotes
     - always_use_package_imports
+    - unawaited_futures

@@ -33,8 +33,9 @@ class _MuseumsScreenState
 
   @override
   Future<List<MuseumShort>> readAttractions(
-      Map<String, Iterable<String>> params) {
-    return MuseumShort.readMuseums(params);
+    Map<String, Iterable<String>> params,
+  ) {
+    return museumShortObjects.readAttractions(params);
   }
 
   @override

@@ -6,9 +6,17 @@ import "package:http/http.dart" as http;
 class ApiServer {
   static const serverName = "hollyland.iywebs.cloudns.ph";
 
+  static Uri getUri(String path,
+          [Map<String, Iterable<String>>? queryParameters]) =>
+      Uri.https(serverName, path, queryParameters);
+
+  /*static Uri getUri(String path,
+          [Map<String, Iterable<String>>? queryParameters]) =>
+      Uri.http("192.168.1.106:8000", path, queryParameters);*/
+
   static Future<dynamic> get(String path, String field,
       [Map<String, Iterable<String>>? queryParameters]) async {
-    final uri = Uri.https(serverName, path, queryParameters);
+    final uri = getUri(path, queryParameters);
 
     print("fetching: $uri");
 
@@ -31,10 +39,9 @@ class ApiServer {
 
   static Future<dynamic> post(
       String path, String field, Map<String, dynamic> body) async {
-    final uri = Uri.https(serverName, path);
+    final uri = getUri(path);
 
-    print("fetching: $uri");
-    print(body);
+    print("fetching: $uri, body: " + jsonEncode(body));
 
     final response = await http.post(
       uri,
@@ -50,7 +57,10 @@ class ApiServer {
       if (data["status"] == "ok") {
         return data[field];
       } else {
-        throw HttpException("error was returned:${data["error"]}");
+        throw BadRequest(
+          code: data["code"],
+          message: data["message"],
+        );
       }
     } else {
       throw HttpException(
@@ -60,9 +70,9 @@ class ApiServer {
   }
 
   static Future<void> voidPost(String path, Map<String, dynamic> body) async {
-    final uri = Uri.https(serverName, path);
+    final uri = getUri(path);
 
-    print("fetching: $uri");
+    print("fetching: $uri, body: " + jsonEncode(body));
 
     final response = await http.post(
       uri,

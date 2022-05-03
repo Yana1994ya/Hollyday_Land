@@ -4,6 +4,7 @@ import "package:hollyday_land/models/trail/attraction.dart";
 import "package:hollyday_land/models/trail/filter.dart";
 import "package:hollyday_land/models/trail/suitability.dart";
 import "package:hollyday_land/models/trail/tags.dart";
+import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
 import "package:hollyday_land/widgets/filter/difficulty_chips.dart";
 
@@ -15,8 +16,10 @@ const minElevationGain = 100;
 class TrailsFilterScreen extends StatelessWidget {
   final TrailsFilter initialFilter;
 
-  const TrailsFilterScreen({Key? key, required this.initialFilter})
-      : super(key: key);
+  const TrailsFilterScreen({
+    Key? key,
+    required this.initialFilter,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,9 @@ class TrailsFilterScreen extends StatelessWidget {
           );
         } else {
           return LoadedTrailsFilterScreen(
-              initialFilter: initialFilter, tags: snapshot.data!);
+            initialFilter: initialFilter,
+            tags: snapshot.data!,
+          );
         }
       },
     );
@@ -46,9 +51,11 @@ class LoadedTrailsFilterScreen extends StatefulWidget {
   final TrailsFilter initialFilter;
   final TrailTags tags;
 
-  const LoadedTrailsFilterScreen(
-      {Key? key, required this.initialFilter, required this.tags})
-      : super(key: key);
+  const LoadedTrailsFilterScreen({
+    Key? key,
+    required this.initialFilter,
+    required this.tags,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LoadedTrailsFilterScreenState();
@@ -69,21 +76,11 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
     final titleTheme = Theme.of(context).textTheme.headline6;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Trails filter"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Trails filter",
+        filter,
+        TrailsFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -215,7 +212,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
             DifficultyFilterChips(
               initialSelected: filter.difficulty,
               onChange: (newDifficulties) {
-                filter = filter.copyWith(difficulty: newDifficulties);
+                setState(() {
+                  filter = filter.copyWith(difficulty: newDifficulties);
+                });
               },
             ),
             Divider(),
@@ -227,7 +226,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               items: widget.tags.activities,
               initialSelected: filter.activities,
               onChange: (newActivities) {
-                filter = filter.copyWith(activities: newActivities);
+                setState(() {
+                  filter = filter.copyWith(activities: newActivities);
+                });
               },
             ),
             Divider(),
@@ -239,7 +240,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               items: widget.tags.attractions,
               initialSelected: filter.attractions,
               onChange: (newAttractions) {
-                filter = filter.copyWith(attractions: newAttractions);
+                setState(() {
+                  filter = filter.copyWith(attractions: newAttractions);
+                });
               },
             ),
             Divider(),
@@ -251,7 +254,9 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               items: widget.tags.suitabilities,
               initialSelected: filter.suitabilities,
               onChange: (newSuitabilities) {
-                filter = filter.copyWith(suitabilities: newSuitabilities);
+                setState(() {
+                  filter = filter.copyWith(suitabilities: newSuitabilities);
+                });
               },
             ),
           ],

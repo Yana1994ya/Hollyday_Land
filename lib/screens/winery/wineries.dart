@@ -34,7 +34,7 @@ class _WineriesScreenState
   @override
   Future<List<WineryShort>> readAttractions(
       Map<String, Iterable<String>> params) {
-    return WineryShort.readWineries(params);
+    return wineryShortObjects.readAttractions(params);
   }
 
   @override

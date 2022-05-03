@@ -52,22 +52,11 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Off Road Trips"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        "Off Road Trips",
+        filter,
+        OffRoadTripFilter.empty()),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView(
@@ -83,7 +72,9 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
               items: widget.options.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = filter.withRegionIds(regionIds);
+                setState(() {
+                  filter = filter.withRegionIds(regionIds);
+                });
               },
             ),
             Divider(),
@@ -94,11 +85,13 @@ class _OffRoadFilterScreenState extends State<_OffRoadFilterScreen> {
             Container(
               height: 5,
             ),
-            FilterChips<TripType>(
+            FilterChips<OffRoadTripType>(
                 items: widget.options.tripTypes,
                 initialSelected: widget.initialFilter.tripTypeIds,
                 onChange: (tripTypeIds) {
-                  filter = filter.withTripTypeIds(tripTypeIds);
+                  setState(() {
+                    filter = filter.withTripTypeIds(tripTypeIds);
+                  });
                 })
           ],
         ),

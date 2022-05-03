@@ -1,30 +1,7 @@
 import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/attractions_count.dart";
 
 class History {
-  final int museums;
-  final int wineries;
-  final int zoos;
-  final int offRoadTrips;
-
-  History({
-    required this.museums,
-    required this.wineries,
-    required this.zoos,
-    required this.offRoadTrips,
-  });
-
-  bool get isEmpty {
-    return museums + wineries + zoos + offRoadTrips == 0;
-  }
-
-  factory History.fromJson(Map<String, dynamic> json) {
-    return History(
-        museums: json["museums"],
-        wineries: json["wineries"],
-        zoos: json["zoos"],
-        offRoadTrips: json["off_road"]);
-  }
-
   static Future<void> deleteHistory(String token) async {
     return ApiServer.voidPost(
       "/attractions/api/history/delete",
@@ -32,11 +9,11 @@ class History {
     );
   }
 
-  static Future<History> readHistory(String token) async {
+  static Future<AttractionsCount> readHistory(String token) async {
     return ApiServer.post(
       "/attractions/api/history",
       "visited",
       {"token": token},
-    ).then((data) => History.fromJson(data));
+    ).then((data) => AttractionsCount.fromJson(data));
   }
 }

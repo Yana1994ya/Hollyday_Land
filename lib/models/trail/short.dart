@@ -1,11 +1,19 @@
-import "package:google_maps_flutter/google_maps_flutter.dart";
-import "package:hollyday_land/api_server.dart";
+import "package:decimal/decimal.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
+import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
+import "package:hollyday_land_dao/list_dao.dart";
 
-class TrailShort with WithLocation {
-  final String id;
+part "short.objects.list.dart";
+
+@ListDao("trails")
+class TrailShort with WithLocation, WithRating, AttractionShort {
+  @override
+  final int id;
+  @override
   final String name;
 
   @override
@@ -18,7 +26,15 @@ class TrailShort with WithLocation {
 
   final Difficulty difficulty;
 
+  @override
   final ImageAsset? mainImage;
+
+  final String ownerId;
+
+  @override
+  final Decimal avgRating;
+  @override
+  final int ratingCount;
 
   TrailShort({
     required this.id,
@@ -29,6 +45,9 @@ class TrailShort with WithLocation {
     required this.elevationGain,
     required this.difficulty,
     required this.mainImage,
+    required this.ownerId,
+    required this.avgRating,
+    required this.ratingCount,
   });
 
   factory TrailShort.fromJson(Map<String, dynamic> json) {
@@ -43,27 +62,9 @@ class TrailShort with WithLocation {
       length: json["length"],
       difficulty: difficultyFromString(json["difficulty"]),
       elevationGain: json["elevation_gain"],
+      ownerId: json["owner_id"],
+      avgRating: Decimal.parse(json["avg_rating"]),
+      ratingCount: json["rating_count"],
     );
-  }
-
-  static List<TrailShort> _mapTrail(dynamic apiResult) {
-    return (apiResult as List<dynamic>)
-        .map((trail) => TrailShort.fromJson(trail))
-        .toList();
-  }
-
-  static Future<List<TrailShort>> readTrails(
-      Map<String, Iterable<String>> parameters) async {
-    return ApiServer.get("/attractions/api/trails", "trails", parameters)
-        .then(_mapTrail);
-  }
-
-  static Future<List<TrailShort>> forBounds(LatLngBounds bounds) {
-    return readTrails({
-      "lat_min": [bounds.southwest.latitude.toStringAsPrecision(10)],
-      "lon_min": [bounds.southwest.longitude.toStringAsPrecision(10)],
-      "lat_max": [bounds.northeast.latitude.toStringAsPrecision(10)],
-      "lon_max": [bounds.northeast.longitude.toStringAsPrecision(10)]
-    });
   }
 }

@@ -1,6 +1,10 @@
-import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/filter_tag.dart";
+import "package:hollyday_land_dao/filter_dao.dart";
 
+part "attraction_type.objects.filter_tags.dart";
+
+@FilterTagDao("rock_climbing_types")
 class RockClimbingAttractionType with FilterTag {
   @override
   final int id;
@@ -19,19 +23,5 @@ class RockClimbingAttractionType with FilterTag {
   @override
   String toString() {
     return "RockClimbingAttractionType{id: $id, name: $name}";
-  }
-
-  static List<RockClimbingAttractionType> _mapAttractionType(
-      dynamic apiResult) {
-    return (apiResult as List<dynamic>)
-        .map((domain) => RockClimbingAttractionType.fromJson(domain))
-        .toList();
-  }
-
-  static Future<List<RockClimbingAttractionType>> readAttractionTypes() async {
-    return ApiServer.get(
-      "/attractions/api/rock_climbing_types",
-      "rock_climbing_types",
-    ).then(_mapAttractionType);
   }
 }

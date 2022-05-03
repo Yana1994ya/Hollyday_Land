@@ -1,5 +1,6 @@
 import "package:built_collection/built_collection.dart";
 import "package:copy_with_extension/copy_with_extension.dart";
+import "package:hollyday_land/models/filter/attraction_filter.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 
 part "filter.g.dart";
@@ -23,7 +24,7 @@ class MeterRange {
 }
 
 @CopyWith()
-class TrailsFilter {
+class TrailsFilter extends AttractionFilter {
   final BuiltSet<Difficulty> difficulty;
   final BuiltSet<int> activities;
   final BuiltSet<int> attractions;
@@ -51,15 +52,14 @@ class TrailsFilter {
     );
   }
 
-  Map<String, Iterable<String>> parameters(int cache) {
+  @override
+  Map<String, Iterable<String>> get parameters {
     final Map<String, Iterable<String>> params = {};
 
     if (difficulty.isNotEmpty) {
       params["difficulty"] = difficulty.map(difficultyToString);
     }
 
-    // The ?. operator does operation if not null(otherwise returns null,
-    // but return value is ignored so it basically does nothing)
     length._addParameter(params, "length");
     elevationGain._addParameter(params, "elevation_gain");
 
@@ -75,19 +75,6 @@ class TrailsFilter {
       params["suitabilities"] = suitabilities.map((id) => id.toString());
     }
 
-    params["cache"] = [cache.toString()];
-
     return params;
-  }
-
-  TrailsFilter withDifficulty(BuiltSet<Difficulty> newDifficulty) {
-    return TrailsFilter(
-      difficulty: newDifficulty,
-      length: length,
-      elevationGain: elevationGain,
-      activities: activities,
-      attractions: attractions,
-      suitabilities: suitabilities,
-    );
   }
 }

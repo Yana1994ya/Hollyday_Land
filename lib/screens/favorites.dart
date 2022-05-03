@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/attractions_count.dart";
 import "package:hollyday_land/models/favorites.dart";
 import "package:hollyday_land/providers/favorites_cache_key.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/favorites_categories_grid.dart";
+import "package:hollyday_land/widgets/no_results.dart";
 import "package:provider/provider.dart";
 
 class _LoggedInFavoritesScreen extends StatelessWidget {
@@ -19,7 +21,7 @@ class _LoggedInFavoritesScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Favorites"),
       ),
-      body: FutureBuilder<Favorites>(
+      body: FutureBuilder<AttractionsCount>(
         future: Favorites.readFavorites(
           loginProvider.hdToken!,
           cacheKeyProvider.cacheKey,
@@ -34,7 +36,10 @@ class _LoggedInFavoritesScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
-            return FavoritesCategoriesGrid(favorites: snapshot.data!);
+            return snapshot.data!.isEmpty
+                ? const NoResults(
+                    text: "You haven't marked any attractions as favorite yet")
+                : FavoritesCategoriesGrid(favorites: snapshot.data!);
           }
         },
       ),

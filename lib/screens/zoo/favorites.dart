@@ -25,7 +25,7 @@ class FavoritesZoosScreen extends UserAttractionsScreen<ZooShort> {
     BuildContext context,
   ) {
     final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
-    return ZooShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
+    return zooShortObjects.readFavorites(hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override

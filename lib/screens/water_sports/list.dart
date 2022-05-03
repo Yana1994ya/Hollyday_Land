@@ -35,7 +35,7 @@ class _WaterSportsListScreenState extends AttractionsScreenState<
   @override
   Future<List<WaterSportsShort>> readAttractions(
       Map<String, Iterable<String>> params) {
-    return WaterSportsShort.readAttractions(params);
+    return waterSportsShortObjects.readAttractions(params);
   }
 
   @override

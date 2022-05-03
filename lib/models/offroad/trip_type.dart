@@ -1,16 +1,20 @@
-import "package:hollyday_land/api_server.dart";
+import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/filter_tag.dart";
+import "package:hollyday_land_dao/filter_dao.dart";
 
-class TripType with FilterTag {
+part "trip_type.objects.filter_tags.dart";
+
+@FilterTagDao("offroad_trip_types")
+class OffRoadTripType with FilterTag {
   @override
   final int id;
   @override
   final String name;
 
-  TripType({required this.id, required this.name});
+  OffRoadTripType({required this.id, required this.name});
 
-  factory TripType.fromJson(Map<String, dynamic> json) {
-    return TripType(
+  factory OffRoadTripType.fromJson(Map<String, dynamic> json) {
+    return OffRoadTripType(
       id: json["id"],
       name: json["name"],
     );
@@ -18,19 +22,6 @@ class TripType with FilterTag {
 
   @override
   String toString() {
-    return "TripType{id: $id, name: $name}";
-  }
-
-  static List<TripType> _mapTripTypes(dynamic apiResult) {
-    return (apiResult as List<dynamic>)
-        .map((domain) => TripType.fromJson(domain))
-        .toList();
-  }
-
-  static Future<List<TripType>> readTripTypes() async {
-    return ApiServer.get(
-      "/attractions/api/off_road_trip_types",
-      "trip_types",
-    ).then(_mapTripTypes);
+    return "OffroadTripType{id: $id, name: $name}";
   }
 }

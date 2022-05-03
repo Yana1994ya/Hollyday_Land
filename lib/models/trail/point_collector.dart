@@ -82,13 +82,16 @@ class PointCollector {
         _altitudes.removeAt(0);
       }
 
+      // Only perform the elevation gain calculations if there are {comparePoints} / 2
+      // data points, usually 15, less than that is not useful as altitude is very noisy and
+      // inaccurate
       if (_altitudes.length > comparePoints / 2) {
         final avgAltitude =
             _altitudes.reduce((value, element) => value + element) /
                 _altitudes.length;
 
         if (_lastAvgAltitude != null && _lastAvgAltitude! < avgAltitude) {
-          _elevationGain += avgAltitude - _lastAvgAltitude!;
+          _elevationGain += (avgAltitude - _lastAvgAltitude!);
         }
 
         _lastAvgAltitude = avgAltitude;
@@ -97,7 +100,7 @@ class PointCollector {
       // Ignore the first location.time after a pause and resume button
       // (so we don't count pause time)
       if (!_justStarted && _lastTime != null) {
-        _elapsedTime = location.time - _lastTime!;
+        _elapsedTime += (location.time - _lastTime!);
       } else {
         _justStarted = false;
       }

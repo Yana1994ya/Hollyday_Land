@@ -11,8 +11,8 @@ class MuseumFilterOptions {
   });
 
   static Future<MuseumFilterOptions> fetch() async {
-    final domains = await MuseumDomain.readMuseumDomains();
-    final regions = await Region.readRegions();
+    final domains = await museumDomainObjects.readTags();
+    final regions = await regionObjects.readTags();
 
     return MuseumFilterOptions(domains: domains, regions: regions);
   }

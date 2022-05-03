@@ -5,13 +5,13 @@ import "package:provider/provider.dart";
 
 class FavoriteButton extends StatefulWidget {
   final int attractionId;
-  final bool initalState;
+  final bool initialState;
   final String token;
 
   const FavoriteButton({
     Key? key,
     required this.attractionId,
-    required this.initalState,
+    required this.initialState,
     required this.token,
   }) : super(key: key);
 
@@ -25,7 +25,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
 
   @override
   void initState() {
-    favorite = widget.initalState;
+    favorite = widget.initialState;
     super.initState();
   }
 

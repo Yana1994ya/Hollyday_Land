@@ -25,7 +25,7 @@ class FavoritesWineriesScreen extends UserAttractionsScreen<WineryShort> {
     BuildContext context,
   ) {
     final cacheKeyProvider = Provider.of<FavoritesCacheKey>(context);
-    return WineryShort.readFavorites(hdToken, cacheKeyProvider.cacheKey);
+    return wineryShortObjects.readFavorites(hdToken, cacheKeyProvider.cacheKey);
   }
 
   @override

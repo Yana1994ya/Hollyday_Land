@@ -16,7 +16,7 @@ class RegionFilterScreen
   }) : super(key: key, currentFilter: currentFilter);
 
   @override
-  Future<List<Region>> loadOptions() => Region.readRegions();
+  Future<List<Region>> loadOptions() => regionObjects.readTags();
 
   @override
   Widget selectionWidget(BuildContext context, List<Region> options) =>
@@ -55,16 +55,11 @@ class _RegionFilterScreenState extends State<_RegionFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.pageTitle),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(filter);
-            },
-            child: Text("Save"),
-          ),
-        ],
+      appBar: AttractionFilterScreen.filterAppBar(
+        context,
+        widget.pageTitle,
+        filter,
+        RegionFilter.empty(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -81,7 +76,9 @@ class _RegionFilterScreenState extends State<_RegionFilterScreen> {
               items: widget.regions,
               initialSelected: widget.initialFilter.regionIds,
               onChange: (regionIds) {
-                filter = RegionFilter(regionIds);
+                setState(() {
+                  filter = RegionFilter(regionIds);
+                });
               },
             ),
           ],

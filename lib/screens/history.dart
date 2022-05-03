@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/attractions_count.dart";
 import "package:hollyday_land/models/history.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
 import "package:hollyday_land/widgets/history_categories_grid.dart";
+import "package:hollyday_land/widgets/no_results.dart";
 import "package:provider/provider.dart";
 
 class _LoggedInHistoryScreen extends StatefulWidget {
@@ -16,7 +18,7 @@ class _LoggedInHistoryScreen extends StatefulWidget {
 }
 
 class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
-  History? history;
+  AttractionsCount? history;
   bool loading = true;
   Error? error;
 
@@ -25,7 +27,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
       return false;
     }
 
-    return !history!.isEmpty;
+    return !(history!.isEmpty);
   }
 
   Future<bool?> confirmClear(BuildContext context) {
@@ -80,11 +82,7 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
                           .then((_) {
                         setState(() {
                           loading = false;
-                          history = History(
-                              museums: 0,
-                              wineries: 0,
-                              zoos: 0,
-                              offRoadTrips: 0);
+                          history = AttractionsCount.empty();
                         });
                       });
                     }
@@ -94,7 +92,9 @@ class _LoggedInHistoryScreenState extends State<_LoggedInHistoryScreen> {
               ),
           ],
         ),
-        body: HistoryCategoriesGrid(history: history!),
+        body: history!.isEmpty
+            ? const NoResults(text: "You haven't visited any attractions yet")
+            : HistoryCategoriesGrid(history: history!),
       );
     }
   }
