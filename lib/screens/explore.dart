@@ -74,10 +74,10 @@ class ExploreScreen extends StatelessWidget {
                   title: Text("Map"),
                 ),
                 onTap: () {
-                  Navigator.of(context).pushNamed(
-                    MapScreen.routePath,
-                    arguments: MapObjects.attractions,
-                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) =>
+                        MapScreen(mapObjectTypes: MapObjectTypes.attractions),
+                  ));
                 },
               ),
               InkWell(

@@ -24,18 +24,18 @@ class LocationProvider extends ChangeNotifier {
     if (_lastSnapshot == null ||
         _lastSnapshot!.acquisitionTime.difference(DateTime.now()).inMinutes >
             10) {
-      _fetchSnapshot().then((data) {
+      fetchSnapshot().then((data) {
         _lastSnapshot = data;
         notifyListeners();
       });
     }
   }
 
-  LocationSnapshot? get lastSnapshot {
-    return _lastSnapshot;
+  LocationData? get lastLocation {
+    return _lastSnapshot?.location;
   }
 
-  Future<LocationSnapshot> _fetchSnapshot() async {
+  static Future<LocationSnapshot> fetchSnapshot() async {
     Location location = Location();
 
     bool _serviceEnabled;
@@ -46,7 +46,10 @@ class LocationProvider extends ChangeNotifier {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
         return LocationSnapshot(
-            LocationStatus.serviceDisabled, null, DateTime.now());
+          LocationStatus.serviceDisabled,
+          null,
+          DateTime.now(),
+        );
       }
     }
 
@@ -55,13 +58,19 @@ class LocationProvider extends ChangeNotifier {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
         return LocationSnapshot(
-            LocationStatus.permissionDenied, null, DateTime.now());
+          LocationStatus.permissionDenied,
+          null,
+          DateTime.now(),
+        );
       }
     }
 
     LocationData currentLocation = await location.getLocation();
 
     return LocationSnapshot(
-        LocationStatus.recieved, currentLocation, DateTime.now());
+      LocationStatus.recieved,
+      currentLocation,
+      DateTime.now(),
+    );
   }
 }

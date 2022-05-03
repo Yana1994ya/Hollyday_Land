@@ -64,8 +64,9 @@ class _TrailsScreenState
                 .push(filterPage(filter))
                 .then(filterSelectionResult);
           } else if (index == 3) {
-            Navigator.of(context)
-                .pushNamed(MapScreen.routePath, arguments: MapObjects.trails);
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => MapScreen(mapObjectTypes: MapObjectTypes.trails),
+            ));
           }
         },
         itemBuilder: (context) => <PopupMenuEntry<int>>[

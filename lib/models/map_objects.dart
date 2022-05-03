@@ -1,1 +1,1 @@
-enum MapObjects { attractions, trails }
+enum MapObjectTypes { attractions, trails }

@@ -8,10 +8,11 @@ import "package:location/location.dart";
 import "package:provider/provider.dart";
 
 class Distance extends StatelessWidget {
-  final WithLocation location;
+  final WithLocation attractionLocation;
   static final distanceFormat = NumberFormat("###.0#", "en_US");
 
-  const Distance({Key? key, required this.location}) : super(key: key);
+  const Distance({Key? key, required this.attractionLocation})
+      : super(key: key);
 
   static double calculateDistanceKM(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
@@ -22,12 +23,12 @@ class Distance extends StatelessWidget {
     return 12742 * asin(sqrt(a));
   }
 
-  Widget distanceWidget(LocationData locationData) {
+  Widget distanceWidget(LocationData yourLocation) {
     final double distance = calculateDistanceKM(
-      locationData.latitude,
-      locationData.longitude,
-      location.lat,
-      location.long,
+      yourLocation.latitude,
+      yourLocation.longitude,
+      attractionLocation.lat,
+      attractionLocation.long,
     );
 
     var distanceString = distanceFormat.format(distance);
@@ -44,9 +45,8 @@ class Distance extends StatelessWidget {
   Widget build(BuildContext context) {
     LocationProvider locationProvider = Provider.of<LocationProvider>(context);
 
-    if (locationProvider.lastSnapshot != null &&
-        locationProvider.lastSnapshot!.status == LocationStatus.recieved) {
-      return distanceWidget(locationProvider.lastSnapshot!.location!);
+    if (locationProvider.lastLocation != null) {
+      return distanceWidget(locationProvider.lastLocation!);
     } else {
       return Container();
     }

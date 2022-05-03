@@ -64,7 +64,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
                   },
                 ),
                 Distance(
-                  location: attraction,
+                  attractionLocation: attraction,
                 ),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -6,7 +6,9 @@ import "package:hollyday_land/providers/location_provider.dart";
 import "package:provider/provider.dart";
 
 class MapScreen extends StatefulWidget {
-  static const routePath = "/map";
+  final MapObjectTypes mapObjectTypes;
+
+  const MapScreen({Key? key, required this.mapObjectTypes}) : super(key: key);
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -15,23 +17,6 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   GoogleMapController? _controller;
   Set<Marker> markers = {};
-  bool initiated = false;
-  late MapObjects objects;
-
-  @override
-  void didChangeDependencies() {
-    if (!initiated) {
-      if (ModalRoute.of(context)!.settings.arguments == null) {
-        objects = MapObjects.attractions;
-      } else {
-        objects = ModalRoute.of(context)!.settings.arguments as MapObjects;
-      }
-
-      initiated = true;
-    }
-
-    super.didChangeDependencies();
-  }
 
   static final CameraPosition _jerusalem = CameraPosition(
     target: LatLng(31.7945578, 35.2392122),
@@ -40,7 +25,8 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onCameraIdle() {
     _controller!.getVisibleRegion().then((bounds) {
-      GenericAttraction.forBounds(bounds, objects).then((attractions) {
+      GenericAttraction.forBounds(bounds, widget.mapObjectTypes)
+          .then((attractions) {
         final newAttractions = attractions
             .map((attraction) => Marker(
                   markerId: MarkerId(attraction.id.toString()),
@@ -63,17 +49,23 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Ask for location permissions
     Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
+
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(objects == MapObjects.attractions ? "Map" : "Map of Trails"),
+        title: Text(widget.mapObjectTypes == MapObjectTypes.attractions
+            ? "Map"
+            : "Map of Trails"),
       ),
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _jerusalem,
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
+          // Map is created, manually invoke _onCameraIdle to load the initially
+          // shown area
+          _onCameraIdle();
         },
         onCameraIdle: _onCameraIdle,
         myLocationEnabled: true,
