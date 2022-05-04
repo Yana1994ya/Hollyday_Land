@@ -8,6 +8,7 @@ import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/map_objects.dart";
 import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/screens/extreme_sports/item.dart";
+import "package:hollyday_land/screens/hot_air/hot_air.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
 import "package:hollyday_land/screens/offroad/trip.dart";
 import "package:hollyday_land/screens/rock_climbing/item.dart";
@@ -99,6 +100,8 @@ class GenericAttraction with WithRating, WithLocation, AttractionShort {
       return WaterSportsItemScreen(attraction: this);
     } else if (type == "extreme_sports") {
       return ExtremeSportsItemScreen(attraction: this);
+    } else if (type == "hot_air") {
+      return HotAirScreen(attraction: this);
     } else {
       throw Exception("couldn't resolve type: $type to page");
     }

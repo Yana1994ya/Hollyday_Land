@@ -61,7 +61,7 @@ class FavoritesScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Favorites"),
         ),
-        body: ProfileScreen.loginBody(loginProvider),
+        body: ProfileScreen.loginBody(context, loginProvider),
       );
     } else {
       return _LoggedInFavoritesScreen(

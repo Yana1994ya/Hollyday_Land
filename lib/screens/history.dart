@@ -124,7 +124,7 @@ class HistoryScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("History"),
         ),
-        body: ProfileScreen.loginBody(loginProvider),
+        body: ProfileScreen.loginBody(context, loginProvider),
       );
     } else {
       return _LoggedInHistoryScreen(

@@ -20,23 +20,23 @@ class _AttractionReviewsScreenState extends State<AttractionReviewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ratingCacheKey = Provider.of<CacheKey>(context).cacheKey;
+    final cacheKey = Provider.of<CacheKey>(context).cacheKey;
 
     return FutureBuilder<Comments>(
       future: Comments.readAttractionComments(
         widget.attractionId,
         page,
-        ratingCacheKey,
+        cacheKey,
       ),
       builder: (BuildContext _ctx, AsyncSnapshot<Comments> snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
-            appBar: AppBar(title: Text("Comments")),
+            appBar: AppBar(title: Text("Reviews")),
             body: Center(child: Text("error: ${snapshot.error}")),
           );
         } else if (!snapshot.hasData) {
           return Scaffold(
-            appBar: AppBar(title: Text("Comments")),
+            appBar: AppBar(title: Text("Reviews")),
             body: Center(child: CircularProgressIndicator()),
           );
         } else {

@@ -32,10 +32,11 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
         child: Column(
           children: [
             ImageCarousel(
-                images: ImageCarousel.collectImages(
-              attraction.mainImage,
-              attraction.additionalImages,
-            )),
+              images: ImageCarousel.collectImages(
+                attraction.mainImage,
+                attraction.additionalImages,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(

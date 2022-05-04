@@ -42,11 +42,11 @@ class Distance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LocationProvider location = Provider.of<LocationProvider>(context);
+    LocationProvider locationProvider = Provider.of<LocationProvider>(context);
 
-    if (location.lastSnapshot != null &&
-        location.lastSnapshot!.status == LocationStatus.recieved) {
-      return distanceWidget(location.lastSnapshot!.location!);
+    if (locationProvider.lastSnapshot != null &&
+        locationProvider.lastSnapshot!.status == LocationStatus.recieved) {
+      return distanceWidget(locationProvider.lastSnapshot!.location!);
     } else {
       return Container();
     }

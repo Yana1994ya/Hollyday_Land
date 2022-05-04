@@ -116,6 +116,8 @@ class PointCollector {
 
   double get distance => _distance;
 
+  bool get isEmpty => _points.isEmpty;
+
   double get elevationGain => _elevationGain;
 
   double get elapsedTime => _elapsedTime;

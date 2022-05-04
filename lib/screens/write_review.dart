@@ -27,10 +27,10 @@ class WriteReview extends StatelessWidget {
             appBar: AppBar(
               title: Text("Write a review"),
             ),
-            body: ProfileScreen.loginBody(login),
+            body: ProfileScreen.loginBody(context, login),
           )
         : _LoggedInWriteReview(
-      attractionId: attractionId,
+            attractionId: attractionId,
             hdToken: login.hdToken!,
           );
   }
@@ -75,8 +75,8 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
     if (_imageUploading) {
       result.add(
         SizedBox(
-          width: 64,
-          height: 64,
+          width: 58,
+          height: 58,
           child: CircularProgressIndicator(),
         ),
       );
@@ -139,84 +139,87 @@ class _LoggedInWriteReviewState extends State<_LoggedInWriteReview> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              RatingBar(
-                initialRating: 0,
-                direction: Axis.horizontal,
-                allowHalfRating: false,
-                itemCount: 5,
-                ratingWidget: RatingWidget(
-                    full: const Icon(Icons.star, color: Colors.orange),
-                    half: const Icon(
-                      Icons.star_half,
-                      color: Colors.orange,
-                    ),
-                    empty: const Icon(
-                      Icons.star_outline,
-                      color: Colors.orange,
-                    )),
-                onRatingUpdate: (value) {
-                  setState(() {
-                    _ratingValue = value;
-                  });
-                },
-              ),
-              Text("Add a comment:"),
-              TextField(
-                keyboardType: TextInputType.multiline,
-                maxLines: 5,
-                controller: bodyController,
-                decoration: InputDecoration(border: OutlineInputBorder()),
-              ),
-              if (_uploadedImages.isNotEmpty || _imageUploading)
-                Text("images:"),
-              if (_uploadedImages.isNotEmpty || _imageUploading)
-                Wrap(
-                  spacing: 8.0,
-                  children: _imagesWrap(),
-                ),
-              if (!_publishing && _ratingValue > 0)
-                TextButton(
-                  onPressed: () {
-                    final newReview = NewReview(
-                      rating: _ratingValue.toInt(),
-                      text: bodyController.value.text.trim(),
-                      imageIds: _uploadedImages
-                          .map((image) => image.imageId)
-                          .toList(),
-                      hdToken: widget.hdToken,
-                    );
-
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                RatingBar(
+                  initialRating: 0,
+                  direction: Axis.horizontal,
+                  allowHalfRating: false,
+                  itemCount: 5,
+                  ratingWidget: RatingWidget(
+                      full: const Icon(Icons.star, color: Colors.orange),
+                      half: const Icon(
+                        Icons.star_half,
+                        color: Colors.orange,
+                      ),
+                      empty: const Icon(
+                        Icons.star_outline,
+                        color: Colors.orange,
+                      )),
+                  onRatingUpdate: (value) {
                     setState(() {
-                      _publishing = true;
-                    });
-
-                    publishReview(newReview)
-                        .then((reviewId) => Navigator.of(context).pop(reviewId))
-                        .catchError((err) {
-                      final snackBar = SnackBar(
-                        content: Text(err.toString()),
-                      );
-
-                      // Find the ScaffoldMessenger in the widget tree
-                      // and use it to show a SnackBar.
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                      setState(() {
-                        _publishing = false;
-                      });
+                      _ratingValue = value;
                     });
                   },
-                  child: Text("Publish comment"),
                 ),
-              if (_publishing)
-                SizedBox(
-                  width: 64,
-                  height: 64,
-                  child: CircularProgressIndicator(),
+                Text("Add a comment:"),
+                TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 5,
+                  controller: bodyController,
+                  decoration: InputDecoration(border: OutlineInputBorder()),
                 ),
-            ],
+                if (_uploadedImages.isNotEmpty || _imageUploading)
+                  Text("images:"),
+                if (_uploadedImages.isNotEmpty || _imageUploading)
+                  Wrap(
+                    spacing: 8.0,
+                    children: _imagesWrap(),
+                  ),
+                if (!_publishing && _ratingValue > 0)
+                  ElevatedButton(
+                    onPressed: () {
+                      final newReview = NewReview(
+                        rating: _ratingValue.toInt(),
+                        text: bodyController.value.text.trim(),
+                        imageIds: _uploadedImages
+                            .map((image) => image.imageId)
+                            .toList(),
+                        hdToken: widget.hdToken,
+                      );
+
+                      setState(() {
+                        _publishing = true;
+                      });
+
+                      publishReview(newReview)
+                          .then(
+                              (reviewId) => Navigator.of(context).pop(reviewId))
+                          .catchError((err) {
+                        final snackBar = SnackBar(
+                          content: Text(err.toString()),
+                        );
+
+                        // Find the ScaffoldMessenger in the widget tree
+                        // and use it to show a SnackBar.
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                        setState(() {
+                          _publishing = false;
+                        });
+                      });
+                    },
+                    child: Text("Publish review"),
+                  ),
+                if (_publishing)
+                  SizedBox(
+                    width: 64,
+                    height: 64,
+                    child: CircularProgressIndicator(),
+                  ),
+              ],
+            ),
           ),
         ));
   }

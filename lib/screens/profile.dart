@@ -21,20 +21,30 @@ class ProfileScreen extends StatelessWidget {
 
   const ProfileScreen({Key? key}) : super(key: key);
 
-  static Widget loginBody(LoginProvider loginProvider) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const Image(image: AssetImage("assets/graphics/logo.png")),
-          const Text("You are not currently signed in."),
-          ElevatedButton(
-            child: const Text("Log in with Google"),
-            onPressed: () {
-              loginProvider.signIn();
-            },
+  static Widget loginBody(BuildContext context, LoginProvider loginProvider) {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 220),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Image(image: AssetImage("assets/graphics/logo.png")),
+              ElevatedButton(
+                child: const Text("Log in with Google"),
+                onPressed: () {
+                  loginProvider.signIn();
+                },
+              ),
+            ],
           ),
-        ],
+        ),
+      ),
+      decoration: BoxDecoration(
+        image: const DecorationImage(
+            image: AssetImage("assets/graphics/profile_login.jpg"),
+            fit: BoxFit.fitWidth,
+            alignment: Alignment.bottomCenter),
       ),
     );
   }
@@ -48,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Profile"),
         ),
-        body: loginBody(loginProvider),
+        body: loginBody(context, loginProvider),
       );
     } else {
       // if logged in
@@ -56,34 +66,48 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Profile"),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: ProfileScreen.userImage(
-                      loginProvider.currentUser!.photoUrl),
-                ),
+        body: Container(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 270, top: 80),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 64,
+                    height: 64,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: ProfileScreen.userImage(
+                          loginProvider.currentUser!.photoUrl),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Welcome ${loginProvider.currentUser!.displayName}",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      loginProvider.signOut();
+                    },
+                    child: Text("Log out"),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text("Welcome ${loginProvider.currentUser!.displayName}"),
-              SizedBox(
-                height: 6,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  loginProvider.signOut();
-                },
-                child: Text("Log out"),
-              ),
-            ],
+            ),
+          ),
+          decoration: BoxDecoration(
+            image: const DecorationImage(
+                image: AssetImage("assets/graphics/profile.jpg"),
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.bottomCenter),
           ),
         ),
       );

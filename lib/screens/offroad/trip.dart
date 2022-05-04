@@ -13,4 +13,15 @@ class OffRoadTripScreen extends ManagedAttractionScreen<OffRoadTrip> {
   Future<OffRoadTrip> readFull(BuildContext context, int cacheKey) {
     return offRoadTripObjects.read(attraction.id, cacheKey);
   }
+
+  @override
+  List<Widget> extraInformation(OffRoadTrip attraction, BuildContext context) {
+    return [
+      SizedBox(height: 5),
+      Align(
+        child: Text(attraction.tripType.name),
+        alignment: Alignment.topLeft,
+      ),
+    ];
+  }
 }

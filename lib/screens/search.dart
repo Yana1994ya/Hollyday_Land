@@ -100,7 +100,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: CircularProgressIndicator(),
                     );
                   } else {
-              SearchResults results = snapshot.data!;
+                    SearchResults results = snapshot.data!;
 
                     if (results.items.isEmpty) {
                       return NoResults(text: "No search results for: $query");

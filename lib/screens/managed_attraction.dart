@@ -4,6 +4,7 @@ import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/screens/attraction.dart";
 import "package:hollyday_land/widgets/attraction_map.dart";
 import "package:hollyday_land/widgets/description.dart";
+import "package:hollyday_land/widgets/region_and_city.dart";
 import "package:url_launcher/url_launcher.dart";
 
 abstract class ManagedAttractionScreen<T extends ManagedAttraction>
@@ -16,9 +17,22 @@ abstract class ManagedAttractionScreen<T extends ManagedAttraction>
 
   static void launchPhone(String number) => launchUrl("tel:" + number);
 
+  List<Widget> extraInformation(final T attraction, BuildContext context) {
+    return [];
+  }
+
   @override
   List<Widget> pageBody(final T attraction, BuildContext context) {
     return [
+      SizedBox(height: 5),
+      Align(
+        child: RegionAndCity(
+          region: attraction.region.name,
+          city: attraction.city,
+        ),
+        alignment: Alignment.topLeft,
+      ),
+      ...extraInformation(attraction, context),
       if (attraction.website != null || attraction.telephone != null)
         Row(
           children: [
