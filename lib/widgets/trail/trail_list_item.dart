@@ -15,10 +15,10 @@ class TrailListItem extends AttractionListItem<TrailShort> {
         child: Text(
           "Difficulty: " +
               difficultyToDescription(attraction.difficulty) +
-              " ,distance: " +
+              ", distance: " +
               (attraction.length.toDouble() / 1000.0).toStringAsFixed(2) +
               "km" +
-              " ,elv gain: " +
+              ", elv gain: " +
               attraction.elevationGain.toString() +
               "m",
         ),

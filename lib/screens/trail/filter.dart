@@ -8,10 +8,10 @@ import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
 import "package:hollyday_land/widgets/filter/difficulty_chips.dart";
 
-const maxDistance = 150 * 1000;
-const minDistance = 1 * 1000;
-const maxElevationGain = 4000;
-const minElevationGain = 100;
+const maxDistance = 150 * 1000; // 150km
+const minDistance = 1 * 1000; // 1km
+const maxElevationGain = 4000; // 4000m
+const minElevationGain = 100; // 100m
 
 class TrailsFilterScreen extends StatelessWidget {
   final TrailsFilter initialFilter;
@@ -130,8 +130,7 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               onChanged: (newValue) {
                 setState(() {
                   final MeterRange newLength;
-
-                  if (newValue == maxDistance) {
+                  if (newValue.toInt() == maxDistance + minDistance) {
                     newLength = filter.length.copyWith.rangeEnd(null);
                   } else {
                     newLength =
@@ -190,7 +189,7 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               onChanged: (newValue) {
                 setState(() {
                   final MeterRange newRange;
-                  if (newValue == 4000) {
+                  if (newValue.toInt() == maxElevationGain + minElevationGain) {
                     newRange = filter.elevationGain.copyWith.rangeEnd(null);
                   } else {
                     newRange = filter.elevationGain.copyWith
