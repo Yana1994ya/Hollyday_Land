@@ -124,13 +124,13 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
               value: filter.length.rangeEnd == null
                   ? maxDistance.toDouble()
                   : filter.length.rangeEnd!.toDouble(),
-              min: minDistance.toDouble(),
-              max: (maxDistance + minDistance).toDouble(),
+              min: 0.0,
+              max: maxDistance.toDouble(),
               divisions: 100,
               onChanged: (newValue) {
                 setState(() {
                   final MeterRange newLength;
-                  if (newValue.toInt() == maxDistance + minDistance) {
+                  if (newValue.toInt() == maxDistance) {
                     newLength = filter.length.copyWith.rangeEnd(null);
                   } else {
                     newLength =
@@ -181,15 +181,15 @@ class _LoadedTrailsFilterScreenState extends State<LoadedTrailsFilterScreen> {
             ),
             Slider(
               value: filter.elevationGain.rangeEnd == null
-                  ? (maxElevationGain + minElevationGain).toDouble()
+                  ? maxElevationGain.toDouble()
                   : filter.elevationGain.rangeEnd!.toDouble(),
-              min: minElevationGain.toDouble(),
-              max: (maxElevationGain + minElevationGain).toDouble(),
+              min: 0,
+              max: maxElevationGain.toDouble(),
               divisions: 80,
               onChanged: (newValue) {
                 setState(() {
                   final MeterRange newRange;
-                  if (newValue.toInt() == maxElevationGain + minElevationGain) {
+                  if (newValue.toInt() == maxElevationGain) {
                     newRange = filter.elevationGain.copyWith.rangeEnd(null);
                   } else {
                     newRange = filter.elevationGain.copyWith

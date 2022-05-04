@@ -1,6 +1,5 @@
 import "package:built_collection/built_collection.dart";
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/filter_tag.dart";
 import "package:hollyday_land/models/trail/difficulty.dart";
 
 class DifficultyFilterChips extends StatefulWidget {
@@ -15,13 +14,12 @@ class DifficultyFilterChips extends StatefulWidget {
   State<DifficultyFilterChips> createState() => _DifficultyFilterChipsState();
 }
 
-class _DifficultyFilterChipsState<T extends FilterTag>
-    extends State<DifficultyFilterChips> {
+class _DifficultyFilterChipsState extends State<DifficultyFilterChips> {
   late final Set<Difficulty> selected;
 
   @override
   void initState() {
-    // Create a copy
+    //toSet Create a copy
     selected = widget.initialSelected.toSet();
 
     super.initState();
