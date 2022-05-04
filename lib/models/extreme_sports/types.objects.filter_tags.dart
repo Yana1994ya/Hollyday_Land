@@ -14,7 +14,7 @@ class _ExtremeSportsTypeDao extends FilterTagModelAccess<ExtremeSportsType> {
       ExtremeSportsType.fromJson(json);
 
   @override
-  String get modelName => "extreme_sports_type";
+  String get modelName => "extreme_sports_types";
 }
 
 const FilterTagModelAccess<ExtremeSportsType> extremeSportsTypeObjects =

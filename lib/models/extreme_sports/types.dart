@@ -4,7 +4,7 @@ import "package:hollyday_land_dao/filter_dao.dart";
 
 part "types.objects.filter_tags.dart";
 
-@FilterTagDao("extreme_sports_type")
+@FilterTagDao("extreme_sports_types")
 class ExtremeSportsType with FilterTag {
   @override
   final int id;
@@ -23,6 +23,6 @@ class ExtremeSportsType with FilterTag {
 
   @override
   String toString() {
-    return "ExtremeSportType{id: $id, name: $name}";
+    return "ExtremeSportsType{id: $id, name: $name}";
   }
 }
