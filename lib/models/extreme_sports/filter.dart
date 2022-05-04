@@ -30,7 +30,7 @@ class ExtremeSportsFilter extends AttractionFilter {
     }
 
     if (typeIds.isNotEmpty) {
-      params["type_id"] = typeIds.map((id) => id.toString());
+      params["sport_type_id"] = typeIds.map((id) => id.toString());
     }
 
     return params;
