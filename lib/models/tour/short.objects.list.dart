@@ -13,7 +13,7 @@ class _TourShortDao extends ShortModelAccess<TourShort> {
   TourShort fromJson(Map<String, dynamic> json) => TourShort.fromJson(json);
 
   @override
-  String get modelName => "tour";
+  String get modelName => "tours";
 }
 
 const ShortModelAccess<TourShort> tourShortObjects = _TourShortDao();

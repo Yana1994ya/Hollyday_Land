@@ -15,7 +15,7 @@ import "package:hollyday_land_dao/list_dao.dart";
 
 part "short.objects.list.dart";
 
-@ListDao("tour")
+@ListDao("tours")
 class TourShort with WithLocation, WithRating, AttractionShort {
   @override
   final int id;

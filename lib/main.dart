@@ -24,7 +24,7 @@ import "package:hollyday_land/screens/rock_climbing/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
 import "package:hollyday_land/screens/search.dart";
-import "package:hollyday_land/screens/tour/tours.dart";
+import "package:hollyday_land/screens/tour/tours_wip.dart";
 import "package:hollyday_land/screens/trail/favorites.dart";
 import "package:hollyday_land/screens/trail/history.dart";
 import "package:hollyday_land/screens/trail/record.dart";
@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: _title,
         home: ExploreScreen(),
+        //home: TourThemeSelection(),
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
           ProfileScreen.routePath: (_) => ProfileScreen(),
           HistoryScreen.routePath: (_) => HistoryScreen(),
           FavoritesScreen.routePath: (_) => FavoritesScreen(),
-          ToursScreen.routePath: (_) => ToursScreen(),
+          ToursUnavailableScreen.routePath: (_) => ToursUnavailableScreen(),
           HistoryMuseumsScreen.routePath: (_) => HistoryMuseumsScreen(),
           HistoryWineriesScreen.routePath: (_) => HistoryWineriesScreen(),
           HistoryZoosScreen.routePath: (_) => HistoryZoosScreen(),
