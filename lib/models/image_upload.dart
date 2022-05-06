@@ -32,7 +32,7 @@ class ImageUpload {
   ) async {
     http.MultipartRequest request = http.MultipartRequest(
       "POST",
-      Uri.https(ApiServer.serverName, "attractions/api/upload_image"),
+      ApiServer.getUri("/attractions/api/upload_image"),
     );
     request.headers["host"] = ApiServer.serverName;
 

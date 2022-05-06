@@ -150,7 +150,7 @@ class PointCollector {
 
     http.MultipartRequest request = http.MultipartRequest(
       "POST",
-      Uri.https(ApiServer.serverName, "attractions/api/trail/upload"),
+      ApiServer.getUri("/attractions/api/trail/upload"),
     );
     request.headers["host"] = ApiServer.serverName;
 
