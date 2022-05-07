@@ -75,7 +75,7 @@ class _NewTrailFormState extends State<NewTrailForm> {
   List<Widget> subTitle(String text) {
     return [
       SizedBox(
-        height: 5,
+        height: 15,
       ),
       Align(
         child: Text(

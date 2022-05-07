@@ -13,21 +13,23 @@ class LoginProvider with ChangeNotifier {
   String? _userId;
 
   LoginProvider() {
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      if (account != null) {
-        _hdLogin(account).then((response) {
-          _currentUser = account;
-          _hdToken = response.token;
-          _userId = response.userId;
-
-          notifyListeners();
-        });
-      } else {
-        notifyListeners();
-      }
-    });
+    _googleSignIn.onCurrentUserChanged.listen(_performLogin);
 
     _googleSignIn.signInSilently();
+  }
+
+  void _performLogin(GoogleSignInAccount? account) {
+    if (account != null) {
+      _hdLogin(account).then((response) {
+        _currentUser = account;
+        _hdToken = response.token;
+        _userId = response.userId;
+
+        notifyListeners();
+      });
+    } else {
+      notifyListeners();
+    }
   }
 
   Future<LoginResponse> _hdLogin(GoogleSignInAccount account) async {
