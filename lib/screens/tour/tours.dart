@@ -1,47 +1,49 @@
-import "package:built_collection/built_collection.dart";
 import "package:flutter/material.dart";
+import "package:hollyday_land/models/tour/filter.dart";
 import "package:hollyday_land/models/tour/short.dart";
-import "package:hollyday_land/providers/cache_key.dart";
-import "package:provider/provider.dart";
+import "package:hollyday_land/screens/attractions.dart";
+import 'package:hollyday_land/screens/tour/filter.dart';
+import "package:hollyday_land/widgets/list_item.dart";
+import "package:hollyday_land/widgets/tour/tour_list_item.dart";
 
-class ToursScreen extends StatelessWidget {
-  final BuiltMap<String, Iterable<String>> parameters;
+class ToursScreen extends StatefulWidget {
+  static const routePath = "/tours";
 
-  const ToursScreen({Key? key, required this.parameters}) : super(key: key);
+  const ToursScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final int cacheKey = Provider.of<CacheKey>(context).cacheKey;
-    final Map<String, Iterable<String>> params = parameters.toMap();
+  State<StatefulWidget> createState() => _TourScreenState();
+}
 
-    params["cache_key"] = [cacheKey.toString()];
+class _TourScreenState
+    extends AttractionsScreenState<ToursScreen, TourShort, TourFilter> {
+  @override
+  MaterialPageRoute filterPage(TourFilter filter) {
+    return MaterialPageRoute(
+        builder: (_) => TourFilterScreen(currentFilter: filter));
+  }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("tours"),
-      ),
-      body: FutureBuilder<List<TourShort>>(
-        future: tourShortObjects.readAttractions(params),
-        builder: (_, AsyncSnapshot<List<TourShort>> snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text("error: ${snapshot.error}"));
-          } else if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            final List<TourShort> tours = snapshot.data!;
+  @override
+  AttractionListItem<TourShort> getListItem(TourShort attraction) {
+    return TourListItem(attraction: attraction);
+  }
 
-            return ListView.builder(
-              itemCount: tours.length,
-              itemBuilder: (_, index) {
-                return ListTile(
-                    title: Text(tours[index].name +
-                        " - " +
-                        tours[index].price.toString()));
-              },
-            );
-          }
-        },
-      ),
-    );
+  @override
+  TourFilter initFilter() {
+    return TourFilter.create();
+  }
+
+  @override
+  String itemCountText(List<TourShort> attractions) {
+    return "found ${attractions.length} tours";
+  }
+
+  @override
+  String get pageTitle => "Tours";
+
+  @override
+  Future<List<TourShort>> readAttractions(
+      Map<String, Iterable<String>> params) {
+    return tourShortObjects.readAttractions(params);
   }
 }

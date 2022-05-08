@@ -1,6 +1,10 @@
 import "package:built_collection/built_collection.dart";
+import 'package:copy_with_extension/copy_with_extension.dart';
 import "package:hollyday_land/models/filter/attraction_filter.dart";
 
+part "filter.g.dart";
+
+@CopyWith()
 class TourFilter extends AttractionFilter {
   final BuiltSet<int> overnightIds;
   final BuiltSet<int> packageIds;
@@ -42,8 +46,7 @@ class TourFilter extends AttractionFilter {
     );
   }
 
-  static void optionalParams(
-      Map<String, Iterable<String>> params, String key, BuiltSet<int> ids) {
+  static void optionalParams(Map<String, Iterable<String>> params, String key, BuiltSet<int> ids) {
     if (ids.isNotEmpty) {
       params[key] = ids.map((id) => id.toString());
     }
@@ -56,9 +59,9 @@ class TourFilter extends AttractionFilter {
     optionalParams(params, "overnight_id", overnightIds);
     optionalParams(params, "package_id", packageIds);
     optionalParams(params, "start_location_id", startLocationIds);
-    optionalParams(params, "tour_destination_id", tourDestinationIds);
-    optionalParams(params, "tour_language_id", tourLanguageIds);
-    optionalParams(params, "tour_theme_id", tourThemeIds);
+    optionalParams(params, "destination_id", tourDestinationIds);
+    optionalParams(params, "language_id", tourLanguageIds);
+    optionalParams(params, "theme_id", tourThemeIds);
     optionalParams(params, "tour_type_id", tourTypeIds);
 
     return params;

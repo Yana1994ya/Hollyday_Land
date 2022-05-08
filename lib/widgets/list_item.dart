@@ -15,6 +15,16 @@ abstract class AttractionListItem<T extends AttractionShort>
 
   List<Widget> extraInformation(BuildContext context);
 
+  Widget ratingRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Rating(rating: attraction),
+        Distance(attractionLocation: attraction),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Image image;
@@ -87,13 +97,7 @@ abstract class AttractionListItem<T extends AttractionShort>
                     ),
                     alignment: Alignment.topLeft,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Rating(rating: attraction),
-                      Distance(attractionLocation: attraction),
-                    ],
-                  ),
+                  ratingRow(context),
                   ...extraInformation(context),
                 ]),
               )

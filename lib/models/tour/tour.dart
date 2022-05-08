@@ -1,5 +1,5 @@
 import "package:decimal/decimal.dart";
-import "package:hollyday_land/models/dao/base_attraction_short.dart";
+import "package:hollyday_land/models/dao/base_attraction.dart";
 import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
@@ -11,12 +11,12 @@ import "package:hollyday_land/models/tour/tour_destination.dart";
 import "package:hollyday_land/models/tour/tour_language.dart";
 import "package:hollyday_land/models/tour/tour_theme.dart";
 import "package:hollyday_land/models/tour/tour_type.dart";
-import "package:hollyday_land_dao/list_dao.dart";
+import "package:hollyday_land_dao/full_dao.dart";
 
-part "short.objects.list.dart";
+part "tour.objects.full.dart";
 
-@ListDao("tours")
-class TourShort with WithLocation, WithRating, AttractionShort {
+@FullDao("tours", "tour")
+class Tour with WithLocation, WithRating, Attraction {
   @override
   final int id;
   @override
@@ -44,15 +44,19 @@ class TourShort with WithLocation, WithRating, AttractionShort {
   final Decimal price;
   final TourLanguage? tourLanguage;
   final Decimal length;
-
+  final String description;
   final bool group;
 
-  TourShort({
+  @override
+  final List<ImageAsset> additionalImages;
+
+  Tour({
     required this.id,
     required this.name,
     required this.lat,
     required this.long,
     required this.mainImage,
+    required this.additionalImages,
     required this.avgRating,
     required this.ratingCount,
     required this.tourType,
@@ -64,6 +68,7 @@ class TourShort with WithLocation, WithRating, AttractionShort {
     required this.price,
     required this.tourLanguage,
     required this.length,
+    required this.description,
     required this.group,
   });
 
@@ -76,11 +81,15 @@ class TourShort with WithLocation, WithRating, AttractionShort {
     }
   }
 
-  factory TourShort.fromJson(Map<String, dynamic> json) {
-    return TourShort(
+  factory Tour.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> additionalImagesJson = json["additional_images"];
+
+    return Tour(
       id: json["id"],
       name: json["name"],
       mainImage: nullable(json, "main_image", ImageAsset.fromJson),
+      additionalImages:
+          additionalImagesJson.map((m) => ImageAsset.fromJson(m)).toList(),
       long: json["long"],
       lat: json["lat"],
       avgRating: Decimal.parse(json["avg_rating"]),
@@ -94,6 +103,7 @@ class TourShort with WithLocation, WithRating, AttractionShort {
       price: Decimal.parse(json["price"]),
       tourLanguage: nullable(json, "language", TourLanguage.fromJson),
       length: Decimal.parse(json["length"]),
+      description: json["description"],
       group: json["group"],
     );
   }

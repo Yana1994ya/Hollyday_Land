@@ -5,7 +5,7 @@ import "package:hollyday_land/screens/hot_air/hot_air_list.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
-import "package:hollyday_land/screens/tour/tours_wip.dart";
+import 'package:hollyday_land/screens/tour/tours.dart';
 import "package:hollyday_land/screens/trail/trails.dart";
 import "package:hollyday_land/screens/water_sports/list.dart";
 import "package:hollyday_land/screens/winery/wineries.dart";
@@ -134,7 +134,7 @@ class CategoriesGrid extends StatelessWidget {
       _waterSportsItem(WaterSportsListScreen.routePath),
       _extremeSportsItem(ExtremeSportsListScreen.routePath),
       _hotAirItem(HotAirListScreen.routePath),
-      _toursItem(ToursUnavailableScreen.routePath),
+      _toursItem(ToursScreen.routePath),
     ];
 
     return GridView.builder(
