@@ -4,10 +4,8 @@ import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/rating.dart";
-import "package:hollyday_land/models/tour/overnight.dart";
 import "package:hollyday_land/models/tour/package.dart";
 import "package:hollyday_land/models/tour/start_location.dart";
-import "package:hollyday_land/models/tour/tour_destination.dart";
 import "package:hollyday_land/models/tour/tour_language.dart";
 import "package:hollyday_land/models/tour/tour_theme.dart";
 import "package:hollyday_land/models/tour/tour_type.dart";
@@ -37,9 +35,7 @@ class Tour with WithLocation, WithRating, Attraction {
 
   final TourType? tourType;
   final Package? package;
-  final Overnight? overnight;
   final StartLocation? startLocation;
-  final TourDestination? tourDestination;
   final TourTheme? theme;
   final Decimal price;
   final TourLanguage? tourLanguage;
@@ -61,9 +57,7 @@ class Tour with WithLocation, WithRating, Attraction {
     required this.ratingCount,
     required this.tourType,
     required this.package,
-    required this.overnight,
     required this.startLocation,
-    required this.tourDestination,
     required this.theme,
     required this.price,
     required this.tourLanguage,
@@ -96,9 +90,7 @@ class Tour with WithLocation, WithRating, Attraction {
       ratingCount: json["rating_count"],
       tourType: nullable(json, "tour_type", TourType.fromJson),
       package: nullable(json, "package", Package.fromJson),
-      overnight: nullable(json, "overnight", Overnight.fromJson),
       startLocation: nullable(json, "start_location", StartLocation.fromJson),
-      tourDestination: nullable(json, "destination", TourDestination.fromJson),
       theme: nullable(json, "theme", TourTheme.fromJson),
       price: Decimal.parse(json["price"]),
       tourLanguage: nullable(json, "language", TourLanguage.fromJson),

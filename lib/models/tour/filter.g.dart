@@ -7,13 +7,9 @@ part of 'filter.dart';
 // **************************************************************************
 
 abstract class _$TourFilterCWProxy {
-  TourFilter overnightIds(BuiltSet<int> overnightIds);
-
   TourFilter packageIds(BuiltSet<int> packageIds);
 
   TourFilter startLocationIds(BuiltSet<int> startLocationIds);
-
-  TourFilter tourDestinationIds(BuiltSet<int> tourDestinationIds);
 
   TourFilter tourLanguageIds(BuiltSet<int> tourLanguageIds);
 
@@ -28,10 +24,8 @@ abstract class _$TourFilterCWProxy {
   /// TourFilter(...).copyWith(id: 12, name: "My name")
   /// ````
   TourFilter call({
-    BuiltSet<int>? overnightIds,
     BuiltSet<int>? packageIds,
     BuiltSet<int>? startLocationIds,
-    BuiltSet<int>? tourDestinationIds,
     BuiltSet<int>? tourLanguageIds,
     BuiltSet<int>? tourThemeIds,
     BuiltSet<int>? tourTypeIds,
@@ -45,20 +39,12 @@ class _$TourFilterCWProxyImpl implements _$TourFilterCWProxy {
   const _$TourFilterCWProxyImpl(this._value);
 
   @override
-  TourFilter overnightIds(BuiltSet<int> overnightIds) =>
-      this(overnightIds: overnightIds);
-
-  @override
   TourFilter packageIds(BuiltSet<int> packageIds) =>
       this(packageIds: packageIds);
 
   @override
   TourFilter startLocationIds(BuiltSet<int> startLocationIds) =>
       this(startLocationIds: startLocationIds);
-
-  @override
-  TourFilter tourDestinationIds(BuiltSet<int> tourDestinationIds) =>
-      this(tourDestinationIds: tourDestinationIds);
 
   @override
   TourFilter tourLanguageIds(BuiltSet<int> tourLanguageIds) =>
@@ -81,20 +67,13 @@ class _$TourFilterCWProxyImpl implements _$TourFilterCWProxy {
   /// TourFilter(...).copyWith(id: 12, name: "My name")
   /// ````
   TourFilter call({
-    Object? overnightIds = const $CopyWithPlaceholder(),
     Object? packageIds = const $CopyWithPlaceholder(),
     Object? startLocationIds = const $CopyWithPlaceholder(),
-    Object? tourDestinationIds = const $CopyWithPlaceholder(),
     Object? tourLanguageIds = const $CopyWithPlaceholder(),
     Object? tourThemeIds = const $CopyWithPlaceholder(),
     Object? tourTypeIds = const $CopyWithPlaceholder(),
   }) {
     return TourFilter(
-      overnightIds:
-          overnightIds == const $CopyWithPlaceholder() || overnightIds == null
-              ? _value.overnightIds
-              // ignore: cast_nullable_to_non_nullable
-              : overnightIds as BuiltSet<int>,
       packageIds:
           packageIds == const $CopyWithPlaceholder() || packageIds == null
               ? _value.packageIds
@@ -105,11 +84,6 @@ class _$TourFilterCWProxyImpl implements _$TourFilterCWProxy {
           ? _value.startLocationIds
           // ignore: cast_nullable_to_non_nullable
           : startLocationIds as BuiltSet<int>,
-      tourDestinationIds: tourDestinationIds == const $CopyWithPlaceholder() ||
-              tourDestinationIds == null
-          ? _value.tourDestinationIds
-          // ignore: cast_nullable_to_non_nullable
-          : tourDestinationIds as BuiltSet<int>,
       tourLanguageIds: tourLanguageIds == const $CopyWithPlaceholder() ||
               tourLanguageIds == null
           ? _value.tourLanguageIds

@@ -6,19 +6,15 @@ part "filter.g.dart";
 
 @CopyWith()
 class TourFilter extends AttractionFilter {
-  final BuiltSet<int> overnightIds;
   final BuiltSet<int> packageIds;
   final BuiltSet<int> startLocationIds;
-  final BuiltSet<int> tourDestinationIds;
   final BuiltSet<int> tourLanguageIds;
   final BuiltSet<int> tourThemeIds;
   final BuiltSet<int> tourTypeIds;
 
   const TourFilter({
-    required this.overnightIds,
     required this.packageIds,
     required this.startLocationIds,
-    required this.tourDestinationIds,
     required this.tourLanguageIds,
     required this.tourThemeIds,
     required this.tourTypeIds,
@@ -36,10 +32,8 @@ class TourFilter extends AttractionFilter {
     BuiltSet<int> empty = BuiltSet.of([]);
 
     return TourFilter(
-      overnightIds: overnightIds ?? empty,
       packageIds: packageIds ?? empty,
       startLocationIds: startLocationIds ?? empty,
-      tourDestinationIds: tourDestinationIds ?? empty,
       tourLanguageIds: tourLanguageIds ?? empty,
       tourThemeIds: tourThemeIds ?? empty,
       tourTypeIds: tourTypeIds ?? empty,
@@ -56,10 +50,8 @@ class TourFilter extends AttractionFilter {
   Map<String, Iterable<String>> get parameters {
     Map<String, Iterable<String>> params = {};
 
-    optionalParams(params, "overnight_id", overnightIds);
     optionalParams(params, "package_id", packageIds);
     optionalParams(params, "start_location_id", startLocationIds);
-    optionalParams(params, "destination_id", tourDestinationIds);
     optionalParams(params, "language_id", tourLanguageIds);
     optionalParams(params, "theme_id", tourThemeIds);
     optionalParams(params, "tour_type_id", tourTypeIds);

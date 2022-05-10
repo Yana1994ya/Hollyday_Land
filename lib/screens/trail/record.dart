@@ -354,6 +354,7 @@ class _LoggedInTrailRecordScreenState
       controller!.dispose();
     }
 
+    BackgroundLocation.stopLocationService();
     super.dispose();
   }
 }

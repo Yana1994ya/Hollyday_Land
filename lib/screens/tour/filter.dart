@@ -1,13 +1,11 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/museum/filter.dart";
-import 'package:hollyday_land/models/tour/filter.dart';
-import 'package:hollyday_land/models/tour/filter_options.dart';
-import 'package:hollyday_land/models/tour/overnight.dart';
-import 'package:hollyday_land/models/tour/package.dart';
-import 'package:hollyday_land/models/tour/tour_destination.dart';
-import 'package:hollyday_land/models/tour/tour_language.dart';
-import 'package:hollyday_land/models/tour/tour_theme.dart';
-import 'package:hollyday_land/models/tour/tour_type.dart';
+import "package:hollyday_land/models/tour/filter.dart";
+import "package:hollyday_land/models/tour/filter_options.dart";
+import "package:hollyday_land/models/tour/package.dart";
+import "package:hollyday_land/models/tour/tour_language.dart";
+import "package:hollyday_land/models/tour/tour_theme.dart";
+import "package:hollyday_land/models/tour/tour_type.dart";
 import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
 
@@ -114,23 +112,6 @@ class _TourFilterState extends State<_TourFilter> {
                 }),
             Divider(),
             Text(
-              "Destination:",
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Container(
-              height: 5,
-            ),
-            FilterChips<TourDestination>(
-                items: widget.options.tourDestination,
-                initialSelected: widget.initialFilter.tourDestinationIds,
-                onChange: (tourDestinationIds) {
-                  setState(() {
-                    filter =
-                        filter.copyWith(tourDestinationIds: tourDestinationIds);
-                  });
-                }),
-            Divider(),
-            Text(
               "Package:",
               style: Theme.of(context).textTheme.headline6,
             ),
@@ -145,22 +126,6 @@ class _TourFilterState extends State<_TourFilter> {
                     filter = filter.copyWith(packageIds: packageIds);
                   });
                 }),
-            Divider(),
-            Text(
-              "Overnight:",
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Container(
-              height: 5,
-            ),
-            FilterChips<Overnight>(
-                items: widget.options.overnight,
-                initialSelected: widget.initialFilter.overnightIds,
-                onChange: (overnightIds) {
-                  setState(() {
-                    filter = filter.copyWith(packageIds: overnightIds);
-                  });
-                })
           ],
         ),
       ),
