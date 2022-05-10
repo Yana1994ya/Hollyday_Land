@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import 'package:hollyday_land/models/tour/short.dart';
-import 'package:hollyday_land/screens/tour/tour.dart';
+import "package:hollyday_land/models/tour/short.dart";
+import "package:hollyday_land/screens/tour/tour.dart";
 import "package:hollyday_land/widgets/list_item.dart";
-import 'package:hollyday_land/widgets/rating.dart';
+import "package:hollyday_land/widgets/rating.dart";
 
 class TourListItem extends AttractionListItem<TourShort> {
   const TourListItem({Key? key, required TourShort attraction})

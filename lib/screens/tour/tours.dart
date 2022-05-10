@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/tour/filter.dart";
 import "package:hollyday_land/models/tour/short.dart";
 import "package:hollyday_land/screens/attractions.dart";
-import 'package:hollyday_land/screens/tour/filter.dart';
+import "package:hollyday_land/screens/tour/filter.dart";
 import "package:hollyday_land/widgets/list_item.dart";
 import "package:hollyday_land/widgets/tour/tour_list_item.dart";
 

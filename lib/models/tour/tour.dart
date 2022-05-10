@@ -1,14 +1,13 @@
+import "package:built_collection/built_collection.dart";
 import "package:decimal/decimal.dart";
 import "package:hollyday_land/models/dao/base_attraction.dart";
 import "package:hollyday_land/models/dao/model_access.dart";
 import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/rating.dart";
+import "package:hollyday_land/models/tour/destination.dart";
 import "package:hollyday_land/models/tour/package.dart";
-import "package:hollyday_land/models/tour/start_location.dart";
 import "package:hollyday_land/models/tour/tour_language.dart";
-import "package:hollyday_land/models/tour/tour_theme.dart";
-import "package:hollyday_land/models/tour/tour_type.dart";
 import "package:hollyday_land_dao/full_dao.dart";
 
 part "tour.objects.full.dart";
@@ -33,10 +32,8 @@ class Tour with WithLocation, WithRating, Attraction {
   @override
   final int ratingCount;
 
-  final TourType? tourType;
+  final BuiltList<TourDestination> destinations;
   final Package? package;
-  final StartLocation? startLocation;
-  final TourTheme? theme;
   final Decimal price;
   final TourLanguage? tourLanguage;
   final Decimal length;
@@ -55,10 +52,8 @@ class Tour with WithLocation, WithRating, Attraction {
     required this.additionalImages,
     required this.avgRating,
     required this.ratingCount,
-    required this.tourType,
     required this.package,
-    required this.startLocation,
-    required this.theme,
+    required this.destinations,
     required this.price,
     required this.tourLanguage,
     required this.length,
@@ -77,6 +72,7 @@ class Tour with WithLocation, WithRating, Attraction {
 
   factory Tour.fromJson(Map<String, dynamic> json) {
     final List<dynamic> additionalImagesJson = json["additional_images"];
+    final List<dynamic> destinationsJson = json["destinations"];
 
     return Tour(
       id: json["id"],
@@ -88,10 +84,9 @@ class Tour with WithLocation, WithRating, Attraction {
       lat: json["lat"],
       avgRating: Decimal.parse(json["avg_rating"]),
       ratingCount: json["rating_count"],
-      tourType: nullable(json, "tour_type", TourType.fromJson),
+      destinations: BuiltList.of(
+          destinationsJson.map((m) => TourDestination.fromJson(m))),
       package: nullable(json, "package", Package.fromJson),
-      startLocation: nullable(json, "start_location", StartLocation.fromJson),
-      theme: nullable(json, "theme", TourTheme.fromJson),
       price: Decimal.parse(json["price"]),
       tourLanguage: nullable(json, "language", TourLanguage.fromJson),
       length: Decimal.parse(json["length"]),

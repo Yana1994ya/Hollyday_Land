@@ -5,10 +5,7 @@ import "package:hollyday_land/models/image_asset.dart";
 import "package:hollyday_land/models/location.dart";
 import "package:hollyday_land/models/rating.dart";
 import "package:hollyday_land/models/tour/package.dart";
-import "package:hollyday_land/models/tour/start_location.dart";
 import "package:hollyday_land/models/tour/tour_language.dart";
-import "package:hollyday_land/models/tour/tour_theme.dart";
-import "package:hollyday_land/models/tour/tour_type.dart";
 import "package:hollyday_land_dao/list_dao.dart";
 
 part "short.objects.list.dart";
@@ -33,10 +30,7 @@ class TourShort with WithLocation, WithRating, AttractionShort {
   @override
   final int ratingCount;
 
-  final TourType? tourType;
   final Package? package;
-  final StartLocation? startLocation;
-  final TourTheme? theme;
   final Decimal price;
   final TourLanguage? tourLanguage;
   final Decimal length;
@@ -51,10 +45,7 @@ class TourShort with WithLocation, WithRating, AttractionShort {
     required this.mainImage,
     required this.avgRating,
     required this.ratingCount,
-    required this.tourType,
     required this.package,
-    required this.startLocation,
-    required this.theme,
     required this.price,
     required this.tourLanguage,
     required this.length,
@@ -79,10 +70,7 @@ class TourShort with WithLocation, WithRating, AttractionShort {
       lat: json["lat"],
       avgRating: Decimal.parse(json["avg_rating"]),
       ratingCount: json["rating_count"],
-      tourType: nullable(json, "tour_type", TourType.fromJson),
       package: nullable(json, "package", Package.fromJson),
-      startLocation: nullable(json, "start_location", StartLocation.fromJson),
-      theme: nullable(json, "theme", TourTheme.fromJson),
       price: Decimal.parse(json["price"]),
       tourLanguage: nullable(json, "language", TourLanguage.fromJson),
       length: Decimal.parse(json["length"]),

@@ -1,11 +1,10 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/models/museum/filter.dart";
+import "package:hollyday_land/models/tour/destination.dart";
 import "package:hollyday_land/models/tour/filter.dart";
 import "package:hollyday_land/models/tour/filter_options.dart";
 import "package:hollyday_land/models/tour/package.dart";
 import "package:hollyday_land/models/tour/tour_language.dart";
-import "package:hollyday_land/models/tour/tour_theme.dart";
-import "package:hollyday_land/models/tour/tour_type.dart";
 import "package:hollyday_land/screens/filter.dart";
 import "package:hollyday_land/widgets/filter/chips.dart";
 
@@ -63,37 +62,21 @@ class _TourFilterState extends State<_TourFilter> {
         child: ListView(
           children: [
             Text(
-              "Tour Type:",
+              "Destinations:",
               style: Theme.of(context).textTheme.headline6,
             ),
             Container(
               height: 5,
             ),
-            FilterChips<TourType>(
-              items: widget.options.tourType,
-              initialSelected: widget.initialFilter.tourTypeIds,
-              onChange: (tourTypeIds) {
+            FilterChips<TourDestination>(
+              items: widget.options.tourDestination,
+              initialSelected: widget.initialFilter.destinationIds,
+              onChange: (destinationIds) {
                 setState(() {
-                  filter = filter.copyWith(tourTypeIds: tourTypeIds);
+                  filter = filter.copyWith(destinationIds: destinationIds);
                 });
               },
             ),
-            Divider(),
-            Text(
-              "Theme:",
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Container(
-              height: 5,
-            ),
-            FilterChips<TourTheme>(
-                items: widget.options.tourTheme,
-                initialSelected: widget.initialFilter.tourThemeIds,
-                onChange: (tourThemeIds) {
-                  setState(() {
-                    filter = filter.copyWith(tourThemeIds: tourThemeIds);
-                  });
-                }),
             Divider(),
             Text(
               "Language:",

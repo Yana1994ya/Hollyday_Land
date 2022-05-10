@@ -24,7 +24,7 @@ import "package:hollyday_land/screens/rock_climbing/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
 import "package:hollyday_land/screens/search.dart";
-import 'package:hollyday_land/screens/tour/tours.dart';
+import "package:hollyday_land/screens/tour/tours.dart";
 import "package:hollyday_land/screens/trail/favorites.dart";
 import "package:hollyday_land/screens/trail/history.dart";
 import "package:hollyday_land/screens/trail/record.dart";

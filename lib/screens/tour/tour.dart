@@ -5,7 +5,7 @@ import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/screens/attraction_reviews.dart";
 import "package:hollyday_land/widgets/description.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
-import 'package:hollyday_land/widgets/rating.dart';
+import "package:hollyday_land/widgets/rating.dart";
 import "package:provider/provider.dart";
 
 class TourScreen extends StatelessWidget {
