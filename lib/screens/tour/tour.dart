@@ -3,9 +3,11 @@ import "package:hollyday_land/models/tour/short.dart";
 import "package:hollyday_land/models/tour/tour.dart";
 import "package:hollyday_land/providers/cache_key.dart";
 import "package:hollyday_land/screens/attraction_reviews.dart";
+import "package:hollyday_land/screens/tour/order.dart";
 import "package:hollyday_land/widgets/description.dart";
 import "package:hollyday_land/widgets/image_carousel.dart";
 import "package:hollyday_land/widgets/rating.dart";
+import "package:hollyday_land/widgets/tour/calendar.dart";
 import "package:provider/provider.dart";
 
 class TourScreen extends StatelessWidget {
@@ -90,6 +92,16 @@ class TourScreen extends StatelessWidget {
                     ),
                     if (tour.description.isNotEmpty)
                       Description(text: tour.description),
+                    TourCalendar(
+                      tourId: tour.id,
+                      onOrder: (date) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  TourOrder(tour: tour, date: date)),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

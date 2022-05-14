@@ -20,6 +20,7 @@ import "package:hollyday_land/screens/offroad/favorites.dart";
 import "package:hollyday_land/screens/offroad/history.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/profile.dart";
+import "package:hollyday_land/screens/reservations.dart";
 import "package:hollyday_land/screens/rock_climbing/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
@@ -119,6 +120,7 @@ class MyApp extends StatelessWidget {
           HotAirListScreen.routePath: (_) => HotAirListScreen(),
           FavoritesHotAirScreen.routePath: (_) => FavoritesHotAirScreen(),
           HistoryHotAirScreen.routePath: (_) => HistoryHotAirScreen(),
+          ReservationsScreen.routePath: (_) => ReservationsScreen(),
         },
       ),
     );
