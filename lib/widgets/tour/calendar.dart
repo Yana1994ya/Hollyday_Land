@@ -41,8 +41,11 @@ class _TourCalendarState extends State<TourCalendar> {
     final CacheKey cacheKey = Provider.of<CacheKey>(context);
 
     if (!loadedCurrentMonth) {
-      final currentDate = DateTime.now();
-      loadMonth(cacheKey.cacheKey, currentDate.month, currentDate.year);
+      loadMonth(
+        cacheKey.cacheKey,
+        focusedDate.month,
+        focusedDate.year,
+      );
 
       loadedCurrentMonth = true;
     }
@@ -55,7 +58,11 @@ class _TourCalendarState extends State<TourCalendar> {
           focusedDay: focusedDate,
           headerStyle: HeaderStyle(formatButtonVisible: false),
           onPageChanged: (pageDate) {
-            loadMonth(cacheKey.cacheKey, pageDate.month, pageDate.year);
+            loadMonth(
+              cacheKey.cacheKey,
+              pageDate.month,
+              pageDate.year,
+            );
           },
           onDaySelected: (selectedDate, _focusedDate) {
             if (!days.contains(selectedDate.day)) {
@@ -112,6 +119,7 @@ class _TourCalendarState extends State<TourCalendar> {
 
                         setState(() {
                           selectedDate = null;
+                          loadedCurrentMonth = false;
                         });
                       }
                     });
