@@ -214,7 +214,7 @@ class _TourOrderState extends State<_LoggedInTourOrder> {
                 Row(
                   children: [
                     SizedBox(
-                      width: 55,
+                      width: 60,
                       child: TextFormField(
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -223,7 +223,7 @@ class _TourOrderState extends State<_LoggedInTourOrder> {
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: "** / **",
+                          hintText: "mm / yy",
                           labelText: "Exp",
                           counterText: "",
                         ),

@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/api_server.dart";
+import 'package:hollyday_land/providers/cache_key.dart';
+import 'package:provider/provider.dart';
 import "package:table_calendar/table_calendar.dart";
 
 class AvailableDate {
@@ -10,7 +12,7 @@ class AvailableDate {
 
 class TourCalendar extends StatefulWidget {
   final int tourId;
-  final void Function(DateTime) onOrder;
+  final Future<dynamic> Function(DateTime) onOrder;
 
   const TourCalendar({Key? key, required this.tourId, required this.onOrder})
       : super(key: key);
@@ -21,6 +23,7 @@ class TourCalendar extends StatefulWidget {
 
 class _TourCalendarState extends State<TourCalendar> {
   bool loading = true;
+  bool loadedCurrentMonth = false;
   Set<int> days = {};
   DateTime? selectedDate;
   late DateTime focusedDate;
@@ -30,13 +33,20 @@ class _TourCalendarState extends State<TourCalendar> {
     final currentDate = DateTime.now();
     focusedDate = currentDate;
 
-    loadMonth(currentDate.month, currentDate.year);
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final CacheKey cacheKey = Provider.of<CacheKey>(context);
+
+    if (!loadedCurrentMonth) {
+      final currentDate = DateTime.now();
+      loadMonth(cacheKey.cacheKey, currentDate.month, currentDate.year);
+
+      loadedCurrentMonth = true;
+    }
+
     return Column(
       children: [
         TableCalendar(
@@ -45,7 +55,7 @@ class _TourCalendarState extends State<TourCalendar> {
           focusedDay: focusedDate,
           headerStyle: HeaderStyle(formatButtonVisible: false),
           onPageChanged: (pageDate) {
-            loadMonth(pageDate.month, pageDate.year);
+            loadMonth(cacheKey.cacheKey, pageDate.month, pageDate.year);
           },
           onDaySelected: (selectedDate, _focusedDate) {
             if (!days.contains(selectedDate.day)) {
@@ -61,7 +71,7 @@ class _TourCalendarState extends State<TourCalendar> {
             });
           },
           calendarBuilders:
-              CalendarBuilders(defaultBuilder: (context, day, focused) {
+          CalendarBuilders(defaultBuilder: (context, day, focused) {
             if (!loading && days.contains(day.day)) {
               if (selectedDate != null && selectedDate!.day == day.day) {
                 return Center(
@@ -96,14 +106,22 @@ class _TourCalendarState extends State<TourCalendar> {
             onPressed: selectedDate == null
                 ? null
                 : () {
-                    widget.onOrder(selectedDate!);
+                    widget.onOrder(selectedDate!).then((value) {
+                      if (value) {
+                        cacheKey.refresh();
+
+                        setState(() {
+                          selectedDate = null;
+                        });
+                      }
+                    });
                   },
             child: Text("Order"))
       ],
     );
   }
 
-  void loadMonth(int month, int year) {
+  void loadMonth(int cacheKey, int month, int year) {
     // When loading, start from an empty page
     setState(() {
       loading = true;
@@ -118,9 +136,12 @@ class _TourCalendarState extends State<TourCalendar> {
     });
 
     ApiServer.get(
-            "attractions/api/tours/availability/${widget.tourId}/$year/$month",
-            "days")
-        .then((value) {
+      "attractions/api/tours/available/${widget.tourId}/$year/$month",
+      "days",
+      {
+        "cache_key": [cacheKey.toString()]
+      },
+    ).then((value) {
       final List<dynamic> loadedDays = value;
 
       setState(() {

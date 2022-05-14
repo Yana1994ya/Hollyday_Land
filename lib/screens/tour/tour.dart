@@ -95,10 +95,10 @@ class TourScreen extends StatelessWidget {
                     TourCalendar(
                       tourId: tour.id,
                       onOrder: (date) {
-                        Navigator.of(context).push(
+                        return Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (_) =>
-                                  TourOrder(tour: tour, date: date)),
+                            builder: (_) => TourOrder(tour: tour, date: date),
+                          ),
                         );
                       },
                     ),

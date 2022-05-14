@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/tour/reservation.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
-import 'package:intl/intl.dart';
+import "package:intl/intl.dart";
 import "package:provider/provider.dart";
 
 class ReservationsScreen extends StatelessWidget {
@@ -43,13 +43,20 @@ class _LoggedInReservationScreen extends StatelessWidget {
           } else {
             final data = snapshot.data!;
 
-            return ListView.builder(
+            return ListView.separated(
               itemCount: data.length,
               itemBuilder: (_, index) {
                 return ListTile(
                   title: Text(data[index].tour.name),
-                  subtitle: Text(DateFormat.MMMd().format(data[index].day)),
+                  subtitle: Text(
+                    DateFormat.MMMd().format(data[index].day) +
+                        " ,#" +
+                        data[index].id.toString(),
+                  ),
                 );
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
               },
             );
           }
