@@ -53,6 +53,12 @@ class _LoggedInReservationScreen extends StatelessWidget {
                         " ,#" +
                         data[index].id.toString(),
                   ),
+                  trailing: Column(
+                    children: [
+                      Text(data[index].price.toStringAsFixed(2) + "\$"),
+                      Icon(data[index].group ? Icons.group : Icons.person),
+                    ],
+                  ),
                 );
               },
               separatorBuilder: (context, index) {
