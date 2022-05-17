@@ -60,7 +60,8 @@ class ReviewsPage extends StatelessWidget {
                 }
                 final dateString =
                     DateFormatter.getVerboseDateTimeRepresentation(
-                        comment.created);
+                  comment.created.toLocal(),
+                );
                 return ListTile(
                   title: Text(comment.user.name),
                   leading: CircleAvatar(

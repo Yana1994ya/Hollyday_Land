@@ -13,7 +13,6 @@ import "package:hollyday_land/screens/history.dart";
 import "package:hollyday_land/screens/hot_air/favorites.dart";
 import "package:hollyday_land/screens/hot_air/history.dart";
 import "package:hollyday_land/screens/hot_air/hot_air_list.dart";
-import "package:hollyday_land/screens/map.dart";
 import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/museum/museums.dart";
@@ -21,10 +20,13 @@ import "package:hollyday_land/screens/offroad/favorites.dart";
 import "package:hollyday_land/screens/offroad/history.dart";
 import "package:hollyday_land/screens/offroad/trips.dart";
 import "package:hollyday_land/screens/profile.dart";
+import "package:hollyday_land/screens/reservations.dart";
 import "package:hollyday_land/screens/rock_climbing/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
 import "package:hollyday_land/screens/search.dart";
+import 'package:hollyday_land/screens/tour/favorites.dart';
+import 'package:hollyday_land/screens/tour/history.dart';
 import "package:hollyday_land/screens/tour/tours.dart";
 import "package:hollyday_land/screens/trail/favorites.dart";
 import "package:hollyday_land/screens/trail/history.dart";
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: _title,
         home: ExploreScreen(),
+        //home: TourThemeSelection(),
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(
@@ -104,10 +107,10 @@ class MyApp extends StatelessWidget {
               FavoritesWaterSportsScreen(),
           FavoritesRockClimbingScreen.routePath: (_) =>
               FavoritesRockClimbingScreen(),
+          FavoritesToursScreen.routePath: (_) => FavoritesToursScreen(),
           RockClimbingListScreen.routePath: (_) => RockClimbingListScreen(),
           WaterSportsListScreen.routePath: (_) => WaterSportsListScreen(),
           ExtremeSportsListScreen.routePath: (_) => ExtremeSportsListScreen(),
-          MapScreen.routePath: (_) => MapScreen(),
           OffRoadTripsScreen.routePath: (_) => OffRoadTripsScreen(),
           HistoryOffRoadTripsScreen.routePath: (_) =>
               HistoryOffRoadTripsScreen(),
@@ -120,6 +123,8 @@ class MyApp extends StatelessWidget {
           HotAirListScreen.routePath: (_) => HotAirListScreen(),
           FavoritesHotAirScreen.routePath: (_) => FavoritesHotAirScreen(),
           HistoryHotAirScreen.routePath: (_) => HistoryHotAirScreen(),
+          HistoryToursScreen.routePath: (_) => HistoryToursScreen(),
+          ReservationsScreen.routePath: (_) => ReservationsScreen(),
         },
       ),
     );

@@ -27,7 +27,7 @@ class Comment {
         user: GoogleUser.fromJson(json["user"]),
         rating: json["rating"],
         text: json["text"],
-        created: DateTime.parse(json["created"]),
+        created: DateTime.parse(json["created"] + "+00:00"),
         images: imagesJson.map((image) => ImageAsset.fromJson(image)).toList());
   }
 }

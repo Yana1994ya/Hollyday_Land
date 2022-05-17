@@ -30,7 +30,8 @@ class ExportLocation {
 
 class PointCollector {
   // For elevation gain calculation
-  static const comparePoints = 30;
+  static const comparePoints = 20;
+  static const altitudeThreshold = 5.0;
 
   final List<ExportLocation> _points = List.empty(growable: true);
   final List<double> _altitudes = List.empty(growable: true);
@@ -90,11 +91,17 @@ class PointCollector {
             _altitudes.reduce((value, element) => value + element) /
                 _altitudes.length;
 
-        if (_lastAvgAltitude != null && _lastAvgAltitude! < avgAltitude) {
-          _elevationGain += (avgAltitude - _lastAvgAltitude!);
-        }
+        if (_lastAvgAltitude == null) {
+          _lastAvgAltitude = avgAltitude;
+        } else {
+          if ((_lastAvgAltitude! - avgAltitude).abs() > altitudeThreshold) {
+            if (_lastAvgAltitude! < avgAltitude) {
+              _elevationGain += (avgAltitude - _lastAvgAltitude!);
+            }
 
-        _lastAvgAltitude = avgAltitude;
+            _lastAvgAltitude = avgAltitude;
+          }
+        }
       }
 
       // Ignore the first location.time after a pause and resume button
@@ -150,7 +157,7 @@ class PointCollector {
 
     http.MultipartRequest request = http.MultipartRequest(
       "POST",
-      Uri.https(ApiServer.serverName, "attractions/api/trail/upload"),
+      ApiServer.getUri("/attractions/api/trail/upload"),
     );
     request.headers["host"] = ApiServer.serverName;
 

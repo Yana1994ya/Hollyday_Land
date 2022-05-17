@@ -12,6 +12,7 @@ import "package:hollyday_land/screens/hot_air/hot_air.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
 import "package:hollyday_land/screens/offroad/trip.dart";
 import "package:hollyday_land/screens/rock_climbing/item.dart";
+import "package:hollyday_land/screens/tour/tour.dart";
 import "package:hollyday_land/screens/trail/trail.dart";
 import "package:hollyday_land/screens/water_sports/item.dart";
 import "package:hollyday_land/screens/winery/winery.dart";
@@ -64,14 +65,14 @@ class GenericAttraction with WithRating, WithLocation, AttractionShort {
   }
 
   static Future<List<GenericAttraction>> forBounds(
-      LatLngBounds bounds, MapObjects objects) {
+      LatLngBounds bounds, MapObjectTypes objects) {
     final Map<String, Iterable<String>> params = {};
     params["lat_min"] = [bounds.southwest.latitude.toStringAsPrecision(10)];
     params["lon_min"] = [bounds.southwest.longitude.toStringAsPrecision(10)];
     params["lat_max"] = [bounds.northeast.latitude.toStringAsPrecision(10)];
     params["lon_max"] = [bounds.northeast.longitude.toStringAsPrecision(10)];
 
-    if (objects == MapObjects.attractions) {
+    if (objects == MapObjectTypes.attractions) {
       params["objects"] = ["attractions"];
     } else {
       params["objects"] = ["trails"];
@@ -102,8 +103,13 @@ class GenericAttraction with WithRating, WithLocation, AttractionShort {
       return ExtremeSportsItemScreen(attraction: this);
     } else if (type == "hot_air") {
       return HotAirScreen(attraction: this);
+    } else if (type == "tour") {
+      return TourScreen(short: this);
     } else {
       throw Exception("couldn't resolve type: $type to page");
     }
   }
+
+  @override
+  bool get shouldDisplayLocation => type != "tour";
 }

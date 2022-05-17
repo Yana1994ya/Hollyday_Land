@@ -67,4 +67,7 @@ class TrailShort with WithLocation, WithRating, AttractionShort {
       ratingCount: json["rating_count"],
     );
   }
+
+  @override
+  bool get shouldDisplayLocation => true;
 }

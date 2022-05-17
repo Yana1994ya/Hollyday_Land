@@ -106,6 +106,7 @@ class CategoriesGrid extends StatelessWidget {
     required String rockClimbingPath,
     required String extremeSportsPath,
     required String hotAirPath,
+    required String toursPath,
   }) {
     return [
       if (attractionsCount.museums > 0) _museumsItem(museumsPath),
@@ -119,6 +120,7 @@ class CategoriesGrid extends StatelessWidget {
       if (attractionsCount.extremeSports > 0)
         _extremeSportsItem(extremeSportsPath),
       if (attractionsCount.hotAirAttractions > 0) _hotAirItem(hotAirPath),
+      if (attractionsCount.tours > 0) _toursItem(toursPath),
     ];
   }
 

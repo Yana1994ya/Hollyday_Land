@@ -5,6 +5,7 @@ import "package:hollyday_land/screens/favorites.dart";
 import "package:hollyday_land/screens/history.dart";
 import "package:hollyday_land/screens/map.dart";
 import "package:hollyday_land/screens/profile.dart";
+import "package:hollyday_land/screens/reservations.dart";
 import "package:hollyday_land/screens/search.dart";
 import "package:hollyday_land/widgets/categories_grid.dart";
 import "package:provider/provider.dart";
@@ -74,10 +75,10 @@ class ExploreScreen extends StatelessWidget {
                   title: Text("Map"),
                 ),
                 onTap: () {
-                  Navigator.of(context).pushNamed(
-                    MapScreen.routePath,
-                    arguments: MapObjects.attractions,
-                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) =>
+                        MapScreen(mapObjectTypes: MapObjectTypes.attractions),
+                  ));
                 },
               ),
               InkWell(
@@ -91,6 +92,19 @@ class ExploreScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).pushNamed(HistoryScreen.routePath);
+                },
+              ),
+              InkWell(
+                highlightColor: colorScheme.secondary,
+                child: ListTile(
+                  leading: Icon(
+                    Icons.credit_card,
+                    color: colorScheme.primary,
+                  ),
+                  title: Text("Reservations"),
+                ),
+                onTap: () {
+                  Navigator.of(context).pushNamed(ReservationsScreen.routePath);
                 },
               ),
               InkWell(

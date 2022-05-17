@@ -64,7 +64,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
                   },
                 ),
                 Distance(
-                  location: attraction,
+                  attractionLocation: attraction,
                 ),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +77,8 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
     );
   }
 
-  Widget _favoriteIcon(
+  static Widget favoriteIcon(
+    int attractionId,
     BuildContext context,
     LoginProvider loginProvider,
   ) {
@@ -106,7 +107,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
           icon: Icon(Icons.favorite_outline));
     } else {
       return FutureBuilder<bool>(
-        future: Favorites.readFavorite(loginProvider.hdToken!, attraction.id),
+        future: Favorites.readFavorite(loginProvider.hdToken!, attractionId),
         builder: (_, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasError) {
             //scaffoldMessanger.showSnackBar(SnackBar(content: Text('Failed to read favorite status')));
@@ -116,7 +117,7 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
             return CircularProgressIndicator();
           } else {
             return FavoriteButton(
-              attractionId: attraction.id,
+              attractionId: attractionId,
               initialState: snapshot.data!,
               token: loginProvider.hdToken!,
             );
@@ -155,7 +156,8 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
               appBar: AppBar(
                 title: Text(attraction.name),
                 actions: [
-                  _favoriteIcon(
+                  favoriteIcon(
+                    attraction.id,
                     context,
                     login,
                   ),
@@ -173,7 +175,8 @@ abstract class AttractionScreen<T extends Attraction> extends StatelessWidget {
               appBar: AppBar(
                 title: Text(attraction.name),
                 actions: [
-                  _favoriteIcon(
+                  favoriteIcon(
+                    attraction.id,
                     context,
                     login,
                   ),

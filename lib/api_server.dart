@@ -12,7 +12,7 @@ class ApiServer {
 
   /*static Uri getUri(String path,
           [Map<String, Iterable<String>>? queryParameters]) =>
-      Uri.http("192.168.1.106:8000", path, queryParameters);*/
+      Uri.http("192.168.1.122:8000", path, queryParameters);*/
 
   static Future<dynamic> get(String path, String field,
       [Map<String, Iterable<String>>? queryParameters]) async {

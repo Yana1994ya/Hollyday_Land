@@ -4,7 +4,7 @@
 // FilterTagDaoGenerator
 // **************************************************************************
 
-part of "tour_destination.dart";
+part of "destination.dart";
 
 class _TourDestinationDao extends FilterTagModelAccess<TourDestination> {
   const _TourDestinationDao();

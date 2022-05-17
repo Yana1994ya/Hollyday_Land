@@ -41,7 +41,7 @@ class _DifficultyFilterChipsState extends State<DifficultyFilterChips> {
         ),
         selectedColor: primaryColor,
         label: Text(
-          item.name,
+          difficultyToDescription(item),
           style: TextStyle(
             color: isSelected ? Colors.white : primaryColor,
           ),
