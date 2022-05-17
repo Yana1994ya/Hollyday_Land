@@ -20,7 +20,9 @@ abstract class AttractionListItem<T extends AttractionShort>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Rating(rating: attraction),
-        Distance(attractionLocation: attraction),
+        attraction.shouldDisplayLocation
+            ? Distance(attractionLocation: attraction)
+            : Container(),
       ],
     );
   }

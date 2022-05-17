@@ -5,6 +5,7 @@ import "package:hollyday_land/screens/hot_air/history.dart";
 import "package:hollyday_land/screens/museum/history.dart";
 import "package:hollyday_land/screens/offroad/history.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
+import 'package:hollyday_land/screens/tour/history.dart';
 import "package:hollyday_land/screens/trail/history.dart";
 import "package:hollyday_land/screens/water_sports/history.dart";
 import "package:hollyday_land/screens/winery/history.dart";
@@ -31,6 +32,7 @@ class HistoryCategoriesGrid extends StatelessWidget {
       rockClimbingPath: HistoryRockClimbingScreen.routePath,
       extremeSportsPath: HistoryExtremeSportsScreen.routePath,
       hotAirPath: HistoryHotAirScreen.routePath,
+      toursPath: HistoryToursScreen.routePath,
     );
 
     return GridView.builder(

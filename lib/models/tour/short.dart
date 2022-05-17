@@ -77,4 +77,7 @@ class TourShort with WithLocation, WithRating, AttractionShort {
       group: json["group"],
     );
   }
+
+  @override
+  bool get shouldDisplayLocation => false;
 }

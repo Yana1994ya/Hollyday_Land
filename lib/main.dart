@@ -25,6 +25,8 @@ import "package:hollyday_land/screens/rock_climbing/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/history.dart";
 import "package:hollyday_land/screens/rock_climbing/list.dart";
 import "package:hollyday_land/screens/search.dart";
+import 'package:hollyday_land/screens/tour/favorites.dart';
+import 'package:hollyday_land/screens/tour/history.dart';
 import "package:hollyday_land/screens/tour/tours.dart";
 import "package:hollyday_land/screens/trail/favorites.dart";
 import "package:hollyday_land/screens/trail/history.dart";
@@ -105,6 +107,7 @@ class MyApp extends StatelessWidget {
               FavoritesWaterSportsScreen(),
           FavoritesRockClimbingScreen.routePath: (_) =>
               FavoritesRockClimbingScreen(),
+          FavoritesToursScreen.routePath: (_) => FavoritesToursScreen(),
           RockClimbingListScreen.routePath: (_) => RockClimbingListScreen(),
           WaterSportsListScreen.routePath: (_) => WaterSportsListScreen(),
           ExtremeSportsListScreen.routePath: (_) => ExtremeSportsListScreen(),
@@ -120,6 +123,7 @@ class MyApp extends StatelessWidget {
           HotAirListScreen.routePath: (_) => HotAirListScreen(),
           FavoritesHotAirScreen.routePath: (_) => FavoritesHotAirScreen(),
           HistoryHotAirScreen.routePath: (_) => HistoryHotAirScreen(),
+          HistoryToursScreen.routePath: (_) => HistoryToursScreen(),
           ReservationsScreen.routePath: (_) => ReservationsScreen(),
         },
       ),

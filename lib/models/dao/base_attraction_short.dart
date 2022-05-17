@@ -11,6 +11,8 @@ mixin AttractionShort on WithRating, WithLocation {
   String get name;
 
   ImageAsset? get mainImage;
+
+  bool get shouldDisplayLocation;
 }
 
 class BaseAttractionShort {
@@ -95,6 +97,9 @@ class ManagedAttractionShort with WithRating, WithLocation, AttractionShort {
 
   @override
   int get ratingCount => _base.ratingCount;
+
+  @override
+  bool get shouldDisplayLocation => true;
 
   @protected
   String genString(String className, [String? extra]) {

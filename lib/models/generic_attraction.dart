@@ -12,6 +12,7 @@ import "package:hollyday_land/screens/hot_air/hot_air.dart";
 import "package:hollyday_land/screens/museum/museum.dart";
 import "package:hollyday_land/screens/offroad/trip.dart";
 import "package:hollyday_land/screens/rock_climbing/item.dart";
+import "package:hollyday_land/screens/tour/tour.dart";
 import "package:hollyday_land/screens/trail/trail.dart";
 import "package:hollyday_land/screens/water_sports/item.dart";
 import "package:hollyday_land/screens/winery/winery.dart";
@@ -102,8 +103,13 @@ class GenericAttraction with WithRating, WithLocation, AttractionShort {
       return ExtremeSportsItemScreen(attraction: this);
     } else if (type == "hot_air") {
       return HotAirScreen(attraction: this);
+    } else if (type == "tour") {
+      return TourScreen(short: this);
     } else {
       throw Exception("couldn't resolve type: $type to page");
     }
   }
+
+  @override
+  bool get shouldDisplayLocation => type != "tour";
 }

@@ -53,7 +53,7 @@ class _TourFilterState extends State<_TourFilter> {
     return Scaffold(
       appBar: AttractionFilterScreen.filterAppBar(
         context,
-        "Tour Type",
+        "Tours",
         filter,
         MuseumFilter.empty(),
       ),

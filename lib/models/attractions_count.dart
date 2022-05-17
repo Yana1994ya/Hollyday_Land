@@ -8,6 +8,7 @@ class AttractionsCount {
   final int waterSports;
   final int extremeSports;
   final int hotAirAttractions;
+  final int tours;
 
   const AttractionsCount({
     required this.museums,
@@ -19,6 +20,7 @@ class AttractionsCount {
     required this.waterSports,
     required this.extremeSports,
     required this.hotAirAttractions,
+    required this.tours,
   });
 
   bool get isEmpty {
@@ -30,7 +32,8 @@ class AttractionsCount {
             rockClimbing +
             waterSports +
             extremeSports +
-            hotAirAttractions ==
+            hotAirAttractions +
+            tours ==
         0;
   }
 
@@ -45,6 +48,7 @@ class AttractionsCount {
       waterSports: json["water_sports"],
       extremeSports: json["extreme_sports"],
       hotAirAttractions: json["hot_air"],
+      tours: json["tours"],
     );
   }
 
@@ -59,6 +63,7 @@ class AttractionsCount {
       waterSports: 0,
       extremeSports: 0,
       hotAirAttractions: 0,
+      tours: 0,
     );
   }
 }

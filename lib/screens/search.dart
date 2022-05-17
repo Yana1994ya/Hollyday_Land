@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/api_server.dart";
 import "package:hollyday_land/models/generic_attraction.dart";
+import 'package:hollyday_land/providers/location_provider.dart';
 import "package:hollyday_land/widgets/generic_list_item.dart";
 import "package:hollyday_land/widgets/no_results.dart";
+import 'package:provider/provider.dart';
 
 class SearchResults {
   final int numPages;
@@ -46,6 +48,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Ask for location permissions for distance metric
+    Provider.of<LocationProvider>(context, listen: false).retrieveLocation();
+
     return Scaffold(
         appBar: AppBar(
           // The search area here
@@ -84,35 +89,35 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         body: query.isEmpty
             ? Center(
-                child: Image(
-                  image: AssetImage("assets/graphics/search.png"),
-                ),
-              )
+          child: Image(
+            image: AssetImage("assets/graphics/search.png"),
+          ),
+        )
             : FutureBuilder(
-                future: SearchResults.search(query, 1),
-                builder: (_, AsyncSnapshot<SearchResults> snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(snapshot.error!.toString()),
-                    );
-                  } else if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    SearchResults results = snapshot.data!;
+          future: SearchResults.search(query, 1),
+          builder: (_, AsyncSnapshot<SearchResults> snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error!.toString()),
+              );
+            } else if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              SearchResults results = snapshot.data!;
 
-                    if (results.items.isEmpty) {
-                      return NoResults(text: "No search results for: $query");
-                    } else {
-                      return ListView.builder(
-                        itemBuilder: (_, index) =>
-                            GenericListItem(attraction: results.items[index]),
-                        itemCount: results.items.length,
-                      );
-                    }
-                  }
-                },
-              ));
+              if (results.items.isEmpty) {
+                return NoResults(text: "No search results for: $query");
+              } else {
+                return ListView.builder(
+                  itemBuilder: (_, index) =>
+                      GenericListItem(attraction: results.items[index]),
+                  itemCount: results.items.length,
+                );
+              }
+            }
+          },
+        ));
   }
 }

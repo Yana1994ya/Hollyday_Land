@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
-import "package:hollyday_land/models/tour/short.dart";
+import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/tour/tour.dart";
 import "package:hollyday_land/providers/cache_key.dart";
+import 'package:hollyday_land/providers/login.dart';
+import 'package:hollyday_land/screens/attraction.dart';
 import "package:hollyday_land/screens/attraction_reviews.dart";
 import "package:hollyday_land/screens/tour/order.dart";
 import "package:hollyday_land/widgets/description.dart";
@@ -11,17 +13,27 @@ import "package:hollyday_land/widgets/tour/calendar.dart";
 import "package:provider/provider.dart";
 
 class TourScreen extends StatelessWidget {
-  final TourShort short;
+  final AttractionShort short;
 
   const TourScreen({Key? key, required this.short}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final int cacheKey = Provider.of<CacheKey>(context).cacheKey;
+    final LoginProvider loginProvider = Provider.of<LoginProvider>(context);
+
+    loginProvider.visit(short.id);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(short.name),
+        actions: [
+          AttractionScreen.favoriteIcon(
+            short.id,
+            context,
+            loginProvider,
+          )
+        ],
       ),
       body: FutureBuilder(
         future: tourObjects.read(short.id, cacheKey),

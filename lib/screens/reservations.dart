@@ -50,13 +50,13 @@ class _LoggedInReservationScreen extends StatelessWidget {
                   title: Text(data[index].tour.name),
                   subtitle: Text(
                     DateFormat.MMMd().format(data[index].day) +
-                        " ,#" +
+                        " ,reservation #" +
                         data[index].id.toString(),
                   ),
                   trailing: Column(
                     children: [
                       Text(data[index].price.toStringAsFixed(2) + "\$"),
-                      Icon(data[index].group ? Icons.group : Icons.person),
+                      Text(data[index].group ? "/ group" : "/ person")
                     ],
                   ),
                 );

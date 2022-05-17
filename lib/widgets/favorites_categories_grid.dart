@@ -5,6 +5,7 @@ import "package:hollyday_land/screens/hot_air/favorites.dart";
 import "package:hollyday_land/screens/museum/favorites.dart";
 import "package:hollyday_land/screens/offroad/favorites.dart";
 import "package:hollyday_land/screens/rock_climbing/favorites.dart";
+import 'package:hollyday_land/screens/tour/favorites.dart';
 import "package:hollyday_land/screens/trail/favorites.dart";
 import "package:hollyday_land/screens/water_sports/favorites.dart";
 import "package:hollyday_land/screens/winery/favorites.dart";
@@ -31,6 +32,7 @@ class FavoritesCategoriesGrid extends StatelessWidget {
       rockClimbingPath: FavoritesRockClimbingScreen.routePath,
       extremeSportsPath: FavoritesExtremeSportsScreen.routePath,
       hotAirPath: FavoritesHotAirScreen.routePath,
+      toursPath: FavoritesToursScreen.routePath,
     );
 
     return GridView.builder(
