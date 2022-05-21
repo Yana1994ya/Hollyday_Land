@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/tour/reservation.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
+import 'package:hollyday_land/widgets/no_results.dart';
 import "package:intl/intl.dart";
 import "package:provider/provider.dart";
 
@@ -42,6 +43,10 @@ class _LoggedInReservationScreen extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           } else {
             final data = snapshot.data!;
+
+            if (data.isEmpty) {
+              return NoResults(text: "No reservations yet");
+            }
 
             return ListView.separated(
               itemCount: data.length,
