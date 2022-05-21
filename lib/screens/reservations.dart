@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/tour/reservation.dart";
 import "package:hollyday_land/providers/login.dart";
 import "package:hollyday_land/screens/profile.dart";
-import 'package:hollyday_land/widgets/no_results.dart';
+import "package:hollyday_land/widgets/no_results.dart";
 import "package:intl/intl.dart";
 import "package:provider/provider.dart";
 
@@ -54,7 +54,7 @@ class _LoggedInReservationScreen extends StatelessWidget {
                 return ListTile(
                   title: Text(data[index].tour.name),
                   subtitle: Text(
-                    DateFormat.MMMd().format(data[index].day) +
+                    DateFormat.yMMMd().format(data[index].day) +
                         " ,reservation #" +
                         data[index].id.toString(),
                   ),

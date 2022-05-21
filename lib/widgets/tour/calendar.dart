@@ -99,6 +99,7 @@ class _TourCalendarState extends State<TourCalendar> {
                     day.day.toString(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.indigo,
                       decoration: TextDecoration.underline,
                       fontSize: 16,
                     ),

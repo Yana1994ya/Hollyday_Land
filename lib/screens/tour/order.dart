@@ -89,8 +89,7 @@ class _TourOrderState extends State<_LoggedInTourOrder> {
         );
       },
     ).then((_) {
-      // Then exit the record screen upon completion
-      // Notify the caller a refresh is recommended
+      // Then exit and notify the tour page the reservation was successful
       Navigator.of(context).pop(true);
     });
   }
