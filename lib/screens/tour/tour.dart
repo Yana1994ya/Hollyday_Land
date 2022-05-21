@@ -2,8 +2,8 @@ import "package:flutter/material.dart";
 import "package:hollyday_land/models/dao/base_attraction_short.dart";
 import "package:hollyday_land/models/tour/tour.dart";
 import "package:hollyday_land/providers/cache_key.dart";
-import 'package:hollyday_land/providers/login.dart';
-import 'package:hollyday_land/screens/attraction.dart';
+import "package:hollyday_land/providers/login.dart";
+import "package:hollyday_land/screens/attraction.dart";
 import "package:hollyday_land/screens/attraction_reviews.dart";
 import "package:hollyday_land/screens/tour/order.dart";
 import "package:hollyday_land/widgets/description.dart";
@@ -13,9 +13,10 @@ import "package:hollyday_land/widgets/tour/calendar.dart";
 import "package:provider/provider.dart";
 
 class TourScreen extends StatelessWidget {
+  final ScrollController _controller = ScrollController();
   final AttractionShort short;
 
-  const TourScreen({Key? key, required this.short}) : super(key: key);
+  TourScreen({Key? key, required this.short}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class TourScreen extends StatelessWidget {
             final Tour tour = snapshot.data!;
 
             return SingleChildScrollView(
+              controller: _controller,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -112,6 +114,15 @@ class TourScreen extends StatelessWidget {
                             builder: (_) => TourOrder(tour: tour, date: date),
                           ),
                         );
+                      },
+                      onMonthLoaded: (initial) {
+                        if (!initial) {
+                          _controller.animateTo(
+                            _controller.position.maxScrollExtent,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.fastOutSlowIn,
+                          );
+                        }
                       },
                     ),
                   ],

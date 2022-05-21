@@ -1,21 +1,20 @@
 import "package:flutter/material.dart";
 import "package:hollyday_land/api_server.dart";
-import 'package:hollyday_land/providers/cache_key.dart';
-import 'package:provider/provider.dart';
+import "package:hollyday_land/providers/cache_key.dart";
+import "package:provider/provider.dart";
 import "package:table_calendar/table_calendar.dart";
-
-class AvailableDate {
-  final DateTime dateTime;
-
-  AvailableDate(this.dateTime);
-}
 
 class TourCalendar extends StatefulWidget {
   final int tourId;
   final Future<dynamic> Function(DateTime) onOrder;
+  final void Function(bool) onMonthLoaded;
 
-  const TourCalendar({Key? key, required this.tourId, required this.onOrder})
-      : super(key: key);
+  const TourCalendar({
+    Key? key,
+    required this.tourId,
+    required this.onOrder,
+    required this.onMonthLoaded,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TourCalendarState();
@@ -45,6 +44,7 @@ class _TourCalendarState extends State<TourCalendar> {
         cacheKey.cacheKey,
         focusedDate.month,
         focusedDate.year,
+        true,
       );
 
       loadedCurrentMonth = true;
@@ -62,6 +62,7 @@ class _TourCalendarState extends State<TourCalendar> {
               cacheKey.cacheKey,
               pageDate.month,
               pageDate.year,
+              false,
             );
           },
           onDaySelected: (selectedDate, _focusedDate) {
@@ -78,7 +79,7 @@ class _TourCalendarState extends State<TourCalendar> {
             });
           },
           calendarBuilders:
-          CalendarBuilders(defaultBuilder: (context, day, focused) {
+              CalendarBuilders(defaultBuilder: (context, day, focused) {
             if (!loading && days.contains(day.day)) {
               if (selectedDate != null && selectedDate!.day == day.day) {
                 return Center(
@@ -129,7 +130,7 @@ class _TourCalendarState extends State<TourCalendar> {
     );
   }
 
-  void loadMonth(int cacheKey, int month, int year) {
+  void loadMonth(int cacheKey, int month, int year, bool initial) {
     // When loading, start from an empty page
     setState(() {
       loading = true;
@@ -155,6 +156,7 @@ class _TourCalendarState extends State<TourCalendar> {
       setState(() {
         days = loadedDays.map((v) => v as int).toSet();
         loading = false;
+        widget.onMonthLoaded(initial);
       });
     });
   }
