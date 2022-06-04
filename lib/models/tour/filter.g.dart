@@ -82,10 +82,10 @@ class _$TourFilterCWProxyImpl implements _$TourFilterCWProxy {
           // ignore: cast_nullable_to_non_nullable
           : tourLanguageIds as BuiltSet<int>,
       tourTypeIds:
-      tourTypeIds == const $CopyWithPlaceholder() || tourTypeIds == null
-          ? _value.tourTypeIds
-      // ignore: cast_nullable_to_non_nullable
-          : tourTypeIds as BuiltSet<int>,
+          tourTypeIds == const $CopyWithPlaceholder() || tourTypeIds == null
+              ? _value.tourTypeIds
+              // ignore: cast_nullable_to_non_nullable
+              : tourTypeIds as BuiltSet<int>,
     );
   }
 }

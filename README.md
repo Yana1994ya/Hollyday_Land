@@ -1,16 +1,41 @@
-# test_map
+# Hollyday Land
 
-A new Flutter project.
+An educational project to help users plan their next vacation.
 
-## Getting Started
+## Run instructions
 
-This project is a starting point for a Flutter application.
+To run this project flutter (2.10.4) is required, if any problems are encountered run
+`flutter doctor` and ensure the setup works well.
 
-A few resources to get you started if this is your first Flutter project:
+### Running in VSCode
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+to run in VSCode, ensure flutter plugin is installed, go into any *.dart file and click the run
+button.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Running in Android Studio
+
+Ensure Flutter plugging is installed, go into main.dart and click the run button.
+
+### Run from terminal
+
+To run from the terminal, in the root of the project, type `flutter run`
+
+## Supported platforms
+
+Out of all the platforms Flutter supports, only Android is tested and supported.
+
+## Code generation
+
+This project requires code generation using a different project:
+https://github.com/Yana1994ya/hollyday_land_dao
+
+Clone this directory into the same parent as this project, than run
+`flutter pub run build_runner build --delete-conflicting-outputs`
+from the root directory of this project.
+
+To rebuild all the automatically generated code.
+
+## Api server
+
+This project depends on API server available at:
+https://github.com/Yana1994ya/hland_django
