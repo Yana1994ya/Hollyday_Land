@@ -47,4 +47,4 @@ app.*.map.json
 
 # Exclude google-service file that has secrets
 /android/app/google-services.json
-/android/app/src/main/AndroidManifest.xml
+/android/app/src/main/res/values/configuration.xml
