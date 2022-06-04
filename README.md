@@ -39,3 +39,15 @@ To rebuild all the automatically generated code.
 
 This project depends on API server available at:
 https://github.com/Yana1994ya/hland_django
+
+## API Keys
+
+This project requires API Keys from firebase that are not committed.
+
+First go to project settings in firebase and click to download `google-service.json`, place the file
+in `android/app/google-services.json`
+
+Than go to `android/app/src/main/AndroidManifest.template.xml` copy the file to:
+`android/app/src/main/AndroidManifest.xml` and set the value under:
+
+`com.google.android.geo.API_KEY` to the key in `client/current_key` from the json.
